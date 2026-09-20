@@ -1,539 +1,524 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>حيطان لبنان | كل اسم إلو مطرح</title>
-
-  <style>
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #202020;
-      color: white;
-      overflow: hidden;
-    }
-
-    /* HEADER */
-
-    header {
-      position: fixed;
-      top: 0;
-      right: 0;
-      left: 0;
-
-      height: 75px;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      padding: 0 25px;
-
-      background: rgba(20,20,20,0.92);
-
-      z-index: 10;
-    }
-
-    .brand {
-      text-align: right;
-    }
-
-    .brand h1 {
-      margin: 0;
-      font-size: 27px;
-    }
-
-    .brand p {
-      margin: 3px 0 0;
-      font-size: 13px;
-      opacity: 0.7;
-    }
-
-    .book-btn {
-      border: 0;
-      border-radius: 30px;
-
-      padding: 13px 22px;
-
-      background: #ffffff;
-      color: #111;
-
-      font-size: 16px;
-      font-weight: bold;
-
-      cursor: pointer;
-    }
-
-    .book-btn:hover {
-      transform: scale(1.03);
-    }
-
-    /* WALL */
-
-    #wall-container {
-
-      position: absolute;
-
-      top: 75px;
-      right: 0;
-      bottom: 0;
-      left: 0;
-
-      overflow: hidden;
-
-      cursor: grab;
-    }
-
-    #wall-container:active {
-      cursor: grabbing;
-    }
-
-    #wall {
-
-      position: absolute;
-
-      width: 1800px;
-      height: 1200px;
-
-      left: 50%;
-      top: 50%;
-
-      transform:
-        translate(-50%, -50%)
-        scale(1);
-
-      transform-origin: center;
-
-      background:
-
-        linear-gradient(
-          rgba(255,255,255,0.04),
-          rgba(0,0,0,0.08)
-        ),
-
-        repeating-linear-gradient(
-          90deg,
-          rgba(0,0,0,0.04) 0px,
-          rgba(0,0,0,0.04) 2px,
-          transparent 2px,
-          transparent 140px
-        ),
-
-        repeating-linear-gradient(
-          0deg,
-          rgba(0,0,0,0.04) 0px,
-          rgba(0,0,0,0.04) 2px,
-          transparent 2px,
-          transparent 110px
-        ),
-
-        #8c8175;
-
-      box-shadow:
-        inset 0 0 100px rgba(0,0,0,0.55);
-    }
-
-    /* WALL DETAILS */
-
-    .graffiti {
-      position: absolute;
-
-      font-size: 50px;
-      font-weight: 900;
-
-      opacity: 0.13;
-
-      transform: rotate(-12deg);
-      user-select: none;
-    }
-
-    .g1 {
-      left: 8%;
-      top: 14%;
-    }
-
-    .g2 {
-      left: 72%;
-      top: 10%;
-      transform: rotate(9deg);
-    }
-
-    .g3 {
-      left: 15%;
-      top: 70%;
-      transform: rotate(5deg);
-    }
-
-    .g4 {
-      left: 75%;
-      top: 73%;
-      transform: rotate(-7deg);
-    }
-
-    /* CENTER */
-
-    .center-zone {
-
-      position: absolute;
-
-      left: 40%;
-      top: 33%;
-
-      width: 20%;
-      height: 34%;
-
-      border: 3px dashed rgba(255,255,255,0.18);
-
-      background:
-        rgba(255,255,255,0.035);
-
-      box-shadow:
-        inset 0 0 50px rgba(0,0,0,0.25);
-
-      pointer-events: none;
-    }
-
-    .center-label {
-
-      position: absolute;
-
-      top: 8px;
-      left: 50%;
-
-      transform: translateX(-50%);
-
-      font-size: 13px;
-
-      background: rgba(0,0,0,0.4);
-
-      padding: 5px 12px;
-
-      border-radius: 20px;
-
-      opacity: 0.7;
-    }
-
-    /* INFO */
-
-    .hint {
-
-      position: fixed;
-
-      bottom: 20px;
-      left: 50%;
-
-      transform: translateX(-50%);
-
-      background: rgba(0,0,0,0.65);
-
-      padding: 9px 16px;
-
-      border-radius: 20px;
-
-      font-size: 12px;
-
-      opacity: 0.75;
-
-      z-index: 5;
-    }
-
-    /* MODAL */
-
-    #booking-modal {
-
-      display: none;
-
-      position: fixed;
-
-      inset: 0;
-
-      background: rgba(0,0,0,0.7);
-
-      z-index: 20;
-
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal {
-
-      width: min(430px, 92%);
-
-      background: #f5f5f5;
-
-      color: #111;
-
-      border-radius: 20px;
-
-      padding: 25px;
-
-      box-shadow: 0 20px 80px rgba(0,0,0,0.5);
-    }
-
-    .modal h2 {
-      margin-top: 0;
-    }
-
-    .close {
-      float: left;
-
-      border: 0;
-      background: transparent;
-
-      font-size: 25px;
-
-      cursor: pointer;
-    }
-
-    .option {
-
-      border: 2px solid #ddd;
-
-      border-radius: 15px;
-
-      padding: 15px;
-
-      margin: 10px 0;
-
-      cursor: pointer;
-
-      background: white;
-    }
-
-    .option:hover {
-      border-color: #333;
-    }
-
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حيطان لبنان — كل اسم إلو مطرح</title>
+<style>
+*{
+  box-sizing:border-box;
+}
+body{
+  margin:0;
+  font-family:Arial,Tahoma,sans-serif;
+  background:#111;
+  color:white;
+  overflow-x:hidden;
+}
+header{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:rgba(15,15,15,.95);
+  padding:14px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  border-bottom:1px solid #333;
+}
+.logoTitle{
+  font-size:22px;
+  font-weight:bold;
+}
+.slogan{
+  color:#aaa;
+  font-size:13px;
+  margin-top:3px;
+}
+button{
+  border:0;
+  border-radius:12px;
+  padding:12px 18px;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.mainBtn{
+  background:#fff;
+  color:#111;
+}
+.wallArea{
+  padding:18px;
+  overflow:hidden;
+}
+.wallViewport{
+  width:100%;
+  height:70vh;
+  min-height:430px;
+  overflow:hidden;
+  border-radius:18px;
+  border:1px solid #444;
+  background:#222;
+  cursor:grab;
+  position:relative;
+  touch-action:none;
+}
+.wallViewport:active{
+  cursor:grabbing;
+}
+.wall{
+  position:absolute;
+  width:1800px;
+  height:1200px;
+  background:
+    radial-gradient(circle at 20% 30%,rgba(255,255,255,.08),transparent 25%),
+    radial-gradient(circle at 70% 70%,rgba(255,255,255,.05),transparent 25%),
+    linear-gradient(135deg,#777,#4e4e4e 45%,#666);
+  transform-origin:0 0;
+}
+.graffiti{
+  position:absolute;
+  font-weight:900;
+  opacity:.16;
+  transform:rotate(-8deg);
+  user-select:none;
+}
+.g1{left:100px;top:100px;font-size:100px;}
+.g2{left:1100px;top:120px;font-size:90px;transform:rotate(7deg);}
+.g3{left:200px;top:850px;font-size:80px;transform:rotate(5deg);}
+.g4{left:1250px;top:850px;font-size:90px;transform:rotate(-5deg);}
+.centerZone{
+  position:absolute;
+  left:40%;
+  top:33.333%;
+  width:20%;
+  height:33.333%;
+  border:4px dashed rgba(255,215,0,.8);
+  background:rgba(255,215,0,.06);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:42px;
+  font-weight:bold;
+  color:rgba(255,215,0,.7);
+}
+.unitPreview{
+  position:absolute;
+  background:rgba(0,200,80,.65);
+  border:1px solid rgba(255,255,255,.8);
+  pointer-events:none;
+}
+.hint{
+  text-align:center;
+  color:#aaa;
+  font-size:13px;
+  margin:10px;
+}
+/* MODAL */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:100;
+  background:rgba(0,0,0,.75);
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+}
+.modalBox{
+  width:min(520px,100%);
+  max-height:90vh;
+  overflow:auto;
+  background:#1d1d1d;
+  border:1px solid #444;
+  border-radius:20px;
+  padding:22px;
+}
+.modalHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+.close{
+  background:#333;
+  color:white;
+  width:42px;
+  height:42px;
+  padding:0;
+  border-radius:50%;
+}
+.option{
+  border:1px solid #555;
+  border-radius:15px;
+  padding:16px;
+  margin:10px 0;
+  cursor:pointer;
+  transition:.2s;
+}
+.option:hover,
+.option.selected{
+  border-color:#fff;
+  background:#292929;
+}
+.optionTitle{
+  font-size:18px;
+  font-weight:bold;
+}
+.optionPrice{
+  color:#bbb;
+  margin-top:5px;
+}
+input{
+  width:100%;
+  padding:13px;
+  margin-top:7px;
+  margin-bottom:13px;
+  border-radius:10px;
+  border:1px solid #555;
+  background:#111;
+  color:white;
+  font-size:16px;
+}
+label{
+  font-size:14px;
+  color:#ccc;
+}
+.previewBtn{
+  width:100%;
+  background:white;
+  color:#111;
+  margin-top:8px;
+}
+.result{
+  margin-top:15px;
+  padding:14px;
+  border-radius:12px;
+  background:#111;
+  border:1px solid #444;
+  display:none;
+}
+.success{
+  color:#7cffaa;
+}
+.error{
+  color:#ff7777;
+}
+.total{
+  font-size:22px;
+  font-weight:bold;
+  margin-top:8px;
+}
+</style>
 </head>
-
 <body>
-
 <header>
-
-  <div class="brand">
-
-    <h1>🧱 حيطان لبنان</h1>
-
-    <p>كل اسم إلو مطرح 🇱🇧</p>
-
+  <div>
+    <div class="logoTitle">🧱 حيطان لبنان 🇱🇧</div>
+    <div class="slogan">كل اسم إلو مطرح</div>
   </div>
-
-  <button
-    class="book-btn"
-    onclick="openBooking()">
-
+  <button class="mainBtn" onclick="openModal()">
     + احجز مطرحك
-
   </button>
-
 </header>
-
-
-<div id="wall-container">
-
-  <div id="wall">
-
-    <div class="graffiti g1">
-      LEBANON
-    </div>
-
-    <div class="graffiti g2">
-      BEIRUT
-    </div>
-
-    <div class="graffiti g3">
-      SAIDA
-    </div>
-
-    <div class="graffiti g4">
-      TYRE
-    </div>
-
-    <div class="center-zone">
-
-      <div class="center-label">
+<div class="wallArea">
+  <div class="wallViewport" id="viewport">
+    <div class="wall" id="wall">
+      <div class="graffiti g1">LEBANON</div>
+      <div class="graffiti g2">BEIRUT</div>
+      <div class="graffiti g3">SAIDA</div>
+      <div class="graffiti g4">TYRE</div>
+      <div class="centerZone">
         CENTER
       </div>
-
     </div>
-
   </div>
-
+  <div class="hint">
+    اسحب الحائط لاستكشافه
+  </div>
 </div>
-
-
-<div class="hint">
-
-  اسحب الحائط للتحرك • استخدم إصبعين أو عجلة الماوس للتكبير
-
-</div>
-
-
-<!-- BOOKING MODAL -->
-
-<div id="booking-modal">
-
-  <div class="modal">
-
-    <button
-      class="close"
-      onclick="closeBooking()">
-
-      ×
-
-    </button>
-
-    <h2>
-      احجز مطرحك 🧱
-    </h2>
-
-    <p>
-      اختار نوع المساحة:
-    </p>
-
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modalBox">
+    <div class="modalHeader">
+      <h2>احجز مطرحك</h2>
+      <button class="close" onclick="closeModal()">×</button>
+    </div>
     <div
       class="option"
-      onclick="selectType('Standard')">
-
-      <strong>
-        Standard
-      </strong>
-
-      <br>
-
-      $1 لكل وحدة
-
+      id="standardOption"
+      onclick="selectType('Standard')"
+    >
+      <div class="optionTitle">
+        STANDARD
+      </div>
+      <div class="optionPrice">
+        $1 لكل وحدة
+      </div>
     </div>
-
     <div
       class="option"
-      onclick="selectType('Center')">
-
-      <strong>
-        Center
-      </strong>
-
-      <br>
-
-      $5 لكل وحدة
-
+      id="centerOption"
+      onclick="selectType('Center')"
+    >
+      <div class="optionTitle">
+        CENTER ⭐
+      </div>
+      <div class="optionPrice">
+        $5 لكل وحدة
+      </div>
     </div>
-
+    <div id="formArea" style="display:none">
+      <label>
+        عدد الوحدات
+      </label>
+      <input
+        id="unitsCount"
+        type="number"
+        min="1"
+        placeholder="مثلاً 20"
+        oninput="calculatePrice()"
+      >
+      <div class="total">
+        المجموع:
+        $<span id="totalPrice">0</span>
+      </div>
+      <button
+        class="previewBtn"
+        onclick="previewArea()"
+      >
+        🔍 معاينة المساحة
+      </button>
+      <div
+        class="result"
+        id="result"
+      ></div>
+    </div>
   </div>
-
 </div>
-
-
 <script>
-
-  const modal =
-    document.getElementById("booking-modal");
-
-
-  function openBooking() {
-
-    modal.style.display = "flex";
-
+/* =========================
+   SETTINGS
+========================= */
+const APP_URL =
+"https://script.google.com/macros/s/AKfycbzyM_gJsIV-icWDh_sy95KhPqsQpeLlS6eyl__O2zVs1aZyQf-Bp5ja_FrhW9icSHuY/exec";
+let selectedType = null;
+/* =========================
+   MODAL
+========================= */
+function openModal(){
+  document.getElementById("modal").style.display="flex";
+}
+function closeModal(){
+  document.getElementById("modal").style.display="none";
+}
+/* =========================
+   SELECT TYPE
+========================= */
+function selectType(type){
+  selectedType = type;
+  document
+    .getElementById("standardOption")
+    .classList.remove("selected");
+  document
+    .getElementById("centerOption")
+    .classList.remove("selected");
+  if(type==="Standard"){
+    document
+      .getElementById("standardOption")
+      .classList.add("selected");
+  }else{
+    document
+      .getElementById("centerOption")
+      .classList.add("selected");
   }
-
-
-  function closeBooking() {
-
-    modal.style.display = "none";
-
-  }
-
-
-  function selectType(type) {
-
-    alert(
-      "اخترت: " +
-      type +
-      "\n\nالخطوة التالية ستكون اختيار عدد الوحدات."
+  document.getElementById("formArea").style.display="block";
+  calculatePrice();
+}
+/* =========================
+   PRICE
+========================= */
+function calculatePrice(){
+  const count =
+    Number(document.getElementById("unitsCount").value || 0);
+  const price =
+    selectedType==="Center" ? 5 : 1;
+  document.getElementById("totalPrice").textContent =
+    count * price;
+}
+/* =========================
+   PREVIEW
+========================= */
+async function previewArea(){
+  const count =
+    Number(document.getElementById("unitsCount").value);
+  const result =
+    document.getElementById("result");
+  if(!selectedType){
+    showResult(
+      "error",
+      "اختر نوع المساحة أولاً."
     );
-
+    return;
   }
-
-
-  /* SIMPLE WALL DRAG */
-
-  const container =
-    document.getElementById("wall-container");
-
+  if(!count || count < 1){
+    showResult(
+      "error",
+      "أدخل عدد الوحدات."
+    );
+    return;
+  }
+  showResult(
+    "",
+    "⏳ عم نبحث عن مساحة متصلة..."
+  );
+  try{
+    const response =
+      await fetch(APP_URL,{
+        method:"POST",
+        headers:{
+          "Content-Type":"text/plain;charset=utf-8"
+        },
+        body:JSON.stringify({
+          action:"preview",
+          unitType:selectedType,
+          unitsCount:count
+        })
+      });
+    const data =
+      await response.json();
+    if(data.success){
+      showResult(
+        "success",
+        `
+        ✅ وجدنا مساحة متصلة.
+        <div class="total">
+        ${data.count} وحدة
+        </div>
+        <div style="margin-top:8px;color:#aaa">
+        السعر: $${data.count * (selectedType==="Center" ? 5 : 1)}
+        </div>
+        `
+      );
+      drawPreview(data.unitIds);
+    }else{
+      showResult(
+        "error",
+        data.error || "لم نجد مساحة مناسبة."
+      );
+    }
+  }catch(error){
+    console.error(error);
+    showResult(
+      "error",
+      "تعذر الاتصال بالخادم. تأكد أن Web App منشور ويعمل."
+    );
+  }
+}
+/* =========================
+   RESULT
+========================= */
+function showResult(type,message){
+  const result =
+    document.getElementById("result");
+  result.style.display="block";
+  result.className =
+    "result " + type;
+  result.innerHTML=message;
+}
+/* =========================
+   DRAW PREVIEW
+========================= */
+function drawPreview(unitIds){
+  /*
+    كل وحدة = 18 × 12 بكسل تقريباً
+    لأن الحائط 100 × 100 وحدة
+  */
   const wall =
     document.getElementById("wall");
-
-  let dragging = false;
-
-  let startX = 0;
-  let startY = 0;
-
-  let offsetX = 0;
-  let offsetY = 0;
-
-
-  container.addEventListener(
-    "pointerdown",
-    function(e) {
-
-      dragging = true;
-
-      startX = e.clientX;
-      startY = e.clientY;
-
-      container.setPointerCapture(
-        e.pointerId
-      );
-
+  document
+    .querySelectorAll(".unitPreview")
+    .forEach(el=>el.remove());
+  if(!unitIds || !unitIds.length) return;
+  unitIds.forEach(id=>{
+    const number =
+      parseInt(id.substring(1));
+    const index =
+      number - 1;
+    const row =
+      Math.floor(index / 100);
+    const col =
+      index % 100;
+    const unit =
+      document.createElement("div");
+    unit.className="unitPreview";
+    unit.style.left =
+      (col * 18) + "px";
+    unit.style.top =
+      (row * 12) + "px";
+    unit.style.width="18px";
+    unit.style.height="12px";
+    wall.appendChild(unit);
+  });
+}
+/* =========================
+   CLOSE MODAL ON BACKGROUND
+========================= */
+document
+  .getElementById("modal")
+  .addEventListener("click",function(e){
+    if(e.target===this){
+      closeModal();
     }
-  );
-
-
-  container.addEventListener(
-    "pointermove",
-    function(e) {
-
-      if (!dragging) return;
-
-      offsetX +=
-        e.clientX - startX;
-
-      offsetY +=
-        e.clientY - startY;
-
-      startX = e.clientX;
-      startY = e.clientY;
-
-      wall.style.transform =
-        `translate(
-          calc(-50% + ${offsetX}px),
-          calc(-50% + ${offsetY}px)
-        )`;
-
-    }
-  );
-
-
-  container.addEventListener(
-    "pointerup",
-    function() {
-
-      dragging = false;
-
-    }
-  );
-
+  });
+/* =========================
+   DRAG WALL
+========================= */
+const viewport =
+  document.getElementById("viewport");
+const wall =
+  document.getElementById("wall");
+let dragging=false;
+let startX=0;
+let startY=0;
+let wallX=0;
+let wallY=0;
+viewport.addEventListener(
+  "pointerdown",
+  e=>{
+    dragging=true;
+    startX=e.clientX;
+    startY=e.clientY;
+    viewport.setPointerCapture(e.pointerId);
+  }
+);
+viewport.addEventListener(
+  "pointermove",
+  e=>{
+    if(!dragging) return;
+    wallX +=
+      e.clientX-startX;
+    wallY +=
+      e.clientY-startY;
+    startX=e.clientX;
+    startY=e.clientY;
+    wall.style.transform=
+      `translate(${wallX}px,${wallY}px)`;
+  }
+);
+viewport.addEventListener(
+  "pointerup",
+  ()=>{
+    dragging=false;
+  }
+);
+viewport.addEventListener(
+  "pointercancel",
+  ()=>{
+    dragging=false;
+  }
+);
 </script>
-
 </body>
-
 </html>
