@@ -1247,27 +1247,25 @@ body,
 <script>
 
 /* =========================================================
-   SETTINGS
+   HITAN LEBANON - FRONTEND
+   Optimized Canvas Version
 ========================================================= */
 
 const APP_URL =
 "https://script.google.com/macros/s/AKfycbzyM_gJsIV-icWDh_sy95KhPqsQpeLlS6eyl__O2zVs1aZyQf-Bp5ja_FrhW9icSHuY/exec";
 
 const ROWS = 100;
-
 const COLS = 100;
 
 const CENTER_START = 40;
-
 const CENTER_END = 59;
 
 const STANDARD_PRICE = 1;
-
 const CENTER_PRICE = 5;
 
 
 /* =========================================================
-   WALL DATA
+   DATA
 ========================================================= */
 
 let wallDataLoaded = false;
@@ -1276,65 +1274,129 @@ let unitMap = new Map();
 
 let ads = [];
 
+let selectedCells = new Set();
+
+let selectedType = "Standard";
+
+let lastDrawTime = 0;
+
+
+/* =========================================================
+   LOAD WALL
+========================================================= */
 
 async function loadWallData(){
 
   try{
 
-    const response =
-      await fetch(
-        APP_URL +
-        "?action=wall&t=" +
-        Date.now()
-      );
+    const response = await fetch(
+      APP_URL +
+      "?action=wall&t=" +
+      Date.now()
+    );
 
     if(!response.ok){
 
       throw new Error(
-        "HTTP " +
-        response.status
+        "HTTP " + response.status
       );
+
     }
 
-    const data =
-      await response.json();
+    const data = await response.json();
 
     if(!data.success){
 
       throw new Error(
         data.message ||
-        "Failed to load wall data"
+        "Failed to load wall"
       );
+
     }
+
+
+    /* =========================
+       UNITS
+    ========================= */
 
     unitMap.clear();
 
-    (data.units || [])
-      .forEach(unit => {
+    (data.units || []).forEach(unit=>{
 
-        unitMap.set(
-          String(unit.id).trim(),
-          unit
-        );
+      unitMap.set(
+        String(unit.id).trim(),
+        unit
+      );
 
-      });
+    });
 
-    ads =
-      data.ads || [];
+
+    /* =========================
+       ADS
+    ========================= */
+
+    ads = (data.ads || []).map(ad=>{
+
+      let ids = ad.unitIds;
+
+      /*
+       * Apps Script may return
+       * an array OR a JSON string.
+       */
+
+      if(typeof ids === "string"){
+
+        try{
+
+          ids = JSON.parse(ids);
+
+        }catch(e){
+
+          ids =
+            ids
+              .split(",")
+              .map(x=>x.trim())
+              .filter(Boolean);
+
+        }
+
+      }
+
+      if(!Array.isArray(ids)){
+
+        ids = [];
+
+      }
+
+      return {
+        ...ad,
+        unitIds: ids
+      };
+
+    });
+
 
     wallDataLoaded = true;
+
 
     console.log(
       "HITAN WALL DATA:",
       data
     );
 
+    console.log(
+      "ACTIVE ADS:",
+      ads
+    );
+
+
     return data;
+
 
   }catch(error){
 
     console.error(
-      "Error loading wall data:",
+      "Wall loading error:",
       error
     );
 
@@ -1361,8 +1423,8 @@ function getUnitId(row,col){
     row * COLS + col + 1;
 
   return "A" +
-    String(number)
-      .padStart(4,"0");
+    String(number).padStart(4,"0");
+
 }
 
 
@@ -1371,6 +1433,7 @@ function getUnit(row,col){
   return unitMap.get(
     getUnitId(row,col)
   );
+
 }
 
 
@@ -1379,40 +1442,21 @@ function isUnitAvailable(row,col){
   const unit =
     getUnit(row,col);
 
-  if(!unit){
+  return !!unit &&
+    unit.status === "Available";
 
-    return false;
-  }
-
-  return (
-    unit.status === "Available"
-  );
 }
 
 
-function isUnitActive(row,col){
-
-  const unit =
-    getUnit(row,col);
-
-  if(!unit) return false;
+function isCenter(row,col){
 
   return (
-    unit.status === "Active"
+    row >= CENTER_START &&
+    row <= CENTER_END &&
+    col >= CENTER_START &&
+    col <= CENTER_END
   );
-}
 
-
-function isUnitReserved(row,col){
-
-  const unit =
-    getUnit(row,col);
-
-  if(!unit) return false;
-
-  return (
-    unit.status === "Reserved"
-  );
 }
 
 
@@ -1426,13 +1470,13 @@ const canvas =
   );
 
 const ctx =
-  canvas.getContext("2d");
+  canvas.getContext("2d",{
+    alpha:false
+  });
 
-let W =
-  window.innerWidth;
 
-let H =
-  window.innerHeight;
+let W = window.innerWidth;
+let H = window.innerHeight;
 
 let dpr =
   Math.min(
@@ -1441,13 +1485,25 @@ let dpr =
   );
 
 
+let worldSize = 1000;
+
+let cellSize =
+  worldSize / COLS;
+
+let zoom = 1;
+
+let cameraX = 0;
+let cameraY = 0;
+
+
+/* =========================================================
+   RESIZE
+========================================================= */
+
 function resizeCanvas(){
 
-  W =
-    window.innerWidth;
-
-  H =
-    window.innerHeight;
+  W = window.innerWidth;
+  H = window.innerHeight;
 
   dpr =
     Math.min(
@@ -1455,17 +1511,20 @@ function resizeCanvas(){
       2
     );
 
+
   canvas.width =
-    W * dpr;
+    Math.floor(W*dpr);
 
   canvas.height =
-    H * dpr;
+    Math.floor(H*dpr);
+
 
   canvas.style.width =
     W + "px";
 
   canvas.style.height =
     H + "px";
+
 
   ctx.setTransform(
     dpr,
@@ -1475,6 +1534,7 @@ function resizeCanvas(){
     0,
     0
   );
+
 
   calculateWorld();
 
@@ -1495,25 +1555,17 @@ window.addEventListener(
    WORLD
 ========================================================= */
 
-let worldSize = 1000;
-
-let cellSize =
-  worldSize / COLS;
-
-let zoom = 1;
-
-let cameraX = 0;
-
-let cameraY = 0;
-
-
 function calculateWorld(){
 
   worldSize =
-    Math.max(W,H);
+    Math.max(
+      W,
+      H
+    );
 
   cellSize =
     worldSize / COLS;
+
 
   if(zoom === 1){
 
@@ -1537,6 +1589,7 @@ function clampCamera(){
   const scaled =
     worldSize * zoom;
 
+
   if(scaled <= W){
 
     cameraX =
@@ -1544,16 +1597,11 @@ function clampCamera(){
 
   }else{
 
-    const minX =
-      W-scaled;
-
-    const maxX = 0;
-
     cameraX =
       Math.max(
-        minX,
+        W-scaled,
         Math.min(
-          maxX,
+          0,
           cameraX
         )
       );
@@ -1568,16 +1616,11 @@ function clampCamera(){
 
   }else{
 
-    const minY =
-      H-scaled;
-
-    const maxY = 0;
-
     cameraY =
       Math.max(
-        minY,
+        H-scaled,
         Math.min(
-          maxY,
+          0,
           cameraY
         )
       );
@@ -1588,7 +1631,7 @@ function clampCamera(){
 
 
 /* =========================================================
-   TEXTURE
+   WALL TEXTURE
 ========================================================= */
 
 let textureCanvas = null;
@@ -1597,20 +1640,23 @@ let textureCanvas = null;
 function createWallTexture(){
 
   textureCanvas =
-    document.createElement(
-      "canvas"
-    );
+    document.createElement("canvas");
 
   textureCanvas.width = 1000;
-
   textureCanvas.height = 1000;
+
 
   const t =
     textureCanvas.getContext("2d");
 
 
-  t.fillStyle =
-    "#8a8176";
+  /*
+   * IMPORTANT:
+   * Texture is generated ONLY ONCE.
+   * This prevents changing colors.
+   */
+
+  t.fillStyle = "#8a8176";
 
   t.fillRect(
     0,
@@ -1620,11 +1666,11 @@ function createWallTexture(){
   );
 
 
-  for(
-    let i=0;
-    i<18000;
-    i++
-  ){
+  /*
+   * Concrete noise
+   */
+
+  for(let i=0;i<12000;i++){
 
     const x =
       Math.random()*1000;
@@ -1633,21 +1679,27 @@ function createWallTexture(){
       Math.random()*1000;
 
     const shade =
-      70 +
+      80 +
       Math.floor(
-        Math.random()*100
+        Math.random()*80
       );
+
+    const alpha =
+      Math.random()*0.10;
+
 
     t.fillStyle =
       `rgba(
         ${shade},
-        ${shade-5},
-        ${shade-10},
-        ${Math.random()*.12}
+        ${Math.max(0,shade-5)},
+        ${Math.max(0,shade-10)},
+        ${alpha}
       )`;
+
 
     const size =
       Math.random()*4;
+
 
     t.fillRect(
       x,
@@ -1659,22 +1711,19 @@ function createWallTexture(){
   }
 
 
-  for(
-    let i=0;
-    i<35;
-    i++
-  ){
+  /*
+   * Horizontal marks
+   */
+
+  for(let i=0;i<30;i++){
 
     const y =
       Math.random()*1000;
 
+
     t.fillStyle =
-      `rgba(
-        30,
-        30,
-        30,
-        ${Math.random()*.07}
-      )`;
+      "rgba(30,30,30,.06)";
+
 
     t.fillRect(
       0,
@@ -1686,17 +1735,18 @@ function createWallTexture(){
   }
 
 
-  for(
-    let i=0;
-    i<24;
-    i++
-  ){
+  /*
+   * Cracks
+   */
+
+  for(let i=0;i<20;i++){
 
     let x =
       Math.random()*1000;
 
     let y =
       Math.random()*1000;
+
 
     t.beginPath();
 
@@ -1705,17 +1755,15 @@ function createWallTexture(){
       y
     );
 
-    for(
-      let j=0;
-      j<5;
-      j++
-    ){
+
+    for(let j=0;j<5;j++){
 
       x +=
         (Math.random()-.5)*70;
 
       y +=
         Math.random()*60;
+
 
       t.lineTo(
         x,
@@ -1724,13 +1772,9 @@ function createWallTexture(){
 
     }
 
+
     t.strokeStyle =
-      `rgba(
-        30,
-        25,
-        20,
-        ${.15+Math.random()*.18}
-      )`;
+      "rgba(30,25,20,.20)";
 
     t.lineWidth =
       Math.random()*2+.5;
@@ -1740,14 +1784,15 @@ function createWallTexture(){
   }
 
 
+  /*
+   * Posters
+   */
+
   const posters = [
 
     [80,130,190,100],
-
     [710,110,160,110],
-
     [130,700,180,120],
-
     [720,720,190,120]
 
   ];
@@ -1758,6 +1803,7 @@ function createWallTexture(){
     t.fillStyle =
       "rgba(40,35,30,.35)";
 
+
     t.fillRect(
       p[0]+5,
       p[1]+6,
@@ -1765,13 +1811,10 @@ function createWallTexture(){
       p[3]
     );
 
+
     t.fillStyle =
-      `rgba(
-        ${100+Math.random()*100},
-        ${80+Math.random()*90},
-        ${70+Math.random()*70},
-        .85
-      )`;
+      "rgba(150,120,100,.85)";
+
 
     t.fillRect(
       p[0],
@@ -1780,8 +1823,10 @@ function createWallTexture(){
       p[3]
     );
 
+
     t.fillStyle =
       "rgba(255,255,255,.15)";
+
 
     t.fillRect(
       p[0]+10,
@@ -1789,6 +1834,7 @@ function createWallTexture(){
       p[2]-20,
       8
     );
+
 
     t.fillRect(
       p[0]+10,
@@ -1800,21 +1846,32 @@ function createWallTexture(){
   });
 
 
+  /*
+   * Lebanon text
+   */
+
+  t.save();
+
+  t.translate(
+    350,
+    400
+  );
+
+  t.rotate(-.08);
+
   t.font =
     "bold 80px Arial";
 
   t.fillStyle =
     "rgba(20,20,20,.22)";
 
-  t.rotate(-.08);
-
   t.fillText(
     "LEBANON",
-    350,
-    400
+    0,
+    0
   );
 
-  t.rotate(.08);
+  t.restore();
 
 
   t.font =
@@ -1841,6 +1898,24 @@ createWallTexture();
 
 function draw(){
 
+  /*
+   * Prevent excessive rendering.
+   */
+
+  const now =
+    performance.now();
+
+  if(
+    now-lastDrawTime < 16
+  ){
+
+    return;
+
+  }
+
+  lastDrawTime = now;
+
+
   ctx.clearRect(
     0,
     0,
@@ -1848,17 +1923,25 @@ function draw(){
     H
   );
 
+
   ctx.save();
+
 
   ctx.translate(
     cameraX,
     cameraY
   );
 
+
   ctx.scale(
     zoom,
     zoom
   );
+
+
+  /*
+   * WALL
+   */
 
   ctx.drawImage(
     textureCanvas,
@@ -1868,15 +1951,17 @@ function draw(){
     worldSize
   );
 
+
   drawWallDetails();
 
   drawAvailability();
 
   drawGrid();
 
+  drawAds();
+
   drawSelection();
 
-  drawAds();
 
   ctx.restore();
 
@@ -1889,47 +1974,113 @@ function draw(){
 
 function drawWallDetails(){
 
-  if(zoom > 1.5){
-
-    const x =
-      CENTER_START *
-      cellSize;
-
-    const y =
-      CENTER_START *
-      cellSize;
-
-    const size =
-      (CENTER_END-CENTER_START+1) *
-      cellSize;
-
-    ctx.fillStyle =
-      "rgba(255,190,40,.08)";
-
-    ctx.fillRect(
-      x,
-      y,
-      size,
-      size
-    );
-
-    ctx.strokeStyle =
-      "rgba(255,210,80,.55)";
-
-    ctx.lineWidth =
-      Math.max(
-        1,
-        2/zoom
-      );
-
-    ctx.strokeRect(
-      x,
-      y,
-      size,
-      size
-    );
-
+  if(zoom < 1.5){
+    return;
   }
+
+
+  const x =
+    CENTER_START * cellSize;
+
+  const y =
+    CENTER_START * cellSize;
+
+  const size =
+    (CENTER_END-CENTER_START+1) *
+    cellSize;
+
+
+  ctx.fillStyle =
+    "rgba(255,190,40,.07)";
+
+
+  ctx.fillRect(
+    x,
+    y,
+    size,
+    size
+  );
+
+
+  ctx.strokeStyle =
+    "rgba(255,210,80,.45)";
+
+
+  ctx.lineWidth =
+    Math.max(
+      1,
+      1.5/zoom
+    );
+
+
+  ctx.strokeRect(
+    x,
+    y,
+    size,
+    size
+  );
+
+}
+
+
+/* =========================================================
+   VISIBLE RANGE
+========================================================= */
+
+function getVisibleRange(){
+
+  const left =
+    Math.max(
+      0,
+      -cameraX/zoom
+    );
+
+  const top =
+    Math.max(
+      0,
+      -cameraY/zoom
+    );
+
+  const right =
+    Math.min(
+      worldSize,
+      (W-cameraX)/zoom
+    );
+
+  const bottom =
+    Math.min(
+      worldSize,
+      (H-cameraY)/zoom
+    );
+
+
+  return {
+
+    startCol:
+      Math.max(
+        0,
+        Math.floor(left/cellSize)-1
+      ),
+
+    endCol:
+      Math.min(
+        COLS-1,
+        Math.ceil(right/cellSize)+1
+      ),
+
+    startRow:
+      Math.max(
+        0,
+        Math.floor(top/cellSize)-1
+      ),
+
+    endRow:
+      Math.min(
+        ROWS-1,
+        Math.ceil(bottom/cellSize)+1
+      )
+
+  };
 
 }
 
@@ -1946,23 +2097,23 @@ function drawAvailability(){
   ){
 
     return;
+
   }
 
 
-  /*
-   * Only draw individual unit status
-   * when the user has zoomed enough.
-   */
+  const range =
+    getVisibleRange();
+
 
   for(
-    let r=0;
-    r<ROWS;
+    let r=range.startRow;
+    r<=range.endRow;
     r++
   ){
 
     for(
-      let c=0;
-      c<COLS;
+      let c=range.startCol;
+      c<=range.endCol;
       c++
     ){
 
@@ -1971,11 +2122,12 @@ function drawAvailability(){
 
       if(!unit) continue;
 
+
       const x =
-        c * cellSize;
+        c*cellSize;
 
       const y =
-        r * cellSize;
+        r*cellSize;
 
 
       if(
@@ -1983,7 +2135,8 @@ function drawAvailability(){
       ){
 
         ctx.fillStyle =
-          "rgba(40,40,40,.78)";
+          "rgba(35,35,35,.78)";
+
 
         ctx.fillRect(
           x,
@@ -1994,12 +2147,14 @@ function drawAvailability(){
 
       }
 
+
       else if(
         unit.status === "Reserved"
       ){
 
         ctx.fillStyle =
           "rgba(255,150,40,.40)";
+
 
         ctx.fillRect(
           x,
@@ -2023,18 +2178,22 @@ function drawAvailability(){
 
 function drawGrid(){
 
-  if(zoom < 2.2) return;
+  if(zoom < 2.2){
+    return;
+  }
+
+
+  const range =
+    getVisibleRange();
+
 
   const step =
     cellSize;
 
+
   ctx.strokeStyle =
-    `rgba(
-      20,
-      20,
-      20,
-      ${Math.min(.42,(zoom-2)/10)}
-    )`;
+    "rgba(20,20,20,.30)";
+
 
   ctx.lineWidth =
     Math.max(
@@ -2043,25 +2202,30 @@ function drawGrid(){
     );
 
 
+  /*
+   * Vertical
+   */
+
   for(
-    let i=0;
-    i<=COLS;
-    i++
+    let c=range.startCol;
+    c<=range.endCol+1;
+    c++
   ){
 
     const x =
-      i * step;
+      c*step;
+
 
     ctx.beginPath();
 
     ctx.moveTo(
       x,
-      0
+      range.startRow*step
     );
 
     ctx.lineTo(
       x,
-      worldSize
+      (range.endRow+1)*step
     );
 
     ctx.stroke();
@@ -2069,24 +2233,29 @@ function drawGrid(){
   }
 
 
+  /*
+   * Horizontal
+   */
+
   for(
-    let i=0;
-    i<=ROWS;
-    i++
+    let r=range.startRow;
+    r<=range.endRow+1;
+    r++
   ){
 
     const y =
-      i * step;
+      r*step;
+
 
     ctx.beginPath();
 
     ctx.moveTo(
-      0,
+      range.startCol*step,
       y
     );
 
     ctx.lineTo(
-      worldSize,
+      (range.endCol+1)*step,
       y
     );
 
@@ -2094,43 +2263,44 @@ function drawGrid(){
 
   }
 
+
+  /*
+   * IDs only at extreme zoom.
+   */
 
   if(zoom >= 7){
 
     ctx.font =
-      `${Math.max(5,8/zoom)}px Arial`;
+      `${Math.max(
+        5,
+        8/zoom
+      )}px Arial`;
+
 
     ctx.fillStyle =
       "rgba(0,0,0,.55)";
 
 
     for(
-      let r=0;
-      r<ROWS;
+      let r=range.startRow;
+      r<=range.endRow;
       r++
     ){
 
       for(
-        let c=0;
-        c<COLS;
+        let c=range.startCol;
+        c<=range.endCol;
         c++
       ){
 
         const id =
           getUnitId(r,c);
 
-        const x =
-          c*step +
-          step*.12;
-
-        const y =
-          r*step +
-          step*.55;
 
         ctx.fillText(
           id,
-          x,
-          y
+          c*step+step*.12,
+          r*step+step*.55
         );
 
       }
@@ -2150,31 +2320,32 @@ function drawAds(){
 
   if(
     !wallDataLoaded ||
-    zoom < 3
+    !ads ||
+    !ads.length
   ){
 
     return;
+
   }
 
 
   ads.forEach(ad=>{
 
     if(
-      !ad.unitIds ||
+      !Array.isArray(ad.unitIds) ||
       !ad.unitIds.length
     ){
 
       return;
+
     }
 
 
-    let minRow=999;
+    let minRow = ROWS;
+    let maxRow = -1;
 
-    let maxRow=-1;
-
-    let minCol=999;
-
-    let maxCol=-1;
+    let minCol = COLS;
+    let maxCol = -1;
 
 
     ad.unitIds.forEach(id=>{
@@ -2183,7 +2354,11 @@ function drawAds(){
         String(id)
           .match(/A(\d+)/i);
 
-      if(!match) return;
+
+      if(!match){
+        return;
+      }
+
 
       const number =
         parseInt(
@@ -2191,53 +2366,64 @@ function drawAds(){
           10
         );
 
+
       if(
         number<1 ||
         number>10000
       ){
 
         return;
+
       }
+
 
       const index =
         number-1;
 
-      const r =
+
+      const row =
         Math.floor(
           index/COLS
         );
 
-      const c =
+
+      const col =
         index%COLS;
+
 
       minRow =
         Math.min(
           minRow,
-          r
+          row
         );
+
 
       maxRow =
         Math.max(
           maxRow,
-          r
+          row
         );
+
 
       minCol =
         Math.min(
           minCol,
-          c
+          col
         );
+
 
       maxCol =
         Math.max(
           maxCol,
-          c
+          col
         );
 
     });
 
 
-    if(maxRow<0) return;
+    if(maxRow<0){
+      return;
+    }
 
 
     const x =
@@ -2246,76 +2432,167 @@ function drawAds(){
     const y =
       minRow*cellSize;
 
+
     const width =
-      (maxCol-minCol+1) *
+      (maxCol-minCol+1)*
       cellSize;
+
 
     const height =
-      (maxRow-minRow+1) *
+      (maxRow-minRow+1)*
       cellSize;
 
 
+    /*
+     * Check visibility.
+     */
+
+    const screenLeft =
+      cameraX+x*zoom;
+
+    const screenRight =
+      cameraX+(x+width)*zoom;
+
+    const screenTop =
+      cameraY+y*zoom;
+
+    const screenBottom =
+      cameraY+(y+height)*zoom;
+
+
+    if(
+      screenRight<0 ||
+      screenLeft>W ||
+      screenBottom<0 ||
+      screenTop>H
+    ){
+
+      return;
+
+    }
+
+
+    /*
+     * Advertisement background.
+     */
+
     ctx.fillStyle =
-      "rgba(255,255,255,.88)";
+      "rgba(255,255,255,.94)";
+
 
     ctx.fillRect(
       x+cellSize*.08,
       y+cellSize*.08,
-      width-cellSize*.16,
-      height-cellSize*.16
+      Math.max(
+        1,
+        width-cellSize*.16
+      ),
+      Math.max(
+        1,
+        height-cellSize*.16
+      )
     );
 
+
+    /*
+     * Border.
+     */
+
+    ctx.strokeStyle =
+      "rgba(20,20,20,.85)";
+
+
+    ctx.lineWidth =
+      Math.max(
+        1,
+        1.5/zoom
+      );
+
+
+    ctx.strokeRect(
+      x+cellSize*.08,
+      y+cellSize*.08,
+      Math.max(
+        1,
+        width-cellSize*.16
+      ),
+      Math.max(
+        1,
+        height-cellSize*.16
+      )
+    );
+
+
+    /*
+     * Content.
+     */
 
     ctx.fillStyle =
       "#111";
 
+
     ctx.textAlign =
       "center";
+
 
     ctx.textBaseline =
       "middle";
 
 
+    const centerX =
+      x+width/2;
+
+    const centerY =
+      y+height/2;
+
+
     if(ad.name){
 
-      ctx.font =
-        `bold ${Math.max(
+      const fontSize =
+        Math.max(
           8,
           Math.min(
             28,
             width*.12
           )
-        )}px Arial`;
+        );
+
+
+      ctx.font =
+        `bold ${fontSize}px Arial`;
+
 
       ctx.fillText(
-        ad.name,
-        x+width/2,
-        y+height/2
+        String(ad.name),
+        centerX,
+        centerY
       );
 
-    }
 
-    else{
+    }else{
 
       ctx.font =
         `bold ${Math.max(
-          7,
+          8,
           Math.min(
             20,
             width*.09
           )
         )}px Arial`;
 
+
       ctx.fillText(
         "إعلان",
-        x+width/2,
-        y+height/2
+        centerX,
+        centerY
       );
 
     }
 
+
     ctx.textAlign =
       "start";
+
 
     ctx.textBaseline =
       "alphabetic";
@@ -2329,13 +2606,6 @@ function drawAds(){
    SELECTION
 ========================================================= */
 
-let selectedCells =
-  new Set();
-
-let selectedType =
-  "Standard";
-
-
 function cellKey(r,c){
 
   return r+"_"+c;
@@ -2343,18 +2613,29 @@ function cellKey(r,c){
 }
 
 
-function isCenter(r,c){
+function isAdjacentToSelection(r,c){
 
-  return (
+  if(
+    selectedCells.size===0
+  ){
 
-    r>=CENTER_START &&
+    return true;
 
-    r<=CENTER_END &&
+  }
 
-    c>=CENTER_START &&
 
-    c<=CENTER_END
+  return [
 
+    [r-1,c],
+    [r+1,c],
+    [r,c-1],
+    [r,c+1]
+
+  ].some(
+    ([nr,nc])=>
+      selectedCells.has(
+        cellKey(nr,nc)
+      )
   );
 
 }
@@ -2364,10 +2645,16 @@ function drawSelection(){
 
   selectedCells.forEach(key=>{
 
-    const [r,c] =
-      key
-        .split("_")
-        .map(Number);
+    const parts =
+      key.split("_");
+
+
+    const r =
+      Number(parts[0]);
+
+    const c =
+      Number(parts[1]);
+
 
     const x =
       c*cellSize;
@@ -2378,10 +2665,8 @@ function drawSelection(){
 
     ctx.fillStyle =
       selectedType==="Center"
-
-      ? "rgba(255,205,40,.75)"
-
-      : "rgba(80,180,255,.72)";
+        ? "rgba(255,205,40,.75)"
+        : "rgba(80,180,255,.72)";
 
 
     ctx.fillRect(
@@ -2395,11 +2680,13 @@ function drawSelection(){
     ctx.strokeStyle =
       "#fff";
 
+
     ctx.lineWidth =
       Math.max(
         1,
         2/zoom
       );
+
 
     ctx.strokeRect(
       x,
@@ -2414,7 +2701,7 @@ function drawSelection(){
 
 
 /* =========================================================
-   SCREEN → CELL
+   SCREEN TO CELL
 ========================================================= */
 
 function screenToCell(
@@ -2428,10 +2715,12 @@ function screenToCell(
   const worldY =
     (clientY-cameraY)/zoom;
 
+
   const col =
     Math.floor(
       worldX/cellSize
     );
+
 
   const row =
     Math.floor(
@@ -2440,15 +2729,10 @@ function screenToCell(
 
 
   if(
-
     row<0 ||
-
     row>=ROWS ||
-
     col<0 ||
-
     col>=COLS
-
   ){
 
     return null;
@@ -2460,135 +2744,6 @@ function screenToCell(
     row,
     col
   };
-
-}
-
-
-/* =========================================================
-   CONTIGUITY
-========================================================= */
-
-function isAdjacentToSelection(
-  r,
-  c
-){
-
-  if(
-    selectedCells.size===0
-  ){
-
-    return true;
-
-  }
-
-
-  const neighbors=[
-
-    [r-1,c],
-
-    [r+1,c],
-
-    [r,c-1],
-
-    [r,c+1]
-
-  ];
-
-
-  return neighbors.some(
-
-    ([nr,nc]) =>
-
-      selectedCells.has(
-        cellKey(nr,nc)
-      )
-
-  );
-
-}
-
-
-function selectionIsContiguous(){
-
-  if(
-    selectedCells.size<=1
-  ){
-
-    return true;
-
-  }
-
-
-  const first =
-    [...selectedCells][0];
-
-  const queue=[
-    first
-  ];
-
-  const visited =
-    new Set([
-      first
-    ]);
-
-
-  while(queue.length){
-
-    const current =
-      queue.shift();
-
-    const [r,c] =
-      current
-        .split("_")
-        .map(Number);
-
-
-    const neighbors=[
-
-      [r-1,c],
-
-      [r+1,c],
-
-      [r,c-1],
-
-      [r,c+1]
-
-    ];
-
-
-    neighbors.forEach(
-      ([nr,nc])=>{
-
-        const k =
-          cellKey(
-            nr,
-            nc
-          );
-
-        if(
-
-          selectedCells.has(k) &&
-
-          !visited.has(k)
-
-        ){
-
-          visited.add(k);
-
-          queue.push(k);
-
-        }
-
-      }
-    );
-
-  }
-
-
-  return (
-    visited.size ===
-    selectedCells.size
-  );
 
 }
 
@@ -2621,7 +2776,7 @@ function selectCell(
 
 
   /*
-   * Remove selected square
+   * Remove
    */
 
   if(
@@ -2660,15 +2815,12 @@ function selectCell(
 
 
   /*
-   * Correct type
+   * Type
    */
 
   if(
-
     selectedType==="Center" &&
-
     !isCenter(row,col)
-
   ){
 
     showTemporaryHint(
@@ -2681,11 +2833,8 @@ function selectCell(
 
 
   if(
-
     selectedType==="Standard" &&
-
     isCenter(row,col)
-
   ){
 
     showTemporaryHint(
@@ -2698,7 +2847,7 @@ function selectCell(
 
 
   /*
-   * Adjacent
+   * Connection
    */
 
   if(
@@ -2730,30 +2879,33 @@ function selectCell(
    POINTER
 ========================================================= */
 
-let dragging=false;
+let dragging = false;
 
-let lastX=0;
+let lastX = 0;
+let lastY = 0;
 
-let lastY=0;
-
-let moved=false;
+let moved = false;
 
 
 canvas.addEventListener(
   "pointerdown",
   e=>{
 
-    dragging=true;
+    dragging = true;
 
-    moved=false;
+    moved = false;
 
-    lastX=e.clientX;
+    lastX = e.clientX;
+    lastY = e.clientY;
 
-    lastY=e.clientY;
 
-    canvas.setPointerCapture(
-      e.pointerId
-    );
+    try{
+
+      canvas.setPointerCapture(
+        e.pointerId
+      );
+
+    }catch(err){}
 
   }
 );
@@ -2763,7 +2915,10 @@ canvas.addEventListener(
   "pointermove",
   e=>{
 
-    if(!dragging) return;
+    if(!dragging){
+      return;
+    }
+
 
     const dx =
       e.clientX-lastX;
@@ -2773,27 +2928,21 @@ canvas.addEventListener(
 
 
     if(
-
       Math.abs(dx)>2 ||
-
       Math.abs(dy)>2
-
     ){
 
-      moved=true;
+      moved = true;
 
     }
 
 
     cameraX += dx;
-
     cameraY += dy;
 
-    lastX =
-      e.clientX;
 
-    lastY =
-      e.clientY;
+    lastX = e.clientX;
+    lastY = e.clientY;
 
 
     clampCamera();
@@ -2808,9 +2957,12 @@ canvas.addEventListener(
   "pointerup",
   e=>{
 
-    if(!dragging) return;
+    if(!dragging){
+      return;
+    }
 
-    dragging=false;
+
+    dragging = false;
 
 
     if(!moved){
@@ -2820,6 +2972,7 @@ canvas.addEventListener(
           e.clientX,
           e.clientY
         );
+
 
       if(cell){
 
@@ -2837,7 +2990,7 @@ canvas.addEventListener(
 
 
 /* =========================================================
-   WHEEL
+   WHEEL ZOOM
 ========================================================= */
 
 canvas.addEventListener(
@@ -2846,10 +2999,12 @@ canvas.addEventListener(
 
     e.preventDefault();
 
+
     const factor =
       e.deltaY<0
         ? 1.22
         : .82;
+
 
     zoomAt(
       e.clientX,
@@ -2877,6 +3032,7 @@ function zoomAt(
   const oldZoom =
     zoom;
 
+
   const newZoom =
     Math.max(
       1,
@@ -2897,12 +3053,11 @@ function zoomAt(
 
 
   const worldX =
-    (x-cameraX)/
-    oldZoom;
+    (x-cameraX)/oldZoom;
+
 
   const worldY =
-    (y-cameraY)/
-    oldZoom;
+    (y-cameraY)/oldZoom;
 
 
   zoom =
@@ -2911,6 +3066,7 @@ function zoomAt(
 
   cameraX =
     x-worldX*zoom;
+
 
   cameraY =
     y-worldY*zoom;
@@ -2925,14 +3081,16 @@ function zoomAt(
 
     document
       .getElementById("hint")
-      .classList.add(
-        "hidden"
-      );
+      .classList.add("hidden");
 
   }
 
 }
 
+
+/* =========================================================
+   ZOOM BUTTONS
+========================================================= */
 
 document
   .getElementById("zoomIn")
@@ -2972,7 +3130,7 @@ document
     "click",
     ()=>{
 
-      zoom=1;
+      zoom = 1;
 
       calculateWorld();
 
@@ -2988,7 +3146,7 @@ document
    TOUCH PINCH
 ========================================================= */
 
-let touches={};
+let touches = {};
 
 
 canvas.addEventListener(
@@ -3001,10 +3159,9 @@ canvas.addEventListener(
 
       touches[
         t.identifier
-      ]={
+      ] = {
 
         x:t.clientX,
-
         y:t.clientY
 
       };
@@ -3042,20 +3199,14 @@ canvas.addEventListener(
 
 
     const ta =
-      touches[
-        a.identifier
-      ];
+      touches[a.identifier];
 
     const tb =
-      touches[
-        b.identifier
-      ];
+      touches[b.identifier];
 
 
     if(!ta || !tb){
-
       return;
-
     }
 
 
@@ -3085,6 +3236,7 @@ canvas.addEventListener(
       const centerX =
         (a.clientX+b.clientX)/2;
 
+
       const centerY =
         (a.clientY+b.clientY)/2;
 
@@ -3104,10 +3256,9 @@ canvas.addEventListener(
 
       touches[
         t.identifier
-      ]={
+      ] = {
 
         x:t.clientX,
-
         y:t.clientY
 
       };
@@ -3140,7 +3291,7 @@ canvas.addEventListener(
 
 
 /* =========================================================
-   TYPE
+   TYPE BUTTONS
 ========================================================= */
 
 document
@@ -3153,6 +3304,7 @@ document
 
         selectedType =
           btn.dataset.type;
+
 
         selectedCells.clear();
 
@@ -3193,32 +3345,24 @@ function updateUI(){
 
   const price =
     selectedType==="Center"
-
       ? count*CENTER_PRICE
-
       : count*STANDARD_PRICE;
 
 
   document
-    .getElementById(
-      "selectedCount"
-    )
+    .getElementById("selectedCount")
     .textContent =
       count;
 
 
   document
-    .getElementById(
-      "totalPrice"
-    )
+    .getElementById("totalPrice")
     .textContent =
       price;
 
 
   document
-    .getElementById(
-      "confirmArea"
-    )
+    .getElementById("confirmArea")
     .disabled =
       count===0;
 
@@ -3230,9 +3374,7 @@ function updateUI(){
 ========================================================= */
 
 document
-  .getElementById(
-    "clearSelection"
-  )
+  .getElementById("clearSelection")
   .addEventListener(
     "click",
     ()=>{
@@ -3248,20 +3390,16 @@ document
 
 
 /* =========================================================
-   TEMP HINT
+   HINT
 ========================================================= */
 
-let hintTimer=null;
+let hintTimer = null;
 
 
-function showTemporaryHint(
-  message
-){
+function showTemporaryHint(message){
 
   const hint =
-    document.getElementById(
-      "hint"
-    );
+    document.getElementById("hint");
 
 
   hint.textContent =
@@ -3312,9 +3450,7 @@ const bookingModal =
 
 
 document
-  .getElementById(
-    "confirmArea"
-  )
+  .getElementById("confirmArea")
   .addEventListener(
     "click",
     ()=>{
@@ -3334,40 +3470,30 @@ document
 
       const price =
         selectedType==="Center"
-
           ? count*CENTER_PRICE
-
           : count*STANDARD_PRICE;
 
 
       document
-        .getElementById(
-          "summaryType"
-        )
+        .getElementById("summaryType")
         .textContent =
           selectedType;
 
 
       document
-        .getElementById(
-          "summaryUnits"
-        )
+        .getElementById("summaryUnits")
         .textContent =
           count;
 
 
       document
-        .getElementById(
-          "summaryPrice"
-        )
+        .getElementById("summaryPrice")
         .textContent =
           price;
 
 
       bookingModal
-        .classList.add(
-          "show"
-        );
+        .classList.add("show");
 
     }
   );
@@ -3388,9 +3514,7 @@ function closeBooking(){
 
 
 document
-  .getElementById(
-    "closeBooking"
-  )
+  .getElementById("closeBooking")
   .addEventListener(
     "click",
     closeBooking
@@ -3398,9 +3522,7 @@ document
 
 
 document
-  .getElementById(
-    "cancelBooking"
-  )
+  .getElementById("cancelBooking")
   .addEventListener(
     "click",
     closeBooking
@@ -3408,7 +3530,7 @@ document
 
 
 /* =========================================================
-   GET IDS
+   SELECTED IDS
 ========================================================= */
 
 function getSelectedUnitIds(){
@@ -3416,14 +3538,13 @@ function getSelectedUnitIds(){
   return [...selectedCells]
     .map(key=>{
 
-      const [r,c] =
-        key
-          .split("_")
-          .map(Number);
+      const parts =
+        key.split("_");
+
 
       return getUnitId(
-        r,
-        c
+        Number(parts[0]),
+        Number(parts[1])
       );
 
     });
@@ -3436,27 +3557,21 @@ function getSelectedUnitIds(){
 ========================================================= */
 
 document
-  .getElementById(
-    "submitBooking"
-  )
+  .getElementById("submitBooking")
   .addEventListener(
     "click",
     async ()=>{
 
       const name =
         document
-          .getElementById(
-            "customerName"
-          )
+          .getElementById("customerName")
           .value
           .trim();
 
 
       const phone =
         document
-          .getElementById(
-            "customerPhone"
-          )
+          .getElementById("customerPhone")
           .value
           .trim();
 
@@ -3487,9 +3602,7 @@ document
         getSelectedUnitIds();
 
 
-      if(
-        unitIds.length===0
-      ){
+      if(!unitIds.length){
 
         alert(
           "يرجى اختيار مساحة."
@@ -3500,34 +3613,13 @@ document
       }
 
 
-      /*
-       * Important:
-       * Before creating the order,
-       * verify the selection again
-       * directly from server.
-       */
-
-      const previewPayload = {
-
-        action:
-          "preview",
-
-        unitType:
-          selectedType,
-
-        unitIds:
-          unitIds
-
-      };
-
-
       const button =
         document.getElementById(
           "submitBooking"
         );
 
 
-      button.disabled=true;
+      button.disabled = true;
 
       button.textContent =
         "جاري التحقق...";
@@ -3535,9 +3627,10 @@ document
 
       try{
 
-        /*
-         * SERVER VALIDATION
-         */
+
+        /* =========================
+           PREVIEW
+        ========================= */
 
         const previewResponse =
           await fetch(
@@ -3552,9 +3645,17 @@ document
               },
 
               body:
-                JSON.stringify(
-                  previewPayload
-                )
+                JSON.stringify({
+
+                  action:"preview",
+
+                  unitType:
+                    selectedType,
+
+                  unitIds:
+                    unitIds
+
+                })
 
             }
           );
@@ -3577,9 +3678,9 @@ document
         }
 
 
-        /*
-         * CREATE REAL ORDER
-         */
+        /* =========================
+           CREATE ORDER
+        ========================= */
 
         button.textContent =
           "جاري إرسال الطلب...";
@@ -3604,41 +3705,31 @@ document
 
           logoUrl:
             document
-              .getElementById(
-                "logoUrl"
-              )
+              .getElementById("logoUrl")
               .value
               .trim(),
 
           adName:
             document
-              .getElementById(
-                "adName"
-              )
+              .getElementById("adName")
               .value
               .trim(),
 
           adText:
             document
-              .getElementById(
-                "adText"
-              )
+              .getElementById("adText")
               .value
               .trim(),
 
           whatsapp:
             document
-              .getElementById(
-                "whatsapp"
-              )
+              .getElementById("whatsapp")
               .value
               .trim(),
 
           instagram:
             document
-              .getElementById(
-                "instagram"
-              )
+              .getElementById("instagram")
               .value
               .trim()
 
@@ -3683,10 +3774,6 @@ document
         }
 
 
-        /*
-         * Save order ID
-         */
-
         window.HITAN_LAST_ORDER =
           result;
 
@@ -3695,7 +3782,7 @@ document
 
 
         /*
-         * Refresh wall
+         * Refresh wall.
          */
 
         await loadWallData();
@@ -3709,29 +3796,24 @@ document
 
 
         document
-          .getElementById(
-            "successModal"
-          )
-          .classList.add(
-            "show"
-          );
+          .getElementById("successModal")
+          .classList.add("show");
 
 
       }catch(error){
 
-        console.error(
-          error
-        );
+        console.error(error);
 
 
         alert(
           error.message ||
-          "تعذّر الاتصال بالخادم. حاول مرة أخرى."
+          "تعذّر الاتصال بالخادم."
         );
+
 
       }finally{
 
-        button.disabled=false;
+        button.disabled = false;
 
         button.textContent =
           "متابعة الحجز";
@@ -3751,70 +3833,49 @@ let shareUrl =
   window.location.pathname;
 
 
-function updateShareUrl(){
+function buildShareUrl(){
 
-  const ids =
+  let ids =
     getSelectedUnitIds();
 
 
   if(
-    ids.length
+    !ids.length &&
+    window.HITAN_LAST_ORDER
   ){
 
-    shareUrl =
+    ids =
+      window.HITAN_LAST_ORDER.unitIds ||
+      [];
+
+  }
+
+
+  if(ids.length){
+
+    return (
       window.location.origin +
       window.location.pathname +
       "?wall=" +
-      encodeURIComponent(
-        ids[0]
-      );
+      encodeURIComponent(ids[0])
+    );
 
   }
+
+
+  return shareUrl;
 
 }
 
 
 document
-  .getElementById(
-    "shareBtn"
-  )
+  .getElementById("shareBtn")
   .addEventListener(
     "click",
     async ()=>{
 
-      /*
-       * After successful order,
-       * use the saved order units.
-       */
-
-      let ids =
-        getSelectedUnitIds();
-
-
-      if(
-        !ids.length &&
-        window.HITAN_LAST_ORDER
-      ){
-
-        ids =
-          window.HITAN_LAST_ORDER
-            .unitIds ||
-          [];
-
-      }
-
-
-      if(ids.length){
-
-        shareUrl =
-          window.location.origin +
-          window.location.pathname +
-          "?wall=" +
-          encodeURIComponent(
-            ids[0]
-          );
-
-      }
+      shareUrl =
+        buildShareUrl();
 
 
       const message =
@@ -3826,9 +3887,7 @@ document
 ${shareUrl}`;
 
 
-      if(
-        navigator.share
-      ){
+      if(navigator.share){
 
         try{
 
@@ -3880,41 +3939,13 @@ ${shareUrl}`;
 ========================================================= */
 
 document
-  .getElementById(
-    "copyBtn"
-  )
+  .getElementById("copyBtn")
   .addEventListener(
     "click",
     async ()=>{
 
-      let ids =
-        getSelectedUnitIds();
-
-
-      if(
-        !ids.length &&
-        window.HITAN_LAST_ORDER
-      ){
-
-        ids =
-          window.HITAN_LAST_ORDER
-            .unitIds ||
-          [];
-
-      }
-
-
-      if(ids.length){
-
-        shareUrl =
-          window.location.origin +
-          window.location.pathname +
-          "?wall=" +
-          encodeURIComponent(
-            ids[0]
-          );
-
-      }
+      shareUrl =
+        buildShareUrl();
 
 
       try{
@@ -3924,9 +3955,11 @@ document
             shareUrl
           );
 
+
         alert(
           "تم نسخ رابط مطرحك."
         );
+
 
       }catch(e){
 
@@ -3954,21 +3987,21 @@ function focusSharedUnit(){
 
 
   const unit =
-    params.get(
-      "wall"
-    );
+    params.get("wall");
 
 
-  if(!unit) return;
+  if(!unit){
+    return;
+  }
 
 
   const match =
-    unit.match(
-      /A(\d+)/i
-    );
+    unit.match(/A(\d+)/i);
 
 
-  if(!match) return;
+  if(!match){
+    return;
+  }
 
 
   const number =
@@ -3979,11 +4012,8 @@ function focusSharedUnit(){
 
 
   if(
-
     number<1 ||
-
     number>10000
-
   ){
 
     return;
@@ -4005,17 +4035,15 @@ function focusSharedUnit(){
     index%COLS;
 
 
-  zoom=8;
+  zoom = 8;
 
 
   const worldX =
-    (col+.5) *
-    cellSize;
+    (col+.5)*cellSize;
 
 
   const worldY =
-    (row+.5) *
-    cellSize;
+    (row+.5)*cellSize;
 
 
   cameraX =
@@ -4041,6 +4069,52 @@ function focusSharedUnit(){
 
 
 /* =========================================================
+   AUTO REFRESH
+========================================================= */
+
+/*
+ * Refresh wall data every 30 seconds.
+ *
+ * This allows an approved advertisement
+ * to appear without manually refreshing.
+ */
+
+setInterval(
+  async ()=>{
+
+    if(
+      document.visibilityState !==
+      "visible"
+    ){
+
+      return;
+
+    }
+
+
+    const oldAdsCount =
+      ads.length;
+
+
+    await loadWallData();
+
+
+    /*
+     * Redraw only after successful reload.
+     */
+
+    if(wallDataLoaded){
+
+      draw();
+
+    }
+
+  },
+  30000
+);
+
+
+/* =========================================================
    INITIALIZE
 ========================================================= */
 
@@ -4056,12 +4130,8 @@ async function initialize(){
 
 
   document
-    .getElementById(
-      "loading"
-    )
-    .classList.add(
-      "hidden"
-    );
+    .getElementById("loading")
+    .classList.add("hidden");
 
 
   draw();
