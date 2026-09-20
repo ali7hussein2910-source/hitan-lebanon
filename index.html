@@ -687,6 +687,14 @@ html,body,#app{
         كل الحقول اختيارية ما عدا الاسم ورقم الهاتف.
       </div>
 
+      <!-- WHISH MONEY PAYMENT NOTICE -->
+      <div style="background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 12px; padding: 12px; margin-bottom: 15px; font-size: 13px; color: #3730a3; line-height: 1.6;">
+        <strong>💳 معلومات الدفع:</strong><br>
+        يرجى تحويل المبلغ عبر <b>Whish Money</b> على الرقم التالي:<br>
+        <span style="font-size: 16px; font-weight: bold; color: #1e1b4b;">71291071</span><br>
+        سيتم تفعيل الإعلان فور تأكيد استلام الدفع.
+      </div>
+
       <div class="summary">
 
         <div class="summaryRow">
@@ -882,6 +890,39 @@ html,body,#app{
 
   </div>
 
+  <!-- ADVERTISER INFO MODAL -->
+  <div class="modal" id="advertiserModal">
+    <div class="modalBox">
+      <button class="closeBtn" onclick="closeAdvertiserModal()">×</button>
+      <div class="modalTitle" id="adModalName">اسم الإعلان</div>
+      <div class="modalSubtitle" id="adModalCustomer">صاحب الإعلان</div>
+      
+      <div style="text-align:center; margin:15px 0;">
+        <img id="adModalLogo" src="" alt="Logo" style="max-width:180px; max-height:120px; object-fit:contain; border-radius:10px;" class="hidden">
+      </div>
+
+      <div class="summary">
+        <div class="summaryRow">
+          <span>رقم الهاتف</span>
+          <strong id="adModalPhone">-</strong>
+        </div>
+        <div class="summaryRow" id="adModalWhatsappRow">
+          <span>واتساب</span>
+          <strong id="adModalWhatsapp">-</strong>
+        </div>
+        <div class="summaryRow" id="adModalInstagramRow">
+          <span>إنستغرام</span>
+          <strong id="adModalInstagram">-</strong>
+        </div>
+      </div>
+
+      <div class="field" style="background:#f9f9f9; padding:12px; border-radius:12px;">
+        <label>النص التعريفي</label>
+        <div id="adModalText" style="font-size:14px; color:#333; margin-top:5px; white-space:pre-wrap;">-</div>
+      </div>
+    </div>
+  </div>
+
   <!-- SUCCESS MODAL -->
 
   <div class="modal" id="successModal">
@@ -973,7 +1014,6 @@ function handleLogoSelect(event) {
   reader.onload = function(e) {
     const img = new Image();
     img.onload = function() {
-      // ضغط وتصغير أبعاد الصورة لضمان خفتها وسرعة تحميلها
       const maxDim = 400;
       let w = img.width;
       let h = img.height;
@@ -995,7 +1035,6 @@ function handleLogoSelect(event) {
 
       uploadedLogoBase64 = canvas.toDataURL("image/png");
 
-      // تحديث معاينة الواجهة
       const preview = document.getElementById("logoPreview");
       preview.src = uploadedLogoBase64;
       preview.classList.remove("hidden");
@@ -1016,6 +1055,54 @@ function removeLogo() {
   document.getElementById("logoPlaceholder").style.display = "block";
   document.getElementById("removeLogoBtn").classList.add("hidden");
 }
+
+
+/* =========================================================
+   ADVERTISER INFO MODAL LOGIC
+========================================================= */
+
+function showAdvertiserInfoByUnit(unitId) {
+  if (!window.HITAN_WALL_DATA || !window.HITAN_WALL_DATA.ads) return;
+  const ad = window.HITAN_WALL_DATA.ads.find(a => a.status === "Active" && a.unitIds && a.unitIds.includes(unitId));
+  if (!ad) return;
+
+  document.getElementById("adModalName").textContent = ad.name || "إعلان تجاري";
+  document.getElementById("adModalCustomer").textContent = ad.customerName || "-";
+  document.getElementById("adModalPhone").textContent = ad.phone || "-";
+  
+  const logoImg = document.getElementById("adModalLogo");
+  if (ad.logoUrl) {
+    logoImg.src = ad.logoUrl;
+    logoImg.classList.remove("hidden");
+  } else {
+    logoImg.classList.add("hidden");
+  }
+
+  document.getElementById("adModalText").textContent = ad.text || "لا يوجد نص إضافي.";
+  
+  const waRow = document.getElementById("adModalWhatsappRow");
+  if (ad.whatsapp) {
+    waRow.style.display = "flex";
+    document.getElementById("adModalWhatsapp").textContent = ad.whatsapp;
+  } else {
+    waRow.style.display = "none";
+  }
+
+  const igRow = document.getElementById("adModalInstagramRow");
+  if (ad.instagram) {
+    igRow.style.display = "flex";
+    document.getElementById("adModalInstagram").textContent = ad.instagram;
+  } else {
+    igRow.style.display = "none";
+  }
+
+  document.getElementById("advertiserModal").classList.add("show");
+}
+
+function closeAdvertiserModal() {
+  document.getElementById("advertiserModal").classList.remove("show");
+}
+
 
 /* =========================================================
    REAL WALL DATA
@@ -1055,10 +1142,6 @@ async function loadWallData(){
     window.HITAN_UNITS = {};
     window.HITAN_ADS = {};
 
-    /*
-      Units lookup
-    */
-
     (data.units || []).forEach(unit=>{
 
       window.HITAN_UNITS[
@@ -1067,10 +1150,6 @@ async function loadWallData(){
 
     });
 
-    /*
-      Ads lookup
-    */
-
     (data.ads || []).forEach(ad=>{
 
       window.HITAN_ADS[
@@ -1078,21 +1157,6 @@ async function loadWallData(){
       ] = ad;
 
     });
-
-    console.log(
-      "HITAN WALL DATA:",
-      data
-    );
-
-    console.log(
-      "Units loaded:",
-      data.units?.length || 0
-    );
-
-    console.log(
-      "Ads loaded:",
-      data.ads?.length || 0
-    );
 
     return data;
 
@@ -1297,10 +1361,6 @@ function createWallTexture(){
   const t =
     textureCanvas.getContext("2d");
 
-  /*
-    Concrete
-  */
-
   t.fillStyle =
     "#8a8176";
 
@@ -1310,10 +1370,6 @@ function createWallTexture(){
     1000,
     1000
   );
-
-  /*
-    Noise
-  */
 
   for(let i=0;i<18000;i++){
 
@@ -1349,10 +1405,6 @@ function createWallTexture(){
 
   }
 
-  /*
-    Concrete variations
-  */
-
   for(let i=0;i<35;i++){
 
     const y =
@@ -1374,10 +1426,6 @@ function createWallTexture(){
     );
 
   }
-
-  /*
-    Cracks
-  */
 
   for(let i=0;i<24;i++){
 
@@ -1423,97 +1471,6 @@ function createWallTexture(){
     t.stroke();
 
   }
-
-  /*
-    Posters
-  */
-
-  const posters = [
-
-    [80,130,190,100],
-    [710,110,160,110],
-    [130,700,180,120],
-    [720,720,190,120]
-
-  ];
-
-  posters.forEach(p=>{
-
-    t.fillStyle =
-      "rgba(40,35,30,.35)";
-
-    t.fillRect(
-      p[0]+5,
-      p[1]+6,
-      p[2],
-      p[3]
-    );
-
-    t.fillStyle =
-      `rgba(
-        ${100+Math.random()*100},
-        ${80+Math.random()*90},
-        ${70+Math.random()*70},
-        .85
-      )`;
-
-    t.fillRect(
-      p[0],
-      p[1],
-      p[2],
-      p[3]
-    );
-
-    t.fillStyle =
-      "rgba(255,255,255,.15)";
-
-    t.fillRect(
-      p[0]+10,
-      p[1]+12,
-      p[2]-20,
-      8
-    );
-
-    t.fillRect(
-      p[0]+10,
-      p[1]+30,
-      p[2]*.55,
-      5
-    );
-
-  });
-
-  /*
-    Graffiti
-  */
-
-  t.font =
-    "bold 80px Arial";
-
-  t.fillStyle =
-    "rgba(20,20,20,.22)";
-
-  t.rotate(-.08);
-
-  t.fillText(
-    "LEBANON",
-    350,
-    400
-  );
-
-  t.rotate(.08);
-
-  t.font =
-    "bold 65px Arial";
-
-  t.fillStyle =
-    "rgba(30,30,30,.16)";
-
-  t.fillText(
-    "بيروت",
-    470,
-    650
-  );
 
 }
 
@@ -1602,11 +1559,6 @@ function getUnitByCell(row,col){
 
 function drawWallDetails(){
 
-  /*
-    Show real reservation status
-    when data is available.
-  */
-
   if(
     window.HITAN_UNITS &&
     Object.keys(window.HITAN_UNITS).length
@@ -1630,31 +1582,7 @@ function drawWallDetails(){
         const y =
           r * cellSize;
 
-        /*
-          Active
-        */
-
         if(
-          unit.status === "Active"
-        ){
-
-          ctx.fillStyle =
-            "rgba(20,20,20,.58)";
-
-          ctx.fillRect(
-            x,
-            y,
-            cellSize,
-            cellSize
-          );
-
-        }
-
-        /*
-          Reserved
-        */
-
-        else if(
           unit.status === "Reserved"
         ){
 
@@ -1675,10 +1603,6 @@ function drawWallDetails(){
     }
 
   }
-
-  /*
-    Center area marker
-  */
 
   if(zoom > 1.5){
 
@@ -1833,49 +1757,17 @@ function drawActiveAds(){
     ctx.lineWidth = Math.max(1, 2 / zoom);
     ctx.strokeRect(x, y, width, height);
 
-    // إظهار المحتوى عند التكبير
-    if(zoom < 1.5){
-      return;
-    }
-
     ctx.save();
     ctx.beginPath();
     ctx.rect(x, y, width, height);
     ctx.clip();
 
-    ctx.fillStyle = "rgba(0,0,0,.30)";
-    ctx.fillRect(x, y, width, height);
-
-    // رسم الشعار بالحفاظ على أبعاده بدون تشويه
+    // رسم الشعار ليملأ المساحة المختارة بالكامل وبدون أي تظليل
     if(ad.logoUrl){
       const img = getAdImage(ad.logoUrl);
       if(img && img.width && img.height){
-        const maxLogoW = width * 0.8;
-        const maxLogoH = height * (ad.name ? 0.5 : 0.75);
-
-        let logoW = maxLogoW;
-        let logoH = maxLogoW * (img.height / img.width);
-
-        if (logoH > maxLogoH) {
-          logoH = maxLogoH;
-          logoW = maxLogoH * (img.width / img.height);
-        }
-
-        const logoX = x + (width - logoW) / 2;
-        const logoY = y + (height * 0.08);
-
-        ctx.drawImage(img, logoX, logoY, logoW, logoH);
+        ctx.drawImage(img, x, y, width, height);
       }
-    }
-
-    // اسم الإعلان
-    if(ad.name){
-      const fontSize = Math.max(8, Math.min(26, width * 0.12));
-      ctx.font = `bold ${fontSize}px Arial`;
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillStyle = "#fff";
-      ctx.fillText(ad.name, x + width / 2, y + height * 0.75);
     }
 
     ctx.restore();
@@ -1885,7 +1777,7 @@ function drawActiveAds(){
 
 
 /* =========================================================
-   GRID
+   GRID (تم إخفاء الأرقام تماماً بناءً على الطلب)
 ========================================================= */
 
 function drawGrid(){
@@ -1963,62 +1855,6 @@ function drawGrid(){
     );
 
     ctx.stroke();
-
-  }
-
-  /*
-    Unit IDs
-  */
-
-  if(zoom >= 7){
-
-    ctx.font =
-      `${Math.max(
-        5,
-        8/zoom
-      )}px Arial`;
-
-    ctx.fillStyle =
-      "rgba(0,0,0,.55)";
-
-    for(
-      let r=0;
-      r<ROWS;
-      r++
-    ){
-
-      for(
-        let c=0;
-        c<COLS;
-        c++
-      ){
-
-        const id =
-          "A" +
-          String(
-            r*COLS+c+1
-          ).padStart(
-            4,
-            "0"
-          );
-
-        const x =
-          c*step+
-          step*.12;
-
-        const y =
-          r*step+
-          step*.55;
-
-        ctx.fillText(
-          id,
-          x,
-          y
-        );
-
-      }
-
-    }
 
   }
 
@@ -2279,20 +2115,11 @@ function selectCell(
       col
     );
 
-  /*
-    Real unit from Google Sheets
-  */
-
   const unit =
     getUnitByCell(
       row,
       col
     );
-
-  /*
-    Don't allow selection
-    before data loads.
-  */
 
   if(!unit){
 
@@ -2305,9 +2132,15 @@ function selectCell(
   }
 
   /*
-    Only Available units
-    can be selected.
+    عرض معلومات الإعلان عند النقر على مساحة مفعلة (Active)
   */
+  if(
+    unit.status ===
+    "Active"
+  ){
+    showAdvertiserInfoByUnit(unit.id);
+    return;
+  }
 
   if(
     unit.status !==
@@ -2323,15 +2156,6 @@ function selectCell(
         "هذه المساحة محجوزة حالياً."
       );
 
-    }else if(
-      unit.status ===
-      "Active"
-    ){
-
-      showTemporaryHint(
-        "هذه المساحة عليها إعلان."
-      );
-
     }else{
 
       showTemporaryHint(
@@ -2343,10 +2167,6 @@ function selectCell(
     return;
 
   }
-
-  /*
-    Already selected
-  */
 
   if(
     selectedCells.has(key)
@@ -2362,10 +2182,6 @@ function selectCell(
 
   }
 
-  /*
-    Center
-  */
-
   if(
     selectedType ===
     "Center" &&
@@ -2380,10 +2196,6 @@ function selectCell(
 
   }
 
-  /*
-    Standard
-  */
-
   if(
     selectedType ===
     "Standard" &&
@@ -2397,10 +2209,6 @@ function selectCell(
     return;
 
   }
-
-  /*
-    Connected shape
-  */
 
   if(
     !isAdjacentToSelection(
@@ -3114,13 +2922,6 @@ document
 
       }
 
-      /*
-        IMPORTANT:
-        Send createOrder directly.
-        The backend performs the final
-        availability + contiguity check.
-      */
-
       const payload = {
 
         action:
@@ -3221,11 +3022,6 @@ document
 
           closeBooking();
 
-          /*
-            Refresh wall data because
-            selected units are now Reserved.
-          */
-
           await loadWallData();
 
           draw();
@@ -3243,11 +3039,6 @@ document
             result?.message ||
             "تعذّر إنشاء الحجز."
           );
-
-          /*
-            Refresh in case another
-            customer reserved a unit.
-          */
 
           await loadWallData();
 
@@ -3460,10 +3251,6 @@ function focusSharedUnit(){
   const col =
     index%COLS;
 
-  /*
-    Zoom into shared area.
-  */
-
   zoom=8;
 
   const worldX =
@@ -3503,16 +3290,7 @@ async function initializeHitan(){
 
   updateUI();
 
-  /*
-    Load actual wall data
-    from Google Sheets.
-  */
-
   await loadWallData();
-
-  /*
-    Draw again after data arrives.
-  */
 
   draw();
 
