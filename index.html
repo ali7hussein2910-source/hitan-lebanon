@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>حيطان لبنان</title>
 
 <style>
+
 *{
   box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
@@ -547,8 +552,11 @@ html,body,#app{
     padding:10px 13px;
     font-size:12px;
   }
+
 }
+
 </style>
+
 </head>
 
 <body>
@@ -560,8 +568,15 @@ html,body,#app{
   </div>
 
   <div id="brand">
-    <div class="title">حيطان لبنان</div>
-    <div class="subtitle">كل اسم إلو مطرح</div>
+
+    <div class="title">
+      حيطان لبنان
+    </div>
+
+    <div class="subtitle">
+      كل اسم إلو مطرح
+    </div>
+
   </div>
 
   <div id="hint">
@@ -569,32 +584,57 @@ html,body,#app{
   </div>
 
   <div id="zoomControls">
-    <button class="zoomBtn" id="zoomIn">+</button>
-    <button class="zoomBtn" id="zoomOut">−</button>
-    <button class="zoomBtn" id="zoomReset">⌂</button>
+
+    <button class="zoomBtn" id="zoomIn">
+      +
+    </button>
+
+    <button class="zoomBtn" id="zoomOut">
+      −
+    </button>
+
+    <button class="zoomBtn" id="zoomReset">
+      ⌂
+    </button>
+
   </div>
 
   <div id="selectionInfo">
+
     المساحة المختارة<br>
-    <strong id="selectedCount">0</strong> وحدة
+
+    <strong id="selectedCount">
+      0
+    </strong>
+
+    وحدة
+
   </div>
 
   <div id="bottomPanel">
 
     <div class="panelTop">
+
       <div>
-        <div class="panelTitle">اختر مساحتك على الحائط</div>
+
+        <div class="panelTitle">
+          اختر مساحتك على الحائط
+        </div>
+
         <div class="panelHint">
           حدّد المكان والمساحة التي ترغب بحجزها.
         </div>
+
       </div>
 
       <button class="primaryBtn" id="clearSelection">
         مسح
       </button>
+
     </div>
 
     <div class="typeButtons">
+
       <button class="typeBtn active" data-type="Standard">
         Standard · $1
       </button>
@@ -602,17 +642,25 @@ html,body,#app{
       <button class="typeBtn" data-type="Center">
         Center · $5
       </button>
+
     </div>
 
     <div class="priceRow">
+
       <div>
+
         المجموع
-        <div class="price">$<span id="totalPrice">0</span></div>
+
+        <div class="price">
+          $<span id="totalPrice">0</span>
+        </div>
+
       </div>
 
       <button class="primaryBtn" id="confirmArea" disabled>
         تأكيد المساحة
       </button>
+
     </div>
 
   </div>
@@ -623,7 +671,9 @@ html,body,#app{
 
     <div class="modalBox">
 
-      <button class="closeBtn" id="closeBooking">×</button>
+      <button class="closeBtn" id="closeBooking">
+        ×
+      </button>
 
       <div class="modalTitle">
         أكمل بيانات الحجز
@@ -636,84 +686,164 @@ html,body,#app{
       <div class="summary">
 
         <div class="summaryRow">
-          <span>نوع المساحة</span>
-          <strong id="summaryType">Standard</strong>
+
+          <span>
+            نوع المساحة
+          </span>
+
+          <strong id="summaryType">
+            Standard
+          </strong>
+
         </div>
 
         <div class="summaryRow">
-          <span>عدد الوحدات</span>
-          <strong id="summaryUnits">0</strong>
+
+          <span>
+            عدد الوحدات
+          </span>
+
+          <strong id="summaryUnits">
+            0
+          </strong>
+
         </div>
 
         <div class="summaryRow total">
-          <span>المبلغ</span>
-          <strong>$<span id="summaryPrice">0</span></strong>
+
+          <span>
+            المبلغ
+          </span>
+
+          <strong>
+            $<span id="summaryPrice">0</span>
+          </strong>
+
         </div>
 
       </div>
 
       <div class="field">
-        <label>الاسم</label>
-        <input id="customerName" placeholder="اسمك أو اسم المشروع">
+
+        <label>
+          الاسم
+        </label>
+
+        <input
+          id="customerName"
+          placeholder="اسمك أو اسم المشروع"
+        >
+
       </div>
 
       <div class="field">
-        <label>رقم الهاتف</label>
-        <input id="customerPhone" type="tel" placeholder="رقم الهاتف">
+
+        <label>
+          رقم الهاتف
+        </label>
+
+        <input
+          id="customerPhone"
+          type="tel"
+          placeholder="رقم الهاتف"
+        >
+
       </div>
 
       <div class="field">
+
         <label>
           الشعار
-          <span class="optional">(اختياري)</span>
+          <span class="optional">
+            (اختياري)
+          </span>
         </label>
 
-        <input id="logoUrl" placeholder="رابط الشعار">
+        <input
+          id="logoUrl"
+          placeholder="رابط الشعار"
+        >
+
       </div>
 
       <div class="field">
+
         <label>
           اسم الإعلان
-          <span class="optional">(اختياري)</span>
+          <span class="optional">
+            (اختياري)
+          </span>
         </label>
 
-        <input id="adName" placeholder="اسم يظهر على الحائط">
+        <input
+          id="adName"
+          placeholder="اسم يظهر على الحائط"
+        >
+
       </div>
 
       <div class="field">
+
         <label>
           نص إضافي
-          <span class="optional">(اختياري)</span>
+          <span class="optional">
+            (اختياري)
+          </span>
         </label>
 
-        <textarea id="adText" placeholder="اكتب الرسالة التي تريد ظهورها"></textarea>
+        <textarea
+          id="adText"
+          placeholder="اكتب الرسالة التي تريد ظهورها"
+        ></textarea>
+
       </div>
 
       <div class="field">
+
         <label>
           WhatsApp
-          <span class="optional">(اختياري)</span>
+          <span class="optional">
+            (اختياري)
+          </span>
         </label>
 
-        <input id="whatsapp" type="tel" placeholder="رقم واتساب">
+        <input
+          id="whatsapp"
+          type="tel"
+          placeholder="رقم واتساب"
+        >
+
       </div>
 
       <div class="field">
+
         <label>
           Instagram
-          <span class="optional">(اختياري)</span>
+          <span class="optional">
+            (اختياري)
+          </span>
         </label>
 
-        <input id="instagram" placeholder="@username">
+        <input
+          id="instagram"
+          placeholder="@username"
+        >
+
       </div>
 
       <div class="modalActions">
 
-        <button class="secondaryBtn" id="cancelBooking">
+        <button
+          class="secondaryBtn"
+          id="cancelBooking"
+        >
           رجوع
         </button>
 
-        <button class="confirmBtn" id="submitBooking">
+        <button
+          class="confirmBtn"
+          id="submitBooking"
+        >
           متابعة الحجز
         </button>
 
@@ -729,30 +859,45 @@ html,body,#app{
 
     <div class="modalBox">
 
-      <div class="successIcon">✓</div>
+      <div class="successIcon">
+        ✓
+      </div>
 
-      <div class="modalTitle" style="text-align:center">
+      <div
+        class="modalTitle"
+        style="text-align:center"
+      >
         تم إرسال طلبك
       </div>
 
       <div class="shareText">
-        بعد تأكيد الدفع ومراجعة الطلب، سيظهر إعلانك على الحائط.
+
+        بعد تأكيد الدفع ومراجعة الطلب،
+        سيظهر إعلانك على الحائط.
 
         <br><br>
 
         شارك مطرحك مع أصحابك وزبائنك:
+
         <br>
 
         <strong>
           "حطّيت مشروعي على حيطان لبنان!"
         </strong>
+
       </div>
 
-      <button class="shareBtn" id="shareBtn">
+      <button
+        class="shareBtn"
+        id="shareBtn"
+      >
         📤 شارك مطرحك
       </button>
 
-      <button class="copyBtn" id="copyBtn">
+      <button
+        class="copyBtn"
+        id="copyBtn"
+      >
         🔗 نسخ الرابط
       </button>
 
@@ -780,41 +925,174 @@ const CENTER_END   = 59;
 const STANDARD_PRICE = 1;
 const CENTER_PRICE   = 5;
 
+
+/* =========================================================
+   REAL WALL DATA
+========================================================= */
+
+window.HITAN_WALL_DATA = null;
+window.HITAN_UNITS = {};
+window.HITAN_ADS = {};
+
+async function loadWallData(){
+
+  try{
+
+    const response =
+      await fetch(
+        APP_URL + "?action=wall",
+        {
+          cache:"no-store"
+        }
+      );
+
+    const data =
+      await response.json();
+
+    if(!data.success){
+
+      throw new Error(
+        data.message ||
+        "Failed to load wall data"
+      );
+
+    }
+
+    window.HITAN_WALL_DATA =
+      data;
+
+    window.HITAN_UNITS = {};
+    window.HITAN_ADS = {};
+
+    /*
+      Units lookup
+    */
+
+    (data.units || []).forEach(unit=>{
+
+      window.HITAN_UNITS[
+        String(unit.id)
+      ] = unit;
+
+    });
+
+    /*
+      Ads lookup
+    */
+
+    (data.ads || []).forEach(ad=>{
+
+      window.HITAN_ADS[
+        String(ad.adId)
+      ] = ad;
+
+    });
+
+    console.log(
+      "HITAN WALL DATA:",
+      data
+    );
+
+    console.log(
+      "Units loaded:",
+      data.units?.length || 0
+    );
+
+    console.log(
+      "Ads loaded:",
+      data.ads?.length || 0
+    );
+
+    return data;
+
+  }catch(error){
+
+    console.error(
+      "Error loading wall data:",
+      error
+    );
+
+    showTemporaryHint(
+      "تعذّر تحميل حالة الحائط."
+    );
+
+    return null;
+
+  }
+
+}
+
+
 /* =========================================================
    CANVAS
 ========================================================= */
 
-const canvas = document.getElementById("wallCanvas");
-const ctx = canvas.getContext("2d");
+const canvas =
+  document.getElementById("wallCanvas");
 
-let W = window.innerWidth;
-let H = window.innerHeight;
+const ctx =
+  canvas.getContext("2d");
 
-let dpr = Math.min(window.devicePixelRatio || 1,2);
+let W =
+  window.innerWidth;
+
+let H =
+  window.innerHeight;
+
+let dpr =
+  Math.min(
+    window.devicePixelRatio || 1,
+    2
+  );
 
 function resizeCanvas(){
 
-  W = window.innerWidth;
-  H = window.innerHeight;
+  W =
+    window.innerWidth;
 
-  dpr = Math.min(window.devicePixelRatio || 1,2);
+  H =
+    window.innerHeight;
 
-  canvas.width = W * dpr;
-  canvas.height = H * dpr;
+  dpr =
+    Math.min(
+      window.devicePixelRatio || 1,
+      2
+    );
 
-  canvas.style.width = W + "px";
-  canvas.style.height = H + "px";
+  canvas.width =
+    W * dpr;
 
-  ctx.setTransform(dpr,0,0,dpr,0,0);
+  canvas.height =
+    H * dpr;
+
+  canvas.style.width =
+    W + "px";
+
+  canvas.style.height =
+    H + "px";
+
+  ctx.setTransform(
+    dpr,
+    0,
+    0,
+    dpr,
+    0,
+    0
+  );
 
   calculateWorld();
 
   clampCamera();
 
   draw();
+
 }
 
-window.addEventListener("resize",resizeCanvas);
+window.addEventListener(
+  "resize",
+  resizeCanvas
+);
+
 
 /* =========================================================
    WORLD
@@ -822,7 +1100,8 @@ window.addEventListener("resize",resizeCanvas);
 
 let worldSize = 1000;
 
-let cellSize = worldSize / COLS;
+let cellSize =
+  worldSize / COLS;
 
 let zoom = 1;
 
@@ -831,21 +1110,24 @@ let cameraY = 0;
 
 function calculateWorld(){
 
-  /*
-    The wall itself is always at least as large as the
-    biggest viewport dimension, so no outside background
-    can ever appear.
-  */
+  worldSize =
+    Math.max(W,H);
 
-  worldSize = Math.max(W,H);
-
-  cellSize = worldSize / COLS;
+  cellSize =
+    worldSize / COLS;
 
   if(zoom === 1){
-    cameraX = (W-worldSize)/2;
-    cameraY = (H-worldSize)/2;
+
+    cameraX =
+      (W-worldSize)/2;
+
+    cameraY =
+      (H-worldSize)/2;
+
   }
+
 }
+
 
 /* =========================================================
    CAMERA
@@ -853,26 +1135,59 @@ function calculateWorld(){
 
 function clampCamera(){
 
-  const scaled = worldSize * zoom;
+  const scaled =
+    worldSize * zoom;
 
   if(scaled <= W){
-    cameraX = (W-scaled)/2;
-  }else{
-    const minX = W-scaled;
-    const maxX = 0;
 
-    cameraX = Math.max(minX,Math.min(maxX,cameraX));
+    cameraX =
+      (W-scaled)/2;
+
+  }else{
+
+    const minX =
+      W-scaled;
+
+    const maxX =
+      0;
+
+    cameraX =
+      Math.max(
+        minX,
+        Math.min(
+          maxX,
+          cameraX
+        )
+      );
+
   }
 
   if(scaled <= H){
-    cameraY = (H-scaled)/2;
-  }else{
-    const minY = H-scaled;
-    const maxY = 0;
 
-    cameraY = Math.max(minY,Math.min(maxY,cameraY));
+    cameraY =
+      (H-scaled)/2;
+
+  }else{
+
+    const minY =
+      H-scaled;
+
+    const maxY =
+      0;
+
+    cameraY =
+      Math.max(
+        minY,
+        Math.min(
+          maxY,
+          cameraY
+        )
+      );
+
   }
+
 }
+
 
 /* =========================================================
    WALL TEXTURE
@@ -882,19 +1197,28 @@ let textureCanvas = null;
 
 function createWallTexture(){
 
-  textureCanvas = document.createElement("canvas");
+  textureCanvas =
+    document.createElement("canvas");
 
   textureCanvas.width = 1000;
   textureCanvas.height = 1000;
 
-  const t = textureCanvas.getContext("2d");
+  const t =
+    textureCanvas.getContext("2d");
 
   /*
-    Concrete base
+    Concrete
   */
 
-  t.fillStyle = "#8a8176";
-  t.fillRect(0,0,1000,1000);
+  t.fillStyle =
+    "#8a8176";
+
+  t.fillRect(
+    0,
+    0,
+    1000,
+    1000
+  );
 
   /*
     Noise
@@ -902,31 +1226,62 @@ function createWallTexture(){
 
   for(let i=0;i<18000;i++){
 
-    const x = Math.random()*1000;
-    const y = Math.random()*1000;
+    const x =
+      Math.random()*1000;
 
-    const shade = 70 + Math.floor(Math.random()*100);
+    const y =
+      Math.random()*1000;
+
+    const shade =
+      70 +
+      Math.floor(
+        Math.random()*100
+      );
 
     t.fillStyle =
-      `rgba(${shade},${shade-5},${shade-10},${Math.random()*.12})`;
+      `rgba(
+        ${shade},
+        ${shade-5},
+        ${shade-10},
+        ${Math.random()*.12}
+      )`;
 
-    const size = Math.random()*4;
+    const size =
+      Math.random()*4;
 
-    t.fillRect(x,y,size,size);
+    t.fillRect(
+      x,
+      y,
+      size,
+      size
+    );
+
   }
 
   /*
-    Horizontal concrete variations
+    Concrete variations
   */
 
   for(let i=0;i<35;i++){
 
-    const y = Math.random()*1000;
+    const y =
+      Math.random()*1000;
 
     t.fillStyle =
-      `rgba(30,30,30,${Math.random()*.07})`;
+      `rgba(
+        30,
+        30,
+        30,
+        ${Math.random()*.07}
+      )`;
 
-    t.fillRect(0,y,1000,Math.random()*10+2);
+    t.fillRect(
+      0,
+      y,
+      1000,
+      Math.random()*10+2
+    );
+
   }
 
   /*
@@ -935,26 +1290,47 @@ function createWallTexture(){
 
   for(let i=0;i<24;i++){
 
-    let x = Math.random()*1000;
-    let y = Math.random()*1000;
+    let x =
+      Math.random()*1000;
+
+    let y =
+      Math.random()*1000;
 
     t.beginPath();
-    t.moveTo(x,y);
+
+    t.moveTo(
+      x,
+      y
+    );
 
     for(let j=0;j<5;j++){
 
-      x += (Math.random()-.5)*70;
-      y += Math.random()*60;
+      x +=
+        (Math.random()-.5)*70;
 
-      t.lineTo(x,y);
+      y +=
+        Math.random()*60;
+
+      t.lineTo(
+        x,
+        y
+      );
+
     }
 
     t.strokeStyle =
-      `rgba(30,25,20,${.15+Math.random()*.18})`;
+      `rgba(
+        30,
+        25,
+        20,
+        ${.15+Math.random()*.18}
+      )`;
 
-    t.lineWidth = Math.random()*2+0.5;
+    t.lineWidth =
+      Math.random()*2+.5;
 
     t.stroke();
+
   }
 
   /*
@@ -962,45 +1338,96 @@ function createWallTexture(){
   */
 
   const posters = [
+
     [80,130,190,100],
     [710,110,160,110],
     [130,700,180,120],
     [720,720,190,120]
+
   ];
 
   posters.forEach(p=>{
 
-    t.fillStyle="rgba(40,35,30,.35)";
-    t.fillRect(p[0]+5,p[1]+6,p[2],p[3]);
+    t.fillStyle =
+      "rgba(40,35,30,.35)";
+
+    t.fillRect(
+      p[0]+5,
+      p[1]+6,
+      p[2],
+      p[3]
+    );
 
     t.fillStyle =
-      `rgba(${100+Math.random()*100},${80+Math.random()*90},${70+Math.random()*70},.85)`;
+      `rgba(
+        ${100+Math.random()*100},
+        ${80+Math.random()*90},
+        ${70+Math.random()*70},
+        .85
+      )`;
 
-    t.fillRect(p[0],p[1],p[2],p[3]);
+    t.fillRect(
+      p[0],
+      p[1],
+      p[2],
+      p[3]
+    );
 
-    t.fillStyle="rgba(255,255,255,.15)";
-    t.fillRect(p[0]+10,p[1]+12,p[2]-20,8);
+    t.fillStyle =
+      "rgba(255,255,255,.15)";
 
-    t.fillRect(p[0]+10,p[1]+30,p[2]*.55,5);
+    t.fillRect(
+      p[0]+10,
+      p[1]+12,
+      p[2]-20,
+      8
+    );
+
+    t.fillRect(
+      p[0]+10,
+      p[1]+30,
+      p[2]*.55,
+      5
+    );
+
   });
 
   /*
     Graffiti
   */
 
-  t.font="bold 80px Arial";
-  t.fillStyle="rgba(20,20,20,.22)";
+  t.font =
+    "bold 80px Arial";
+
+  t.fillStyle =
+    "rgba(20,20,20,.22)";
+
   t.rotate(-.08);
-  t.fillText("LEBANON",350,400);
+
+  t.fillText(
+    "LEBANON",
+    350,
+    400
+  );
+
   t.rotate(.08);
 
-  t.font="bold 65px Arial";
-  t.fillStyle="rgba(30,30,30,.16)";
-  t.fillText("بيروت",470,650);
+  t.font =
+    "bold 65px Arial";
+
+  t.fillStyle =
+    "rgba(30,30,30,.16)";
+
+  t.fillText(
+    "بيروت",
+    470,
+    650
+  );
 
 }
 
 createWallTexture();
+
 
 /* =========================================================
    DRAW
@@ -1008,17 +1435,24 @@ createWallTexture();
 
 function draw(){
 
-  ctx.clearRect(0,0,W,H);
-
-  /*
-    Always cover the entire viewport with wall.
-  */
+  ctx.clearRect(
+    0,
+    0,
+    W,
+    H
+  );
 
   ctx.save();
 
-  ctx.translate(cameraX,cameraY);
+  ctx.translate(
+    cameraX,
+    cameraY
+  );
 
-  ctx.scale(zoom,zoom);
+  ctx.scale(
+    zoom,
+    zoom
+  );
 
   ctx.drawImage(
     textureCanvas,
@@ -1030,6 +1464,8 @@ function draw(){
 
   drawWallDetails();
 
+  drawActiveAds();
+
   drawGrid();
 
   drawSelection();
@@ -1038,6 +1474,37 @@ function draw(){
 
 }
 
+
+/* =========================================================
+   GET UNIT BY CELL
+========================================================= */
+
+function getUnitByCell(row,col){
+
+  const number =
+    row * COLS +
+    col +
+    1;
+
+  const id =
+    "A" +
+    String(number)
+      .padStart(4,"0");
+
+  if(
+    !window.HITAN_UNITS ||
+    !window.HITAN_UNITS[id]
+  ){
+
+    return null;
+
+  }
+
+  return window.HITAN_UNITS[id];
+
+}
+
+
 /* =========================================================
    WALL DETAILS
 ========================================================= */
@@ -1045,33 +1512,471 @@ function draw(){
 function drawWallDetails(){
 
   /*
-    Center zone visual marker.
-    Only becomes visible at higher zoom.
+    Show real reservation status
+    when data is available.
+  */
+
+  if(
+    window.HITAN_UNITS &&
+    Object.keys(window.HITAN_UNITS).length
+  ){
+
+    for(let r=0;r<ROWS;r++){
+
+      for(let c=0;c<COLS;c++){
+
+        const unit =
+          getUnitByCell(
+            r,
+            c
+          );
+
+        if(!unit) continue;
+
+        const x =
+          c * cellSize;
+
+        const y =
+          r * cellSize;
+
+        /*
+          Active
+        */
+
+        if(
+          unit.status === "Active"
+        ){
+
+          ctx.fillStyle =
+            "rgba(20,20,20,.58)";
+
+          ctx.fillRect(
+            x,
+            y,
+            cellSize,
+            cellSize
+          );
+
+        }
+
+        /*
+          Reserved
+        */
+
+        else if(
+          unit.status === "Reserved"
+        ){
+
+          ctx.fillStyle =
+            "rgba(255,170,0,.40)";
+
+          ctx.fillRect(
+            x,
+            y,
+            cellSize,
+            cellSize
+          );
+
+        }
+
+      }
+
+    }
+
+  }
+
+  /*
+    Center area marker
   */
 
   if(zoom > 1.5){
 
-    const x = CENTER_START * cellSize;
-    const y = CENTER_START * cellSize;
+    const x =
+      CENTER_START * cellSize;
+
+    const y =
+      CENTER_START * cellSize;
 
     const size =
-      (CENTER_END-CENTER_START+1)*cellSize;
+      (CENTER_END-CENTER_START+1)
+      * cellSize;
 
     ctx.fillStyle =
       "rgba(255,190,40,.08)";
 
-    ctx.fillRect(x,y,size,size);
+    ctx.fillRect(
+      x,
+      y,
+      size,
+      size
+    );
 
     ctx.strokeStyle =
       "rgba(255,210,80,.55)";
 
     ctx.lineWidth =
-      Math.max(1,2/zoom);
+      Math.max(
+        1,
+        2/zoom
+      );
 
-    ctx.strokeRect(x,y,size,size);
+    ctx.strokeRect(
+      x,
+      y,
+      size,
+      size
+    );
+
   }
 
 }
+
+
+/* =========================================================
+   ACTIVE ADS
+========================================================= */
+
+const adImageCache = {};
+
+function getAdImage(url){
+
+  if(!url) return null;
+
+  if(
+    adImageCache[url] === "loading"
+  ){
+    return null;
+  }
+
+  if(
+    adImageCache[url] &&
+    adImageCache[url].complete
+  ){
+
+    return adImageCache[url];
+
+  }
+
+  const img =
+    new Image();
+
+  adImageCache[url] =
+    "loading";
+
+  img.onload = ()=>{
+
+    adImageCache[url] =
+      img;
+
+    draw();
+
+  };
+
+  img.onerror = ()=>{
+
+    delete adImageCache[url];
+
+  };
+
+  img.src = url;
+
+  return null;
+
+}
+
+
+function drawActiveAds(){
+
+  if(
+    !window.HITAN_WALL_DATA ||
+    !window.HITAN_WALL_DATA.ads
+  ){
+
+    return;
+
+  }
+
+  const ads =
+    window.HITAN_WALL_DATA.ads
+      .filter(
+        ad =>
+          ad.status === "Active"
+      );
+
+  ads.forEach(ad=>{
+
+    if(
+      !ad.unitIds ||
+      !ad.unitIds.length
+    ){
+
+      return;
+
+    }
+
+    let minRow = Infinity;
+    let maxRow = -Infinity;
+
+    let minCol = Infinity;
+    let maxCol = -Infinity;
+
+    ad.unitIds.forEach(id=>{
+
+      const unit =
+        window.HITAN_UNITS[id];
+
+      if(!unit) return;
+
+      /*
+        Backend rows/columns are 1-based.
+      */
+
+      const row =
+        Number(unit.row) - 1;
+
+      const col =
+        Number(unit.col) - 1;
+
+      minRow =
+        Math.min(
+          minRow,
+          row
+        );
+
+      maxRow =
+        Math.max(
+          maxRow,
+          row
+        );
+
+      minCol =
+        Math.min(
+          minCol,
+          col
+        );
+
+      maxCol =
+        Math.max(
+          maxCol,
+          col
+        );
+
+    });
+
+    if(!isFinite(minRow)){
+      return;
+    }
+
+    const x =
+      minCol * cellSize;
+
+    const y =
+      minRow * cellSize;
+
+    const width =
+      (maxCol-minCol+1)
+      * cellSize;
+
+    const height =
+      (maxRow-minRow+1)
+      * cellSize;
+
+    /*
+      Advertisement border
+    */
+
+    ctx.strokeStyle =
+      "rgba(255,255,255,.70)";
+
+    ctx.lineWidth =
+      Math.max(
+        1,
+        2/zoom
+      );
+
+    ctx.strokeRect(
+      x,
+      y,
+      width,
+      height
+    );
+
+    /*
+      Detailed content
+      appears when zoomed.
+    */
+
+    if(zoom < 3){
+      return;
+    }
+
+    ctx.save();
+
+    ctx.beginPath();
+
+    ctx.rect(
+      x,
+      y,
+      width,
+      height
+    );
+
+    ctx.clip();
+
+    /*
+      Dark readable overlay
+    */
+
+    ctx.fillStyle =
+      "rgba(0,0,0,.25)";
+
+    ctx.fillRect(
+      x,
+      y,
+      width,
+      height
+    );
+
+    /*
+      Logo
+    */
+
+    if(ad.logoUrl){
+
+      const img =
+        getAdImage(
+          ad.logoUrl
+        );
+
+      if(img){
+
+        const logoWidth =
+          width*.72;
+
+        const logoHeight =
+          height*.48;
+
+        const logoX =
+          x +
+          (width-logoWidth)/2;
+
+        const logoY =
+          y +
+          height*.08;
+
+        ctx.drawImage(
+          img,
+          logoX,
+          logoY,
+          logoWidth,
+          logoHeight
+        );
+
+      }
+
+    }
+
+    /*
+      Name
+    */
+
+    if(ad.name){
+
+      const fontSize =
+        Math.max(
+          10,
+          Math.min(
+            30,
+            width*.13
+          )
+        );
+
+      ctx.font =
+        `bold ${fontSize}px Arial`;
+
+      ctx.textAlign =
+        "center";
+
+      ctx.textBaseline =
+        "middle";
+
+      ctx.fillStyle =
+        "#fff";
+
+      ctx.fillText(
+        ad.name,
+        x + width/2,
+        y + height*.72
+      );
+
+    }
+
+    /*
+      Additional text
+    */
+
+    if(
+      ad.text &&
+      width > 80 &&
+      height > 50
+    ){
+
+      const fontSize =
+        Math.max(
+          8,
+          Math.min(
+            18,
+            width*.07
+          )
+        );
+
+      ctx.font =
+        `${fontSize}px Arial`;
+
+      ctx.fillStyle =
+        "rgba(255,255,255,.9)";
+
+      ctx.textAlign =
+        "center";
+
+      ctx.textBaseline =
+        "middle";
+
+      const maxWidth =
+        width*.84;
+
+      let text =
+        String(ad.text);
+
+      /*
+        Keep canvas rendering safe.
+      */
+
+      if(text.length > 80){
+
+        text =
+          text.substring(
+            0,
+            80
+          ) + "…";
+
+      }
+
+      ctx.fillText(
+        text,
+        x + width/2,
+        y + height*.88,
+        maxWidth
+      );
+
+    }
+
+    ctx.restore();
+
+  });
+
+}
+
 
 /* =========================================================
    GRID
@@ -1079,122 +1984,227 @@ function drawWallDetails(){
 
 function drawGrid(){
 
-  if(zoom < 2.2) return;
+  if(zoom < 2.2){
+    return;
+  }
 
-  const step = cellSize;
+  const step =
+    cellSize;
 
   ctx.strokeStyle =
-    `rgba(20,20,20,${Math.min(.42,(zoom-2)/10)})`;
+    `rgba(
+      20,
+      20,
+      20,
+      ${Math.min(
+        .42,
+        (zoom-2)/10
+      )}
+    )`;
 
   ctx.lineWidth =
-    Math.max(.5,1/zoom);
+    Math.max(
+      .5,
+      1/zoom
+    );
 
   const start = 0;
 
-  for(let i=0;i<=COLS;i++){
+  for(
+    let i=0;
+    i<=COLS;
+    i++
+  ){
 
-    const x = start + i*step;
+    const x =
+      start + i*step;
 
     ctx.beginPath();
-    ctx.moveTo(x,0);
-    ctx.lineTo(x,worldSize);
+
+    ctx.moveTo(
+      x,
+      0
+    );
+
+    ctx.lineTo(
+      x,
+      worldSize
+    );
+
     ctx.stroke();
+
   }
 
-  for(let i=0;i<=ROWS;i++){
+  for(
+    let i=0;
+    i<=ROWS;
+    i++
+  ){
 
-    const y = start + i*step;
+    const y =
+      start + i*step;
 
     ctx.beginPath();
-    ctx.moveTo(0,y);
-    ctx.lineTo(worldSize,y);
+
+    ctx.moveTo(
+      0,
+      y
+    );
+
+    ctx.lineTo(
+      worldSize,
+      y
+    );
+
     ctx.stroke();
+
   }
 
   /*
-    IDs appear only at very high zoom.
+    Unit IDs
   */
 
   if(zoom >= 7){
 
     ctx.font =
-      `${Math.max(5,8/zoom)}px Arial`;
+      `${Math.max(
+        5,
+        8/zoom
+      )}px Arial`;
 
     ctx.fillStyle =
       "rgba(0,0,0,.55)";
 
-    for(let r=0;r<ROWS;r++){
+    for(
+      let r=0;
+      r<ROWS;
+      r++
+    ){
 
-      for(let c=0;c<COLS;c++){
+      for(
+        let c=0;
+        c<COLS;
+        c++
+      ){
 
         const id =
           "A" +
-          String(r*COLS+c+1).padStart(4,"0");
+          String(
+            r*COLS+c+1
+          ).padStart(
+            4,
+            "0"
+          );
 
-        const x = c*step+step*.12;
-        const y = r*step+step*.55;
+        const x =
+          c*step+
+          step*.12;
 
-        ctx.fillText(id,x,y);
+        const y =
+          r*step+
+          step*.55;
+
+        ctx.fillText(
+          id,
+          x,
+          y
+        );
+
       }
+
     }
+
   }
 
 }
+
 
 /* =========================================================
    SELECTION
 ========================================================= */
 
-let selectedCells = new Set();
+let selectedCells =
+  new Set();
 
-let selectedType = "Standard";
+let selectedType =
+  "Standard";
 
 function cellKey(r,c){
+
   return r+"_"+c;
+
 }
 
 function isCenter(r,c){
 
-  return (
+  return(
     r>=CENTER_START &&
     r<=CENTER_END &&
     c>=CENTER_START &&
     c<=CENTER_END
   );
+
 }
 
 function drawSelection(){
 
   selectedCells.forEach(key=>{
 
-    const [r,c] = key.split("_").map(Number);
+    const [
+      r,
+      c
+    ] =
+      key
+      .split("_")
+      .map(Number);
 
-    const x = c*cellSize;
-    const y = r*cellSize;
+    const x =
+      c*cellSize;
+
+    const y =
+      r*cellSize;
 
     ctx.fillStyle =
       selectedType==="Center"
       ? "rgba(255,205,40,.75)"
       : "rgba(80,180,255,.72)";
 
-    ctx.fillRect(x,y,cellSize,cellSize);
+    ctx.fillRect(
+      x,
+      y,
+      cellSize,
+      cellSize
+    );
 
-    ctx.strokeStyle="#fff";
+    ctx.strokeStyle =
+      "#fff";
 
     ctx.lineWidth =
-      Math.max(1,2/zoom);
+      Math.max(
+        1,
+        2/zoom
+      );
 
-    ctx.strokeRect(x,y,cellSize,cellSize);
+    ctx.strokeRect(
+      x,
+      y,
+      cellSize,
+      cellSize
+    );
 
   });
 
 }
 
+
 /* =========================================================
    SCREEN → CELL
 ========================================================= */
 
-function screenToCell(clientX,clientY){
+function screenToCell(
+  clientX,
+  clientY
+){
 
   const worldX =
     (clientX-cameraX)/zoom;
@@ -1203,10 +2213,14 @@ function screenToCell(clientX,clientY){
     (clientY-cameraY)/zoom;
 
   const col =
-    Math.floor(worldX/cellSize);
+    Math.floor(
+      worldX/cellSize
+    );
 
   const row =
-    Math.floor(worldY/cellSize);
+    Math.floor(
+      worldY/cellSize
+    );
 
   if(
     row<0 ||
@@ -1214,36 +2228,63 @@ function screenToCell(clientX,clientY){
     col<0 ||
     col>=COLS
   ){
+
     return null;
+
   }
 
-  return {row,col};
+  return{
+    row,
+    col
+  };
+
 }
+
 
 /* =========================================================
    CONTIGUITY
 ========================================================= */
 
-function isAdjacentToSelection(r,c){
+function isAdjacentToSelection(
+  r,
+  c
+){
 
-  if(selectedCells.size===0) return true;
+  if(
+    selectedCells.size===0
+  ){
 
-  const neighbors=[
+    return true;
+
+  }
+
+  const neighbors = [
+
     [r-1,c],
     [r+1,c],
     [r,c-1],
     [r,c+1]
+
   ];
 
   return neighbors.some(
     ([nr,nc]) =>
-      selectedCells.has(cellKey(nr,nc))
+      selectedCells.has(
+        cellKey(nr,nc)
+      )
   );
+
 }
 
 function selectionIsContiguous(){
 
-  if(selectedCells.size<=1) return true;
+  if(
+    selectedCells.size<=1
+  ){
+
+    return true;
+
+  }
 
   const first =
     [...selectedCells][0]
@@ -1251,24 +2292,45 @@ function selectionIsContiguous(){
       .map(Number);
 
   const visited =
-    new Set([selectedCells.size ? [...selectedCells][0] : ""]);
+    new Set([
+      [...selectedCells][0]
+    ]);
 
-  const queue=[first];
+  const queue =
+    [first];
 
-  while(queue.length){
+  while(
+    queue.length
+  ){
 
-    const [r,c]=queue.shift();
+    const [
+      r,
+      c
+    ] =
+      queue.shift();
 
-    const neighbors=[
+    const neighbors = [
+
       [r-1,c],
       [r+1,c],
       [r,c-1],
       [r,c+1]
+
     ];
 
-    for(const [nr,nc] of neighbors){
+    for(
+      const [
+        nr,
+        nc
+      ]
+      of neighbors
+    ){
 
-      const k=cellKey(nr,nc);
+      const k =
+        cellKey(
+          nr,
+          nc
+        );
 
       if(
         selectedCells.has(k) &&
@@ -1277,76 +2339,186 @@ function selectionIsContiguous(){
 
         visited.add(k);
 
-        queue.push([nr,nc]);
+        queue.push([
+          nr,
+          nc
+        ]);
+
       }
+
     }
+
   }
 
-  return visited.size===selectedCells.size;
+  return(
+    visited.size ===
+    selectedCells.size
+  );
+
 }
+
 
 /* =========================================================
    SELECT CELL
 ========================================================= */
 
-function selectCell(row,col){
+function selectCell(
+  row,
+  col
+){
 
-  const key=cellKey(row,col);
+  const key =
+    cellKey(
+      row,
+      col
+    );
 
   /*
-    Clicking an already selected square removes it.
+    Real unit from Google Sheets
   */
 
-  if(selectedCells.has(key)){
+  const unit =
+    getUnitByCell(
+      row,
+      col
+    );
+
+  /*
+    Don't allow selection
+    before data loads.
+  */
+
+  if(!unit){
+
+    showTemporaryHint(
+      "جاري تحميل حالة الحائط..."
+    );
+
+    return;
+
+  }
+
+  /*
+    Only Available units
+    can be selected.
+  */
+
+  if(
+    unit.status !==
+    "Available"
+  ){
+
+    if(
+      unit.status ===
+      "Reserved"
+    ){
+
+      showTemporaryHint(
+        "هذه المساحة محجوزة حالياً."
+      );
+
+    }else if(
+      unit.status ===
+      "Active"
+    ){
+
+      showTemporaryHint(
+        "هذه المساحة عليها إعلان."
+      );
+
+    }else{
+
+      showTemporaryHint(
+        "هذه المساحة غير متاحة حالياً."
+      );
+
+    }
+
+    return;
+
+  }
+
+  /*
+    Already selected
+  */
+
+  if(
+    selectedCells.has(key)
+  ){
 
     selectedCells.delete(key);
 
     updateUI();
+
     draw();
 
     return;
+
   }
 
   /*
-    Correct Standard / Center region.
+    Center
   */
 
-  if(selectedType==="Center" && !isCenter(row,col)){
+  if(
+    selectedType ===
+    "Center" &&
+    !isCenter(row,col)
+  ){
 
     showTemporaryHint(
       "منطقة Center موجودة في وسط الحائط."
     );
 
     return;
+
   }
 
-  if(selectedType==="Standard" && isCenter(row,col)){
+  /*
+    Standard
+  */
+
+  if(
+    selectedType ===
+    "Standard" &&
+    isCenter(row,col)
+  ){
 
     showTemporaryHint(
       "هذه المنطقة مخصصة لـ Center."
     );
 
     return;
+
   }
 
   /*
-    Every new square must touch the existing shape.
+    Connected shape
   */
 
-  if(!isAdjacentToSelection(row,col)){
+  if(
+    !isAdjacentToSelection(
+      row,
+      col
+    )
+  ){
 
     showTemporaryHint(
       "يجب أن تكون الوحدات متصلة."
     );
 
     return;
+
   }
 
   selectedCells.add(key);
 
   updateUI();
+
   draw();
+
 }
+
 
 /* =========================================================
    POINTER / MOUSE
@@ -1359,58 +2531,98 @@ let lastY=0;
 
 let moved=false;
 
-canvas.addEventListener("pointerdown",e=>{
+canvas.addEventListener(
+  "pointerdown",
+  e=>{
 
-  dragging=true;
+    dragging=true;
 
-  moved=false;
+    moved=false;
 
-  lastX=e.clientX;
-  lastY=e.clientY;
+    lastX =
+      e.clientX;
 
-  canvas.setPointerCapture(e.pointerId);
+    lastY =
+      e.clientY;
 
-});
+    canvas.setPointerCapture(
+      e.pointerId
+    );
 
-canvas.addEventListener("pointermove",e=>{
-
-  if(!dragging) return;
-
-  const dx=e.clientX-lastX;
-  const dy=e.clientY-lastY;
-
-  if(Math.abs(dx)>2 || Math.abs(dy)>2){
-    moved=true;
   }
+);
 
-  cameraX+=dx;
-  cameraY+=dy;
+canvas.addEventListener(
+  "pointermove",
+  e=>{
 
-  lastX=e.clientX;
-  lastY=e.clientY;
-
-  clampCamera();
-
-  draw();
-});
-
-canvas.addEventListener("pointerup",e=>{
-
-  if(!dragging) return;
-
-  dragging=false;
-
-  if(!moved){
-
-    const cell =
-      screenToCell(e.clientX,e.clientY);
-
-    if(cell){
-      selectCell(cell.row,cell.col);
+    if(!dragging){
+      return;
     }
-  }
 
-});
+    const dx =
+      e.clientX-lastX;
+
+    const dy =
+      e.clientY-lastY;
+
+    if(
+      Math.abs(dx)>2 ||
+      Math.abs(dy)>2
+    ){
+
+      moved=true;
+
+    }
+
+    cameraX += dx;
+    cameraY += dy;
+
+    lastX =
+      e.clientX;
+
+    lastY =
+      e.clientY;
+
+    clampCamera();
+
+    draw();
+
+  }
+);
+
+canvas.addEventListener(
+  "pointerup",
+  e=>{
+
+    if(!dragging){
+      return;
+    }
+
+    dragging=false;
+
+    if(!moved){
+
+      const cell =
+        screenToCell(
+          e.clientX,
+          e.clientY
+        );
+
+      if(cell){
+
+        selectCell(
+          cell.row,
+          cell.col
+        );
+
+      }
+
+    }
+
+  }
+);
+
 
 /* =========================================================
    WHEEL ZOOM
@@ -1423,7 +2635,9 @@ canvas.addEventListener(
     e.preventDefault();
 
     const factor =
-      e.deltaY<0 ? 1.22 : .82;
+      e.deltaY<0
+      ? 1.22
+      : .82;
 
     zoomAt(
       e.clientX,
@@ -1432,37 +2646,52 @@ canvas.addEventListener(
     );
 
   },
-  {passive:false}
+  {
+    passive:false
+  }
 );
+
 
 /* =========================================================
    ZOOM
 ========================================================= */
 
-function zoomAt(x,y,factor){
+function zoomAt(
+  x,
+  y,
+  factor
+){
 
-  const oldZoom=zoom;
+  const oldZoom =
+    zoom;
 
   const newZoom =
     Math.max(
       1,
-      Math.min(16,zoom*factor)
+      Math.min(
+        16,
+        zoom*factor
+      )
     );
 
-  if(newZoom===oldZoom) return;
+  if(
+    newZoom===oldZoom
+  ){
 
-  /*
-    Keep the point under the cursor
-    in the same location.
-  */
+    return;
+
+  }
 
   const worldX =
-    (x-cameraX)/oldZoom;
+    (x-cameraX)/
+    oldZoom;
 
   const worldY =
-    (y-cameraY)/oldZoom;
+    (y-cameraY)/
+    oldZoom;
 
-  zoom=newZoom;
+  zoom =
+    newZoom;
 
   cameraX =
     x-worldX*zoom;
@@ -1475,37 +2704,63 @@ function zoomAt(x,y,factor){
   draw();
 
   if(zoom>3){
-    document.getElementById("hint")
-      .classList.add("hidden");
+
+    document
+      .getElementById("hint")
+      .classList
+      .add("hidden");
+
   }
+
 }
 
-document.getElementById("zoomIn")
-.addEventListener("click",()=>{
+document
+  .getElementById("zoomIn")
+  .addEventListener(
+    "click",
+    ()=>{
 
-  zoomAt(W/2,H/2,1.5);
+      zoomAt(
+        W/2,
+        H/2,
+        1.5
+      );
 
-});
+    }
+  );
 
-document.getElementById("zoomOut")
-.addEventListener("click",()=>{
+document
+  .getElementById("zoomOut")
+  .addEventListener(
+    "click",
+    ()=>{
 
-  zoomAt(W/2,H/2,.67);
+      zoomAt(
+        W/2,
+        H/2,
+        .67
+      );
 
-});
+    }
+  );
 
-document.getElementById("zoomReset")
-.addEventListener("click",()=>{
+document
+  .getElementById("zoomReset")
+  .addEventListener(
+    "click",
+    ()=>{
 
-  zoom=1;
+      zoom=1;
 
-  calculateWorld();
+      calculateWorld();
 
-  clampCamera();
+      clampCamera();
 
-  draw();
+      draw();
 
-});
+    }
+  );
+
 
 /* =========================================================
    TOUCH PINCH
@@ -1513,116 +2768,167 @@ document.getElementById("zoomReset")
 
 let touches={};
 
-canvas.addEventListener("touchstart",e=>{
+canvas.addEventListener(
+  "touchstart",
+  e=>{
 
-  for(const t of e.changedTouches){
+    for(
+      const t of e.changedTouches
+    ){
 
-    touches[t.identifier]={
-      x:t.clientX,
-      y:t.clientY
-    };
+      touches[t.identifier]={
+        x:t.clientX,
+        y:t.clientY
+      };
+
+    }
+
+  },
+  {
+    passive:false
   }
+);
 
-},{passive:false});
+canvas.addEventListener(
+  "touchmove",
+  e=>{
 
-canvas.addEventListener("touchmove",e=>{
+    if(
+      e.touches.length!==2
+    ){
 
-  if(e.touches.length!==2) return;
+      return;
 
-  e.preventDefault();
+    }
 
-  const a=e.touches[0];
-  const b=e.touches[1];
+    e.preventDefault();
 
-  const oldDistance =
-    Math.hypot(
-      a.clientX-b.clientX,
-      a.clientY-b.clientY
-    );
+    const a =
+      e.touches[0];
 
-  /*
-    Use previous positions when available.
-  */
+    const b =
+      e.touches[1];
 
-  const ta=touches[a.identifier];
-  const tb=touches[b.identifier];
+    const ta =
+      touches[a.identifier];
 
-  if(!ta || !tb) return;
+    const tb =
+      touches[b.identifier];
 
-  const newDistance =
-    Math.hypot(
-      a.clientX-b.clientX,
-      a.clientY-b.clientY
-    );
+    if(!ta || !tb){
 
-  if(newDistance>0){
+      return;
 
-    const factor =
-      newDistance /
-      Math.max(
-        1,
-        Math.hypot(
-          ta.x-tb.x,
-          ta.y-tb.y
-        )
+    }
+
+    const previousDistance =
+      Math.hypot(
+        ta.x-tb.x,
+        ta.y-tb.y
       );
 
-    const centerX =
-      (a.clientX+b.clientX)/2;
+    const newDistance =
+      Math.hypot(
+        a.clientX-b.clientX,
+        a.clientY-b.clientY
+      );
 
-    const centerY =
-      (a.clientY+b.clientY)/2;
+    if(
+      previousDistance>0 &&
+      newDistance>0
+    ){
 
-    zoomAt(
-      centerX,
-      centerY,
-      factor
-    );
+      const factor =
+        newDistance/
+        previousDistance;
+
+      const centerX =
+        (a.clientX+b.clientX)/2;
+
+      const centerY =
+        (a.clientY+b.clientY)/2;
+
+      zoomAt(
+        centerX,
+        centerY,
+        factor
+      );
+
+    }
+
+    for(
+      const t of e.touches
+    ){
+
+      touches[t.identifier]={
+        x:t.clientX,
+        y:t.clientY
+      };
+
+    }
+
+  },
+  {
+    passive:false
   }
+);
 
-  for(const t of e.touches){
+canvas.addEventListener(
+  "touchend",
+  e=>{
 
-    touches[t.identifier]={
-      x:t.clientX,
-      y:t.clientY
-    };
+    for(
+      const t of e.changedTouches
+    ){
+
+      delete touches[
+        t.identifier
+      ];
+
+    }
+
   }
+);
 
-},{passive:false});
-
-canvas.addEventListener("touchend",e=>{
-
-  for(const t of e.changedTouches){
-
-    delete touches[t.identifier];
-  }
-
-});
 
 /* =========================================================
    TYPE
 ========================================================= */
 
-document.querySelectorAll(".typeBtn")
-.forEach(btn=>{
+document
+  .querySelectorAll(".typeBtn")
+  .forEach(btn=>{
 
-  btn.addEventListener("click",()=>{
+    btn.addEventListener(
+      "click",
+      ()=>{
 
-    selectedType=btn.dataset.type;
+        selectedType =
+          btn.dataset.type;
 
-    selectedCells.clear();
+        selectedCells.clear();
 
-    document.querySelectorAll(".typeBtn")
-      .forEach(b=>b.classList.remove("active"));
+        document
+          .querySelectorAll(".typeBtn")
+          .forEach(
+            b =>
+              b.classList
+               .remove("active")
+          );
 
-    btn.classList.add("active");
+        btn.classList.add(
+          "active"
+        );
 
-    updateUI();
-    draw();
+        updateUI();
+
+        draw();
+
+      }
+    );
 
   });
 
-});
 
 /* =========================================================
    UI
@@ -1634,29 +2940,34 @@ function updateUI(){
     selectedCells.size;
 
   const price =
-    selectedType==="Center"
+    selectedType ===
+    "Center"
       ? count*CENTER_PRICE
       : count*STANDARD_PRICE;
 
-  document.getElementById("selectedCount")
-    .textContent=count;
+  document
+    .getElementById(
+      "selectedCount"
+    )
+    .textContent =
+    count;
 
-  document.getElementById("totalPrice")
-    .textContent=price;
+  document
+    .getElementById(
+      "totalPrice"
+    )
+    .textContent =
+    price;
 
-  document.getElementById("confirmArea")
-    .disabled=count===0;
+  document
+    .getElementById(
+      "confirmArea"
+    )
+    .disabled =
+    count===0;
+
 }
 
-document.getElementById("clearSelection")
-.addEventListener("click",()=>{
-
-  selectedCells.clear();
-
-  updateUI();
-  draw();
-
-});
 
 /* =========================================================
    TEMPORARY HINT
@@ -1664,60 +2975,110 @@ document.getElementById("clearSelection")
 
 let hintTimer=null;
 
-function showTemporaryHint(message){
+function showTemporaryHint(
+  message
+){
 
-  const hint=
-    document.getElementById("hint");
+  const hint =
+    document.getElementById(
+      "hint"
+    );
 
-  hint.textContent=message;
+  hint.textContent =
+    message;
 
-  hint.classList.remove("hidden");
+  hint.classList.remove(
+    "hidden"
+  );
 
-  clearTimeout(hintTimer);
+  clearTimeout(
+    hintTimer
+  );
 
-  hintTimer=setTimeout(()=>{
+  hintTimer =
+    setTimeout(
+      ()=>{
 
-    hint.textContent=
-      "كبّر الحائط لتشوف الوحدات وتختار مطرحك";
+        hint.textContent =
+          "كبّر الحائط لتشوف الوحدات وتختار مطرحك";
 
-    if(zoom>3){
-      hint.classList.add("hidden");
-    }
+        if(zoom>3){
 
-  },2200);
+          hint.classList.add(
+            "hidden"
+          );
+
+        }
+
+      },
+      2200
+    );
+
 }
+
 
 /* =========================================================
    BOOKING
 ========================================================= */
 
-const bookingModal=
-  document.getElementById("bookingModal");
+const bookingModal =
+  document.getElementById(
+    "bookingModal"
+  );
 
-document.getElementById("confirmArea")
-.addEventListener("click",()=>{
+document
+  .getElementById(
+    "confirmArea"
+  )
+  .addEventListener(
+    "click",
+    ()=>{
 
-  if(selectedCells.size===0) return;
+      if(
+        selectedCells.size===0
+      ){
 
-  const count=selectedCells.size;
+        return;
 
-  const price=
-    selectedType==="Center"
-      ? count*CENTER_PRICE
-      : count*STANDARD_PRICE;
+      }
 
-  document.getElementById("summaryType")
-    .textContent=selectedType;
+      const count =
+        selectedCells.size;
 
-  document.getElementById("summaryUnits")
-    .textContent=count;
+      const price =
+        selectedType ===
+        "Center"
+          ? count*CENTER_PRICE
+          : count*STANDARD_PRICE;
 
-  document.getElementById("summaryPrice")
-    .textContent=price;
+      document
+        .getElementById(
+          "summaryType"
+        )
+        .textContent =
+        selectedType;
 
-  bookingModal.classList.add("show");
+      document
+        .getElementById(
+          "summaryUnits"
+        )
+        .textContent =
+        count;
 
-});
+      document
+        .getElementById(
+          "summaryPrice"
+        )
+        .textContent =
+        price;
+
+      bookingModal
+        .classList
+        .add("show");
+
+    }
+  );
+
 
 /* =========================================================
    CLOSE BOOKING
@@ -1725,15 +3086,30 @@ document.getElementById("confirmArea")
 
 function closeBooking(){
 
-  bookingModal.classList.remove("show");
+  bookingModal
+    .classList
+    .remove("show");
 
 }
 
-document.getElementById("closeBooking")
-.addEventListener("click",closeBooking);
+document
+  .getElementById(
+    "closeBooking"
+  )
+  .addEventListener(
+    "click",
+    closeBooking
+  );
 
-document.getElementById("cancelBooking")
-.addEventListener("click",closeBooking);
+document
+  .getElementById(
+    "cancelBooking"
+  )
+  .addEventListener(
+    "click",
+    closeBooking
+  );
+
 
 /* =========================================================
    GET UNIT IDS
@@ -1741,190 +3117,304 @@ document.getElementById("cancelBooking")
 
 function getSelectedUnitIds(){
 
-  return [...selectedCells]
-    .map(key=>{
+  return [
+    ...selectedCells
+  ]
+  .map(key=>{
 
-      const [r,c]=
-        key.split("_").map(Number);
+    const [
+      r,
+      c
+    ] =
+      key
+      .split("_")
+      .map(Number);
 
-      const number =
-        r*COLS+c+1;
+    const number =
+      r*COLS+c+1;
 
-      return "A"+
-        String(number).padStart(4,"0");
-
-    });
-}
-
-/* =========================================================
-   SUBMIT
-========================================================= */
-
-document.getElementById("submitBooking")
-.addEventListener("click",async()=>{
-
-  const name=
-    document.getElementById("customerName")
-      .value.trim();
-
-  const phone=
-    document.getElementById("customerPhone")
-      .value.trim();
-
-  if(!name){
-
-    alert("يرجى إدخال الاسم.");
-
-    return;
-  }
-
-  if(!phone){
-
-    alert("يرجى إدخال رقم الهاتف.");
-
-    return;
-  }
-
-  const unitIds=
-    getSelectedUnitIds();
-
-  const payload={
-
-    action:"preview",
-
-    customerName:name,
-
-    phone:phone,
-
-    unitType:selectedType,
-
-    unitsCount:unitIds.length,
-
-    unitIds:unitIds,
-
-    logoUrl:
-      document.getElementById("logoUrl")
-      .value.trim(),
-
-    adName:
-      document.getElementById("adName")
-      .value.trim(),
-
-    adText:
-      document.getElementById("adText")
-      .value.trim(),
-
-    whatsapp:
-      document.getElementById("whatsapp")
-      .value.trim(),
-
-    instagram:
-      document.getElementById("instagram")
-      .value.trim()
-  };
-
-  const button=
-    document.getElementById("submitBooking");
-
-  button.disabled=true;
-  button.textContent="جاري التحقق...";
-
-  try{
-
-    /*
-      Current backend still uses preview mainly
-      for automatic contiguous checking.
-
-      We send the selected IDs as well so the
-      frontend is ready for the next backend update.
-    */
-
-    const response=
-      await fetch(APP_URL,{
-
-        method:"POST",
-
-        headers:{
-          "Content-Type":
-            "text/plain;charset=utf-8"
-        },
-
-        body:JSON.stringify(payload)
-
-      });
-
-    const result=
-      await response.json();
-
-    /*
-      Until the Apps Script is updated to validate
-      arbitrary unitIds, do not pretend that server-side
-      manual selection has been verified.
-    */
-
-    if(result && result.success){
-
-      closeBooking();
-
-      document.getElementById("successModal")
-        .classList.add("show");
-
-    }else{
-
-      alert(
-        result?.message ||
-        "تعذّر التحقق من المساحة حالياً."
-      );
-
-    }
-
-  }catch(error){
-
-    console.error(error);
-
-    alert(
-      "تعذّر الاتصال بالخادم. حاول مرة أخرى."
+    return(
+      "A"+
+      String(number)
+        .padStart(
+          4,
+          "0"
+        )
     );
 
-  }finally{
+  });
 
-    button.disabled=false;
-    button.textContent="متابعة الحجز";
+}
 
-  }
 
-});
+/* =========================================================
+   SUBMIT BOOKING
+========================================================= */
+
+document
+  .getElementById(
+    "submitBooking"
+  )
+  .addEventListener(
+    "click",
+    async()=>{
+
+      const name =
+        document
+          .getElementById(
+            "customerName"
+          )
+          .value
+          .trim();
+
+      const phone =
+        document
+          .getElementById(
+            "customerPhone"
+          )
+          .value
+          .trim();
+
+      if(!name){
+
+        alert(
+          "يرجى إدخال الاسم."
+        );
+
+        return;
+
+      }
+
+      if(!phone){
+
+        alert(
+          "يرجى إدخال رقم الهاتف."
+        );
+
+        return;
+
+      }
+
+      const unitIds =
+        getSelectedUnitIds();
+
+      if(!unitIds.length){
+
+        alert(
+          "يرجى اختيار مساحة."
+        );
+
+        return;
+
+      }
+
+      /*
+        IMPORTANT:
+        Send createOrder directly.
+        The backend performs the final
+        availability + contiguity check.
+      */
+
+      const payload = {
+
+        action:
+          "createOrder",
+
+        customerName:
+          name,
+
+        phone:
+          phone,
+
+        unitType:
+          selectedType,
+
+        unitIds:
+          unitIds,
+
+        logoUrl:
+          document
+            .getElementById(
+              "logoUrl"
+            )
+            .value
+            .trim(),
+
+        adName:
+          document
+            .getElementById(
+              "adName"
+            )
+            .value
+            .trim(),
+
+        adText:
+          document
+            .getElementById(
+              "adText"
+            )
+            .value
+            .trim(),
+
+        whatsapp:
+          document
+            .getElementById(
+              "whatsapp"
+            )
+            .value
+            .trim(),
+
+        instagram:
+          document
+            .getElementById(
+              "instagram"
+            )
+            .value
+            .trim()
+
+      };
+
+      const button =
+        document
+          .getElementById(
+            "submitBooking"
+          );
+
+      button.disabled =
+        true;
+
+      button.textContent =
+        "جاري إرسال الطلب...";
+
+      try{
+
+        const response =
+          await fetch(
+            APP_URL,
+            {
+
+              method:
+                "POST",
+
+              headers:{
+                "Content-Type":
+                  "text/plain;charset=utf-8"
+              },
+
+              body:
+                JSON.stringify(
+                  payload
+                )
+
+            }
+          );
+
+        const result =
+          await response.json();
+
+        if(
+          result &&
+          result.success
+        ){
+
+          closeBooking();
+
+          /*
+            Refresh wall data because
+            selected units are now Reserved.
+          */
+
+          await loadWallData();
+
+          draw();
+
+          document
+            .getElementById(
+              "successModal"
+            )
+            .classList
+            .add("show");
+
+        }else{
+
+          alert(
+            result?.message ||
+            "تعذّر إنشاء الحجز."
+          );
+
+          /*
+            Refresh in case another
+            customer reserved a unit.
+          */
+
+          await loadWallData();
+
+          draw();
+
+        }
+
+      }catch(error){
+
+        console.error(
+          error
+        );
+
+        alert(
+          "تعذّر الاتصال بالخادم. حاول مرة أخرى."
+        );
+
+      }finally{
+
+        button.disabled =
+          false;
+
+        button.textContent =
+          "متابعة الحجز";
+
+      }
+
+    }
+  );
+
 
 /* =========================================================
    SHARE
 ========================================================= */
 
-let shareUrl=
+let shareUrl =
   window.location.origin+
   window.location.pathname;
 
 function updateShareUrl(){
 
-  const ids=getSelectedUnitIds();
+  const ids =
+    getSelectedUnitIds();
 
   if(ids.length){
 
-    shareUrl=
+    shareUrl =
       window.location.origin+
       window.location.pathname+
       "?wall="+
-      encodeURIComponent(ids[0]);
+      encodeURIComponent(
+        ids[0]
+      );
 
   }
 
 }
 
-document.getElementById("shareBtn")
-.addEventListener("click",async()=>{
+document
+  .getElementById(
+    "shareBtn"
+  )
+  .addEventListener(
+    "click",
+    async()=>{
 
-  updateShareUrl();
+      updateShareUrl();
 
-  const message=
+      const message =
 `حطّيت مشروعي على حيطان لبنان! 🧱🇱🇧
 
 كل اسم إلو مطرح.
@@ -1932,49 +3422,88 @@ document.getElementById("shareBtn")
 إلك مطرح كمان؟
 ${shareUrl}`;
 
-  if(navigator.share){
+      if(
+        navigator.share
+      ){
 
-    try{
+        try{
 
-      await navigator.share({
-        title:"حيطان لبنان",
-        text:message,
-        url:shareUrl
-      });
+          await navigator.share({
 
-    }catch(e){}
+            title:
+              "حيطان لبنان",
 
-  }else{
+            text:
+              message,
 
-    await navigator.clipboard.writeText(message);
+            url:
+              shareUrl
 
-    alert("تم نسخ رسالة المشاركة.");
+          });
 
-  }
+        }catch(e){}
 
-});
+      }else{
 
-document.getElementById("copyBtn")
-.addEventListener("click",async()=>{
+        try{
 
-  updateShareUrl();
+          await navigator
+            .clipboard
+            .writeText(
+              message
+            );
 
-  try{
+          alert(
+            "تم نسخ رسالة المشاركة."
+          );
 
-    await navigator.clipboard.writeText(shareUrl);
+        }catch(e){
 
-    alert("تم نسخ رابط مطرحك.");
+          alert(
+            "تعذّر نسخ الرسالة."
+          );
 
-  }catch(e){
+        }
 
-    prompt(
-      "انسخ الرابط:",
-      shareUrl
-    );
+      }
 
-  }
+    }
+  );
 
-});
+document
+  .getElementById(
+    "copyBtn"
+  )
+  .addEventListener(
+    "click",
+    async()=>{
+
+      updateShareUrl();
+
+      try{
+
+        await navigator
+          .clipboard
+          .writeText(
+            shareUrl
+          );
+
+        alert(
+          "تم نسخ رابط مطرحك."
+        );
+
+      }catch(e){
+
+        prompt(
+          "انسخ الرابط:",
+          shareUrl
+        );
+
+      }
+
+    }
+  );
+
 
 /* =========================================================
    OPEN SHARED WALL LOCATION
@@ -1982,53 +3511,74 @@ document.getElementById("copyBtn")
 
 function focusSharedUnit(){
 
-  const params=
+  const params =
     new URLSearchParams(
       window.location.search
     );
 
-  const unit=params.get("wall");
+  const unit =
+    params.get("wall");
 
-  if(!unit) return;
+  if(!unit){
+    return;
+  }
 
-  const match=
-    unit.match(/A(\d+)/i);
+  const match =
+    unit.match(
+      /A(\d+)/i
+    );
 
-  if(!match) return;
+  if(!match){
+    return;
+  }
 
-  const number=
-    parseInt(match[1],10);
+  const number =
+    parseInt(
+      match[1],
+      10
+    );
 
   if(
     number<1 ||
     number>10000
-  ) return;
+  ){
 
-  const index=number-1;
+    return;
 
-  const row=
-    Math.floor(index/COLS);
+  }
 
-  const col=
+  const index =
+    number-1;
+
+  const row =
+    Math.floor(
+      index/COLS
+    );
+
+  const col =
     index%COLS;
 
   /*
-    Zoom into the shared area.
+    Zoom into shared area.
   */
 
   zoom=8;
 
-  const worldX=
-    (col+.5)*cellSize;
+  const worldX =
+    (col+.5)*
+    cellSize;
 
-  const worldY=
-    (row+.5)*cellSize;
+  const worldY =
+    (row+.5)*
+    cellSize;
 
-  cameraX=
-    W/2-worldX*zoom;
+  cameraX =
+    W/2 -
+    worldX*zoom;
 
-  cameraY=
-    H/2-worldY*zoom;
+  cameraY =
+    H/2 -
+    worldY*zoom;
 
   clampCamera();
 
@@ -2037,23 +3587,46 @@ function focusSharedUnit(){
   showTemporaryHint(
     "هذا مطرح الإعلان على حيطان لبنان"
   );
+
 }
+
 
 /* =========================================================
    INITIALIZE
 ========================================================= */
 
-resizeCanvas();
+async function initializeHitan(){
 
-setTimeout(()=>{
+  resizeCanvas();
 
-  focusSharedUnit();
+  updateUI();
 
-},100);
+  /*
+    Load actual wall data
+    from Google Sheets.
+  */
 
-updateUI();
+  await loadWallData();
+
+  /*
+    Draw again after data arrives.
+  */
+
+  draw();
+
+  setTimeout(
+    ()=>{
+      focusSharedUnit();
+    },
+    100
+  );
+
+}
+
+initializeHitan();
 
 </script>
 
 </body>
+
 </html>
