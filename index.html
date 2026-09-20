@@ -1,74 +1,69 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
->
-
-<title>حيطان لبنان</title>
+<title>حيطان لبنان — كل اسم إلو مطرح</title>
 
 <style>
-
 *{
   box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
 }
 
-html,
-body,
-#app{
-
+html,body{
   margin:0;
-
+  padding:0;
   width:100%;
   height:100%;
-
   overflow:hidden;
-
-  background:#222;
-
+  background:#171717;
   font-family:
-    Arial,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
     Tahoma,
+    Arial,
     sans-serif;
 }
 
+body{
+  color:#fff;
+}
+
+button,
+input,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
 #app{
-
   position:fixed;
-
   inset:0;
+  overflow:hidden;
+  background:#171717;
 }
 
 #wallViewport{
-
   position:absolute;
-
   inset:0;
-
   overflow:hidden;
-
-  background:#555;
-
   touch-action:none;
+  background:#171717;
 }
 
 #wallCanvas{
-
   position:absolute;
-
   inset:0;
-
   width:100%;
   height:100%;
-
   display:block;
-
 }
 
 /* =========================
@@ -76,46 +71,72 @@ body,
 ========================= */
 
 #brand{
-
-  position:absolute;
-
-  top:14px;
-  right:14px;
-
+  position:fixed;
+  top:18px;
+  right:18px;
   z-index:20;
 
-  padding:10px 14px;
-
+  padding:10px 16px;
   border-radius:14px;
 
-  color:white;
+  background:rgba(0,0,0,.62);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
 
-  background:
-    rgba(0,0,0,.48);
+  border:1px solid rgba(255,255,255,.13);
 
-  backdrop-filter:
-    blur(8px);
-
-  box-shadow:
-    0 5px 20px rgba(0,0,0,.25);
+  box-shadow:0 8px 30px rgba(0,0,0,.25);
 
   pointer-events:none;
 }
 
-#brand .title{
-
+#brandTitle{
   font-size:20px;
-
-  font-weight:800;
+  font-weight:900;
+  line-height:1.1;
 }
 
-#brand .subtitle{
+#brandSubtitle{
+  margin-top:3px;
+  font-size:12px;
+  opacity:.72;
+}
 
-  margin-top:2px;
+/* =========================
+   TOP BUTTONS
+========================= */
 
-  font-size:11px;
+#topControls{
+  position:fixed;
+  top:18px;
+  left:18px;
+  z-index:20;
 
-  opacity:.8;
+  display:flex;
+  gap:7px;
+}
+
+.zoomBtn{
+  width:42px;
+  height:42px;
+
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:12px;
+
+  background:rgba(0,0,0,.62);
+  color:#fff;
+
+  font-size:22px;
+  font-weight:700;
+
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+
+  box-shadow:0 8px 25px rgba(0,0,0,.2);
+}
+
+.zoomBtn:active{
+  transform:scale(.95);
 }
 
 /* =========================
@@ -123,135 +144,66 @@ body,
 ========================= */
 
 #hint{
-
-  position:absolute;
-
-  top:18px;
+  position:fixed;
+  top:76px;
   left:50%;
-
-  transform:
-    translateX(-50%);
+  transform:translateX(-50%);
 
   z-index:20;
 
-  padding:9px 15px;
+  padding:8px 14px;
+  border-radius:999px;
 
-  border-radius:30px;
-
-  color:#fff;
-
-  background:
-    rgba(0,0,0,.48);
-
-  backdrop-filter:
-    blur(8px);
-
-  font-size:13px;
-
-  pointer-events:none;
-
-  transition:
-    opacity .4s;
-}
-
-#hint.hidden{
-
-  opacity:0;
-}
-
-/* =========================
-   ZOOM
-========================= */
-
-#zoomControls{
-
-  position:absolute;
-
-  left:14px;
-  top:50%;
-
-  transform:
-    translateY(-50%);
-
-  z-index:30;
-
-  display:flex;
-
-  flex-direction:column;
-
-  gap:8px;
-}
-
-.zoomBtn{
-
-  width:44px;
-  height:44px;
-
-  border:0;
-
-  border-radius:14px;
-
-  background:
-    rgba(0,0,0,.55);
-
-  color:white;
-
-  font-size:25px;
-
-  font-weight:bold;
-
-  backdrop-filter:
-    blur(8px);
-
-  box-shadow:
-    0 5px 18px rgba(0,0,0,.25);
-
-  cursor:pointer;
-}
-
-.zoomBtn:active{
-
-  transform:
-    scale(.94);
-}
-
-/* =========================
-   SELECTION INFO
-========================= */
-
-#selectionInfo{
-
-  position:absolute;
-
-  top:72px;
-  left:14px;
-
-  z-index:25;
-
-  min-width:150px;
-
-  padding:10px 13px;
-
-  border-radius:14px;
-
-  background:
-    rgba(0,0,0,.55);
-
-  color:white;
-
-  backdrop-filter:
-    blur(8px);
+  background:rgba(0,0,0,.58);
+  border:1px solid rgba(255,255,255,.1);
 
   font-size:12px;
+  white-space:nowrap;
 
-  line-height:1.6;
-
+  opacity:.85;
   pointer-events:none;
 }
 
-#selectionInfo strong{
+/* =========================
+   LOADING
+========================= */
 
-  font-size:16px;
+#loading{
+  position:fixed;
+  inset:0;
+  z-index:100;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:#171717;
+}
+
+#loading.hidden{
+  display:none;
+}
+
+.loadingBox{
+  text-align:center;
+}
+
+.spinner{
+  width:40px;
+  height:40px;
+  margin:0 auto 14px;
+
+  border:3px solid rgba(255,255,255,.18);
+  border-top-color:#fff;
+  border-radius:50%;
+
+  animation:spin .8s linear infinite;
+}
+
+@keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
 }
 
 /* =========================
@@ -259,149 +211,114 @@ body,
 ========================= */
 
 #bottomPanel{
-
-  position:absolute;
-
+  position:fixed;
   left:50%;
-  bottom:14px;
+  bottom:18px;
+  transform:translateX(-50%);
 
-  transform:
-    translateX(-50%);
+  z-index:30;
 
-  width:
-    min(620px,calc(100% - 28px));
+  width:min(680px,calc(100% - 24px));
 
-  z-index:40;
+  padding:13px;
 
-  background:
-    rgba(20,20,20,.82);
+  border-radius:20px;
 
-  color:white;
+  background:rgba(15,15,15,.86);
+  border:1px solid rgba(255,255,255,.12);
 
-  backdrop-filter:
-    blur(14px);
-
-  border:
-    1px solid rgba(255,255,255,.12);
-
-  border-radius:22px;
-
-  padding:14px;
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
 
   box-shadow:
-    0 12px 40px rgba(0,0,0,.35);
+    0 20px 60px rgba(0,0,0,.4);
+
+  transition:.2s;
+}
+
+#bottomPanel.hidden{
+  display:none;
 }
 
 .panelTop{
-
   display:flex;
-
   align-items:center;
-
   justify-content:space-between;
-
   gap:10px;
+
+  margin-bottom:10px;
 }
 
 .panelTitle{
-
-  font-size:17px;
-
+  font-size:14px;
   font-weight:800;
 }
 
-.panelHint{
-
-  margin-top:3px;
-
-  font-size:11px;
-
-  opacity:.7;
+#selectedCount{
+  font-size:12px;
+  opacity:.65;
 }
 
 .typeButtons{
-
   display:flex;
-
   gap:8px;
-
-  margin-top:12px;
 }
 
 .typeBtn{
-
   flex:1;
 
   padding:10px;
 
-  border:
-    1px solid rgba(255,255,255,.15);
-
+  border:1px solid rgba(255,255,255,.1);
   border-radius:12px;
 
-  background:
-    rgba(255,255,255,.07);
+  background:#252525;
+  color:#fff;
 
-  color:white;
-
-  cursor:pointer;
+  font-weight:700;
 }
 
 .typeBtn.active{
-
   background:#fff;
-
   color:#111;
+}
 
-  font-weight:bold;
+#selectionStatus{
+  margin-top:9px;
+
+  font-size:12px;
+  text-align:center;
+
+  opacity:.72;
 }
 
 .priceRow{
-
   display:flex;
-
+  align-items:center;
   justify-content:space-between;
 
-  align-items:center;
-
-  margin-top:12px;
-
-  padding-top:10px;
-
-  border-top:
-    1px solid rgba(255,255,255,.12);
+  margin-top:10px;
 }
 
-.price{
-
-  font-size:20px;
-
+#totalPrice{
+  font-size:23px;
   font-weight:900;
 }
 
 .primaryBtn{
-
   border:0;
-
   border-radius:13px;
 
-  padding:11px 18px;
+  padding:12px 18px;
 
   background:#fff;
-
   color:#111;
 
-  font-size:14px;
-
-  font-weight:800;
-
-  cursor:pointer;
+  font-weight:900;
 }
 
 .primaryBtn:disabled{
-
   opacity:.35;
-
   cursor:not-allowed;
 }
 
@@ -410,222 +327,182 @@ body,
 ========================= */
 
 .modal{
-
-  position:absolute;
-
+  position:fixed;
   inset:0;
-
-  z-index:100;
-
-  display:none;
-
-  align-items:center;
-
-  justify-content:center;
-
-  background:
-    rgba(0,0,0,.62);
-
-  backdrop-filter:
-    blur(7px);
-
-  padding:18px;
-}
-
-.modal.show{
+  z-index:60;
 
   display:flex;
+  align-items:center;
+  justify-content:center;
+
+  padding:18px;
+
+  background:rgba(0,0,0,.66);
+  backdrop-filter:blur(7px);
+  -webkit-backdrop-filter:blur(7px);
 }
 
-.modalBox{
+.modal.hidden{
+  display:none;
+}
 
-  width:
-    min(520px,100%);
-
-  max-height:90vh;
-
+.modalCard{
+  width:min(520px,100%);
+  max-height:calc(100vh - 36px);
   overflow:auto;
 
-  background:#fff;
+  padding:20px;
 
-  color:#111;
+  border-radius:22px;
 
-  border-radius:24px;
+  background:#202020;
+  border:1px solid rgba(255,255,255,.12);
 
-  padding:22px;
-
-  box-shadow:
-    0 20px 70px rgba(0,0,0,.4);
+  box-shadow:0 25px 80px rgba(0,0,0,.5);
 }
 
-.modalTitle{
-
-  font-size:22px;
-
-  font-weight:900;
-
-  margin-bottom:5px;
-}
-
-.modalSubtitle{
-
-  font-size:13px;
-
-  color:#666;
+.modalHeader{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
 
   margin-bottom:18px;
 }
 
-.closeBtn{
+.modalTitle{
+  font-size:21px;
+  font-weight:900;
+}
 
-  float:left;
+.closeBtn{
+  width:36px;
+  height:36px;
 
   border:0;
-
-  background:#eee;
-
-  width:34px;
-  height:34px;
-
   border-radius:50%;
 
+  background:#303030;
+  color:#fff;
+
   font-size:20px;
-
-  cursor:pointer;
-}
-
-.summary{
-
-  background:#f5f5f5;
-
-  border-radius:15px;
-
-  padding:13px;
-
-  margin-bottom:15px;
-}
-
-.summaryRow{
-
-  display:flex;
-
-  justify-content:space-between;
-
-  margin:6px 0;
-}
-
-.summaryRow.total{
-
-  border-top:
-    1px solid #ddd;
-
-  padding-top:9px;
-
-  margin-top:9px;
-
-  font-weight:900;
-
-  font-size:18px;
 }
 
 .field{
-
-  margin-bottom:12px;
+  margin-bottom:13px;
 }
 
 .field label{
-
   display:block;
 
-  margin-bottom:5px;
+  margin-bottom:6px;
 
   font-size:12px;
-
-  font-weight:bold;
+  opacity:.7;
 }
 
 .field input,
 .field textarea{
-
   width:100%;
 
-  padding:11px 12px;
+  padding:12px 13px;
 
-  border:
-    1px solid #ddd;
-
+  border:1px solid rgba(255,255,255,.12);
   border-radius:12px;
 
-  font-family:inherit;
-
-  font-size:14px;
-
   outline:none;
+
+  background:#151515;
+  color:#fff;
+}
+
+.field textarea{
+  min-height:90px;
+  resize:vertical;
 }
 
 .field input:focus,
 .field textarea:focus{
-
-  border-color:#111;
+  border-color:rgba(255,255,255,.45);
 }
 
-.field textarea{
-
-  min-height:80px;
-
-  resize:vertical;
+.field small{
+  display:block;
+  margin-top:5px;
+  font-size:10px;
+  opacity:.5;
 }
 
-.optional{
+.submitBtn{
+  width:100%;
 
-  font-weight:normal;
+  margin-top:5px;
 
-  color:#999;
+  padding:14px;
+
+  border:0;
+  border-radius:13px;
+
+  background:#fff;
+  color:#111;
+
+  font-weight:900;
 }
 
-.modalActions{
+.submitBtn:disabled{
+  opacity:.4;
+}
 
+/* =========================
+   PAYMENT
+========================= */
+
+.paymentBox{
+  padding:16px;
+
+  border-radius:16px;
+
+  background:#151515;
+  border:1px solid rgba(255,255,255,.1);
+
+  margin:15px 0;
+}
+
+.paymentLine{
   display:flex;
+  justify-content:space-between;
+  gap:10px;
 
-  gap:8px;
+  padding:9px 0;
 
-  margin-top:16px;
+  border-bottom:1px solid rgba(255,255,255,.07);
 }
 
-.secondaryBtn{
-
-  flex:1;
-
-  padding:12px;
-
-  border:0;
-
-  border-radius:13px;
-
-  background:#eee;
-
-  font-weight:bold;
-
-  cursor:pointer;
+.paymentLine:last-child{
+  border-bottom:0;
 }
 
-.confirmBtn{
+.paymentLabel{
+  opacity:.65;
+}
 
-  flex:2;
+.paymentValue{
+  font-weight:900;
+}
 
-  padding:12px;
+.whishNumber{
+  font-size:23px;
+  letter-spacing:1px;
+}
 
-  border:0;
+.amountValue{
+  font-size:26px;
+}
 
-  border-radius:13px;
-
-  background:#111;
-
-  color:#fff;
-
-  font-weight:bold;
-
-  cursor:pointer;
+.paymentNote{
+  font-size:12px;
+  line-height:1.7;
+  opacity:.68;
 }
 
 /* =========================
@@ -633,115 +510,175 @@ body,
 ========================= */
 
 .successIcon{
-
-  width:70px;
-  height:70px;
-
-  margin:
-    5px auto 15px;
+  width:65px;
+  height:65px;
 
   display:flex;
-
   align-items:center;
-
   justify-content:center;
+
+  margin:0 auto 15px;
 
   border-radius:50%;
 
-  background:#111;
+  background:#fff;
+  color:#111;
 
-  color:#fff;
-
-  font-size:34px;
+  font-size:32px;
 }
 
-.shareText{
-
+.centerText{
   text-align:center;
-
-  color:#555;
-
-  font-size:13px;
-
-  line-height:1.7;
 }
 
-.shareBtn{
-
-  width:100%;
-
-  margin-top:14px;
-
-  padding:13px;
-
-  border:0;
-
-  border-radius:13px;
-
-  background:#111;
-
-  color:#fff;
-
-  font-weight:bold;
-
-  cursor:pointer;
-}
-
-.copyBtn{
-
-  width:100%;
-
-  margin-top:8px;
+.orderIdBox{
+  margin:15px 0;
 
   padding:12px;
 
-  border:
-    1px solid #ddd;
+  border-radius:12px;
 
-  border-radius:13px;
+  background:#151515;
 
-  background:#fff;
+  text-align:center;
+}
 
-  font-weight:bold;
-
-  cursor:pointer;
+.orderId{
+  font-weight:900;
+  font-size:17px;
 }
 
 /* =========================
-   LOADING
+   AD DETAILS
 ========================= */
 
-#loading{
+#adLogo{
+  display:block;
 
-  position:absolute;
+  max-width:170px;
+  max-height:110px;
 
-  inset:0;
+  margin:0 auto 15px;
 
-  z-index:200;
+  object-fit:contain;
 
-  display:flex;
+  border-radius:10px;
+}
 
-  align-items:center;
+#adLogo.hidden{
+  display:none;
+}
 
-  justify-content:center;
+#adName{
+  text-align:center;
 
-  background:
-    rgba(0,0,0,.72);
+  font-size:24px;
+  font-weight:900;
+}
 
-  color:white;
-
-  font-size:15px;
-
-  font-weight:bold;
+#adText{
+  margin-top:10px;
 
   text-align:center;
 
-  padding:30px;
+  line-height:1.7;
+  opacity:.78;
+  white-space:pre-wrap;
 }
 
-#loading.hidden{
+.contactList{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
 
-  display:none;
+  margin-top:18px;
+}
+
+.contactBtn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  width:100%;
+
+  padding:12px;
+
+  border-radius:12px;
+
+  text-decoration:none;
+
+  background:#303030;
+  color:#fff;
+
+  border:1px solid rgba(255,255,255,.08);
+
+  font-weight:700;
+}
+
+.contactBtn:hover{
+  background:#383838;
+}
+
+.shareBox{
+  margin-top:16px;
+
+  padding-top:15px;
+
+  border-top:1px solid rgba(255,255,255,.08);
+}
+
+.secondaryBtn{
+  width:100%;
+
+  padding:12px;
+
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:12px;
+
+  background:#292929;
+  color:#fff;
+
+  font-weight:800;
+}
+
+.bookFromAd{
+  margin-top:10px;
+}
+
+/* =========================
+   TEMP MESSAGE
+========================= */
+
+#toast{
+  position:fixed;
+  left:50%;
+  bottom:110px;
+  transform:translateX(-50%);
+
+  z-index:100;
+
+  max-width:calc(100% - 30px);
+
+  padding:11px 17px;
+
+  border-radius:12px;
+
+  background:#fff;
+  color:#111;
+
+  font-size:13px;
+  font-weight:800;
+
+  box-shadow:0 15px 40px rgba(0,0,0,.3);
+
+  opacity:0;
+  pointer-events:none;
+
+  transition:.2s;
+}
+
+#toast.show{
+  opacity:1;
 }
 
 /* =========================
@@ -751,83 +688,50 @@ body,
 @media(max-width:600px){
 
   #brand{
-
-    top:10px;
-    right:10px;
-
-    padding:8px 11px;
+    top:12px;
+    right:12px;
+    padding:8px 12px;
   }
 
-  #brand .title{
-
+  #brandTitle{
     font-size:17px;
   }
 
-  #hint{
-
-    top:11px;
-
-    font-size:11px;
-
-    max-width:65%;
-
-    text-align:center;
+  #brandSubtitle{
+    font-size:10px;
   }
 
-  #selectionInfo{
-
-    top:58px;
-    left:10px;
-
-    font-size:11px;
-  }
-
-  #zoomControls{
-
-    left:10px;
+  #topControls{
+    top:12px;
+    left:12px;
   }
 
   .zoomBtn{
+    width:38px;
+    height:38px;
+  }
 
-    width:40px;
-    height:40px;
+  #hint{
+    top:62px;
+    font-size:10px;
   }
 
   #bottomPanel{
-
-    bottom:8px;
-
-    width:
-      calc(100% - 16px);
-
-    border-radius:20px;
-
-    padding:12px;
+    bottom:10px;
+    width:calc(100% - 16px);
+    border-radius:17px;
   }
 
-  .panelTitle{
-
-    font-size:15px;
+  .modal{
+    padding:10px;
   }
 
-  .typeBtn{
-
-    padding:9px 5px;
-
-    font-size:12px;
+  .modalCard{
+    border-radius:18px;
+    padding:16px;
   }
-
-  .primaryBtn{
-
-    padding:10px 13px;
-
-    font-size:12px;
-  }
-
 }
-
 </style>
-
 </head>
 
 <body>
@@ -835,424 +739,482 @@ body,
 <div id="app">
 
   <div id="wallViewport">
-
     <canvas id="wallCanvas"></canvas>
-
-  </div>
-
-  <div id="loading">
-
-    جاري تحميل حائط حيطان لبنان...
-
   </div>
 
   <div id="brand">
+    <div id="brandTitle">حيطان لبنان</div>
+    <div id="brandSubtitle">كل اسم إلو مطرح</div>
+  </div>
 
-    <div class="title">
-      حيطان لبنان
-    </div>
-
-    <div class="subtitle">
-      كل اسم إلو مطرح
-    </div>
-
+  <div id="topControls">
+    <button class="zoomBtn" id="zoomIn">+</button>
+    <button class="zoomBtn" id="zoomOut">−</button>
+    <button class="zoomBtn" id="zoomReset">⌂</button>
   </div>
 
   <div id="hint">
-
-    كبّر الحائط لتشوف الوحدات وتختار مطرحك
-
+    اسحب الحائط واستخدم التكبير لتختار مطرحك
   </div>
 
-  <div id="zoomControls">
-
-    <button
-      class="zoomBtn"
-      id="zoomIn"
-    >
-      +
-    </button>
-
-    <button
-      class="zoomBtn"
-      id="zoomOut"
-    >
-      −
-    </button>
-
-    <button
-      class="zoomBtn"
-      id="zoomReset"
-    >
-      ⌂
-    </button>
-
-  </div>
-
-  <div id="selectionInfo">
-
-    المساحة المختارة
-
-    <br>
-
-    <strong id="selectedCount">
-      0
-    </strong>
-
-    وحدة
-
-  </div>
-
-  <div id="bottomPanel">
+  <div id="bottomPanel" class="hidden">
 
     <div class="panelTop">
-
-      <div>
-
-        <div class="panelTitle">
-          اختر مساحتك على الحائط
-        </div>
-
-        <div class="panelHint">
-          حدّد المكان والمساحة التي ترغب بحجزها.
-        </div>
-
-      </div>
-
-      <button
-        class="primaryBtn"
-        id="clearSelection"
-      >
-        مسح
-      </button>
-
+      <div class="panelTitle">اختر مساحتك على الحائط</div>
+      <div id="selectedCount">0 مساحة</div>
     </div>
 
     <div class="typeButtons">
-
-      <button
-        class="typeBtn active"
-        data-type="Standard"
-      >
-        Standard · $1
+      <button class="typeBtn active" id="standardBtn">
+        Standard — $1
       </button>
 
-      <button
-        class="typeBtn"
-        data-type="Center"
-      >
-        Center · $5
+      <button class="typeBtn" id="centerBtn">
+        Center — $5
       </button>
+    </div>
 
+    <div id="selectionStatus">
+      حدّد المكان والمساحة التي ترغب بحجزها.
     </div>
 
     <div class="priceRow">
-
-      <div>
-
-        المجموع
-
-        <div class="price">
-
-          $<span id="totalPrice">0</span>
-
-        </div>
-
-      </div>
+      <div id="totalPrice">$0</div>
 
       <button
         class="primaryBtn"
         id="confirmArea"
-        disabled
-      >
-        تأكيد المساحة
+        disabled>
+        متابعة الحجز
       </button>
+    </div>
+
+  </div>
+
+  <!-- LOADING -->
+
+  <div id="loading">
+
+    <div class="loadingBox">
+
+      <div class="spinner"></div>
+
+      <div>
+        جاري تجهيز حيطان لبنان...
+      </div>
 
     </div>
 
   </div>
 
-  <!-- BOOKING -->
+  <!-- BOOKING MODAL -->
 
-  <div
-    class="modal"
-    id="bookingModal"
-  >
+  <div id="bookingModal" class="modal hidden">
 
-    <div class="modalBox">
+    <div class="modalCard">
 
-      <button
-        class="closeBtn"
-        id="closeBooking"
-      >
-        ×
-      </button>
+      <div class="modalHeader">
 
-      <div class="modalTitle">
-        أكمل بيانات الحجز
-      </div>
-
-      <div class="modalSubtitle">
-
-        كل الحقول اختيارية ما عدا الاسم ورقم الهاتف.
-
-      </div>
-
-      <div class="summary">
-
-        <div class="summaryRow">
-
-          <span>
-            نوع المساحة
-          </span>
-
-          <strong id="summaryType">
-            Standard
-          </strong>
-
+        <div class="modalTitle">
+          بيانات الإعلان
         </div>
 
-        <div class="summaryRow">
-
-          <span>
-            عدد الوحدات
-          </span>
-
-          <strong id="summaryUnits">
-            0
-          </strong>
-
-        </div>
-
-        <div class="summaryRow total">
-
-          <span>
-            المبلغ
-          </span>
-
-          <strong>
-            $<span id="summaryPrice">0</span>
-          </strong>
-
-        </div>
+        <button class="closeBtn" id="closeBooking">
+          ×
+        </button>
 
       </div>
 
       <div class="field">
 
         <label>
-          الاسم
+          الاسم / اسم الشركة *
         </label>
 
         <input
           id="customerName"
-          placeholder="اسمك أو اسم المشروع"
-        >
+          type="text"
+          placeholder="مثلاً: شركة ABC">
 
       </div>
 
       <div class="field">
 
         <label>
-          رقم الهاتف
+          رقم الهاتف *
         </label>
 
         <input
           id="customerPhone"
           type="tel"
-          placeholder="رقم الهاتف"
-        >
+          inputmode="tel"
+          placeholder="مثلاً: 03 123456">
+
+        <small>
+          سيظهر رقم الهاتف للزوار عند الضغط على الإعلان.
+        </small>
 
       </div>
 
       <div class="field">
 
         <label>
-
           الشعار
-
-          <span class="optional">
-            (اختياري)
-          </span>
-
         </label>
 
         <input
-          id="logoUrl"
-          placeholder="رابط الشعار"
-        >
+          id="logoFile"
+          type="file"
+          accept="image/png,image/jpeg,image/webp,image/gif">
+
+        <small>
+          اختياري — PNG / JPG / WEBP / GIF
+        </small>
 
       </div>
 
       <div class="field">
 
         <label>
-
           اسم الإعلان
-
-          <span class="optional">
-            (اختياري)
-          </span>
-
         </label>
 
         <input
           id="adName"
-          placeholder="اسم يظهر على الحائط"
-        >
+          type="text"
+          placeholder="اسم المحل أو الشركة">
 
       </div>
 
       <div class="field">
 
         <label>
-
-          نص إضافي
-
-          <span class="optional">
-            (اختياري)
-          </span>
-
+          النص الإضافي
         </label>
 
         <textarea
           id="adText"
-          placeholder="اكتب الرسالة التي تريد ظهورها"
-        ></textarea>
+          placeholder="اكتب المعلومات التي تريد ظهورها مع الإعلان"></textarea>
 
       </div>
 
       <div class="field">
 
         <label>
-
           WhatsApp
-
-          <span class="optional">
-            (اختياري)
-          </span>
-
         </label>
 
         <input
           id="whatsapp"
           type="tel"
-          placeholder="رقم واتساب"
-        >
+          inputmode="tel"
+          placeholder="مثلاً: 71 291071">
 
       </div>
 
       <div class="field">
 
         <label>
-
           Instagram
-
-          <span class="optional">
-            (اختياري)
-          </span>
-
         </label>
 
         <input
           id="instagram"
-          placeholder="@username"
-        >
+          type="text"
+          placeholder="@youraccount">
 
       </div>
 
-      <div class="modalActions">
+      <div class="paymentBox">
 
-        <button
-          class="secondaryBtn"
-          id="cancelBooking"
-        >
-          رجوع
-        </button>
+        <div class="paymentLine">
 
-        <button
-          class="confirmBtn"
-          id="submitBooking"
-        >
-          متابعة الحجز
-        </button>
+          <span class="paymentLabel">
+            المساحة
+          </span>
+
+          <span
+            class="paymentValue"
+            id="bookingUnits">
+            0
+          </span>
+
+        </div>
+
+        <div class="paymentLine">
+
+          <span class="paymentLabel">
+            المبلغ
+          </span>
+
+          <span
+            class="paymentValue amountValue"
+            id="bookingAmount">
+            $0
+          </span>
+
+        </div>
 
       </div>
+
+      <button
+        class="submitBtn"
+        id="submitBooking">
+
+        إرسال طلب الحجز
+
+      </button>
 
     </div>
 
   </div>
 
-  <!-- SUCCESS -->
+  <!-- PAYMENT MODAL -->
 
-  <div
-    class="modal"
-    id="successModal"
-  >
+  <div id="paymentModal" class="modal hidden">
 
-    <div class="modalBox">
+    <div class="modalCard">
+
+      <div class="modalHeader">
+
+        <div class="modalTitle">
+          تم استلام طلبك ✓
+        </div>
+
+        <button class="closeBtn" id="closePayment">
+          ×
+        </button>
+
+      </div>
+
+      <div class="centerText">
+
+        <p>
+          الخطوة الأخيرة هي تحويل قيمة الحجز عبر Whish.
+        </p>
+
+      </div>
+
+      <div class="paymentBox">
+
+        <div class="paymentLine">
+
+          <span class="paymentLabel">
+            رقم حساب Whish
+          </span>
+
+          <span
+            class="paymentValue whishNumber"
+            id="whishNumber">
+            71291071
+          </span>
+
+        </div>
+
+        <div class="paymentLine">
+
+          <span class="paymentLabel">
+            المبلغ المطلوب
+          </span>
+
+          <span
+            class="paymentValue amountValue"
+            id="paymentAmount">
+            $0
+          </span>
+
+        </div>
+
+      </div>
+
+      <div class="paymentNote">
+
+        حوّل المبلغ إلى رقم Whish أعلاه، وبعد إتمام التحويل
+        اضغط على زر «أكدت الدفع».
+        سيتم مراجعة الطلب من الإدارة قبل نشر الإعلان.
+
+      </div>
+
+      <button
+        class="submitBtn"
+        id="confirmPaymentBtn">
+
+        ✓ أكدت الدفع
+
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- SUCCESS MODAL -->
+
+  <div id="successModal" class="modal hidden">
+
+    <div class="modalCard">
 
       <div class="successIcon">
         ✓
       </div>
 
-      <div
-        class="modalTitle"
-        style="text-align:center"
-      >
-        تم إرسال طلبك
+      <div class="centerText">
+
+        <div class="modalTitle">
+          وصلنا طلبك بنجاح
+        </div>
+
+        <p style="opacity:.7;line-height:1.7;">
+          سيتم التأكد من الدفع ومراجعة الإعلان،
+          وبعد الموافقة سيظهر إعلانك على الحائط.
+        </p>
+
       </div>
 
-      <div class="shareText">
+      <div class="orderIdBox">
 
-        تم استلام طلبك بنجاح.
+        <div style="font-size:11px;opacity:.55;">
+          رقم الطلب
+        </div>
 
-        <br>
-
-        بعد تأكيد الدفع ومراجعة الطلب،
-        سيظهر إعلانك على الحائط.
-
-        <br><br>
-
-        شارك مطرحك مع أصحابك وزبائنك:
-
-        <br>
-
-        <strong>
-          "حطّيت مشروعي على حيطان لبنان!"
-        </strong>
+        <div
+          class="orderId"
+          id="successOrderId">
+          —
+        </div>
 
       </div>
 
       <button
-        class="shareBtn"
-        id="shareBtn"
-      >
-        📤 شارك مطرحك
+        class="secondaryBtn"
+        id="copyBtn">
+
+        نسخ رقم الطلب
+
       </button>
 
       <button
-        class="copyBtn"
-        id="copyBtn"
-      >
-        🔗 نسخ الرابط
+        class="submitBtn"
+        id="closeSuccess"
+        style="margin-top:9px;">
+
+        إغلاق
+
       </button>
 
     </div>
 
   </div>
 
+  <!-- AD DETAILS MODAL -->
+
+  <div id="adModal" class="modal hidden">
+
+    <div class="modalCard">
+
+      <div class="modalHeader">
+
+        <div class="modalTitle">
+          تفاصيل الإعلان
+        </div>
+
+        <button class="closeBtn" id="closeAd">
+          ×
+        </button>
+
+      </div>
+
+      <img
+        id="adLogo"
+        class="hidden"
+        alt="Logo">
+
+      <div id="adName">
+        —
+      </div>
+
+      <div id="adText">
+      </div>
+
+      <div class="contactList">
+
+        <a
+          id="adPhone"
+          class="contactBtn"
+          href="#">
+
+          📞 اتصال
+
+        </a>
+
+        <a
+          id="adWhatsapp"
+          class="contactBtn"
+          href="#"
+          target="_blank"
+          rel="noopener"
+          style="display:none;">
+
+          💬 WhatsApp
+
+        </a>
+
+        <a
+          id="adInstagram"
+          class="contactBtn"
+          href="#"
+          target="_blank"
+          rel="noopener"
+          style="display:none;">
+
+          📷 Instagram
+
+        </a>
+
+      </div>
+
+      <div class="shareBox">
+
+        <button
+          class="secondaryBtn"
+          id="shareAdBtn">
+
+          📤 شارك مطرحك
+
+        </button>
+
+        <button
+          class="submitBtn bookFromAd"
+          id="bookFromAd">
+
+          إلك مطرح كمان — احجز مطرحك
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div id="toast"></div>
+
 </div>
+
 
 <script>
 
 /* =========================================================
-   HITAN LEBANON - FRONTEND
-   Optimized Canvas Version
+   HITAN LEBANON
+   FRONTEND
 ========================================================= */
 
 const APP_URL =
 "https://script.google.com/macros/s/AKfycbzyM_gJsIV-icWDh_sy95KhPqsQpeLlS6eyl__O2zVs1aZyQf-Bp5ja_FrhW9icSHuY/exec";
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
 
 const ROWS = 100;
 const COLS = 100;
@@ -1263,9 +1225,14 @@ const CENTER_END = 59;
 const STANDARD_PRICE = 1;
 const CENTER_PRICE = 5;
 
+const WHISH_NUMBER = "71291071";
+
+const MAX_ZOOM = 16;
+const MIN_ZOOM = 0.45;
+
 
 /* =========================================================
-   DATA
+   STATE
 ========================================================= */
 
 let wallDataLoaded = false;
@@ -1278,253 +1245,256 @@ let selectedCells = new Set();
 
 let selectedType = "Standard";
 
-let lastDrawTime = 0;
-
-
-/* =========================================================
-   LOAD WALL
-========================================================= */
-
-async function loadWallData(){
-
-  try{
-
-    const response = await fetch(
-      APP_URL +
-      "?action=wall&t=" +
-      Date.now()
-    );
-
-    if(!response.ok){
-
-      throw new Error(
-        "HTTP " + response.status
-      );
-
-    }
-
-    const data = await response.json();
-
-    if(!data.success){
-
-      throw new Error(
-        data.message ||
-        "Failed to load wall"
-      );
-
-    }
-
-
-    /* =========================
-       UNITS
-    ========================= */
-
-    unitMap.clear();
-
-    (data.units || []).forEach(unit=>{
-
-      unitMap.set(
-        String(unit.id).trim(),
-        unit
-      );
-
-    });
-
-
-    /* =========================
-       ADS
-    ========================= */
-
-    ads = (data.ads || []).map(ad=>{
-
-      let ids = ad.unitIds;
-
-      /*
-       * Apps Script may return
-       * an array OR a JSON string.
-       */
-
-      if(typeof ids === "string"){
-
-        try{
-
-          ids = JSON.parse(ids);
-
-        }catch(e){
-
-          ids =
-            ids
-              .split(",")
-              .map(x=>x.trim())
-              .filter(Boolean);
-
-        }
-
-      }
-
-      if(!Array.isArray(ids)){
-
-        ids = [];
-
-      }
-
-      return {
-        ...ad,
-        unitIds: ids
-      };
-
-    });
-
-
-    wallDataLoaded = true;
-
-
-    console.log(
-      "HITAN WALL DATA:",
-      data
-    );
-
-    console.log(
-      "ACTIVE ADS:",
-      ads
-    );
-
-
-    return data;
-
-
-  }catch(error){
-
-    console.error(
-      "Wall loading error:",
-      error
-    );
-
-    wallDataLoaded = false;
-
-    showTemporaryHint(
-      "تعذّر تحميل حالة الحائط."
-    );
-
-    return null;
-
-  }
-
-}
-
-
-/* =========================================================
-   UNIT HELPERS
-========================================================= */
-
-function getUnitId(row,col){
-
-  const number =
-    row * COLS + col + 1;
-
-  return "A" +
-    String(number).padStart(4,"0");
-
-}
-
-
-function getUnit(row,col){
-
-  return unitMap.get(
-    getUnitId(row,col)
-  );
-
-}
-
-
-function isUnitAvailable(row,col){
-
-  const unit =
-    getUnit(row,col);
-
-  return !!unit &&
-    unit.status === "Available";
-
-}
-
-
-function isCenter(row,col){
-
-  return (
-    row >= CENTER_START &&
-    row <= CENTER_END &&
-    col >= CENTER_START &&
-    col <= CENTER_END
-  );
-
-}
-
-
-/* =========================================================
-   CANVAS
-========================================================= */
-
-const canvas =
-  document.getElementById(
-    "wallCanvas"
-  );
-
-const ctx =
-  canvas.getContext("2d",{
-    alpha:false
-  });
-
-
-let W = window.innerWidth;
-let H = window.innerHeight;
-
-let dpr =
-  Math.min(
-    window.devicePixelRatio || 1,
-    2
-  );
-
-
-let worldSize = 1000;
-
-let cellSize =
-  worldSize / COLS;
-
 let zoom = 1;
 
 let cameraX = 0;
 let cameraY = 0;
 
+let worldSize = 2000;
+
+let canvas;
+let ctx;
+
+let textureCanvas;
+let textureCtx;
+
+let wallWidth = 0;
+let wallHeight = 0;
+
+let isPointerDown = false;
+
+let pointerId = null;
+
+let pointerStartX = 0;
+let pointerStartY = 0;
+
+let lastPointerX = 0;
+let lastPointerY = 0;
+
+let didDrag = false;
+
+let pinchStartDistance = 0;
+let pinchStartZoom = 1;
+
+let activeAd = null;
+
+let pendingOrderId = null;
+
+let lastAdForDetails = null;
+
+const imageCache = new Map();
+
 
 /* =========================================================
-   RESIZE
+   DOM
+========================================================= */
+
+const wallViewport =
+  document.getElementById("wallViewport");
+
+canvas =
+  document.getElementById("wallCanvas");
+
+ctx =
+  canvas.getContext("2d");
+
+const loading =
+  document.getElementById("loading");
+
+const bottomPanel =
+  document.getElementById("bottomPanel");
+
+const selectedCountEl =
+  document.getElementById("selectedCount");
+
+const totalPriceEl =
+  document.getElementById("totalPrice");
+
+const selectionStatus =
+  document.getElementById("selectionStatus");
+
+const standardBtn =
+  document.getElementById("standardBtn");
+
+const centerBtn =
+  document.getElementById("centerBtn");
+
+const confirmArea =
+  document.getElementById("confirmArea");
+
+const bookingModal =
+  document.getElementById("bookingModal");
+
+const paymentModal =
+  document.getElementById("paymentModal");
+
+const successModal =
+  document.getElementById("successModal");
+
+const adModal =
+  document.getElementById("adModal");
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function showToast(message){
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.textContent = message;
+
+  toast.classList.add("show");
+
+  clearTimeout(showToast.timer);
+
+  showToast.timer =
+    setTimeout(()=>{
+      toast.classList.remove("show");
+    },3000);
+}
+
+
+function showTemporaryHint(message){
+
+  showToast(message);
+
+}
+
+
+function openModal(modal){
+
+  modal.classList.remove("hidden");
+
+}
+
+
+function closeModal(modal){
+
+  modal.classList.add("hidden");
+
+}
+
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+function normalizePhone(phone){
+
+  return String(phone ?? "")
+    .trim();
+
+}
+
+
+function normalizeWhatsApp(phone){
+
+  let value =
+    String(phone ?? "")
+      .trim()
+      .replace(/[^\d+]/g,"");
+
+  if(!value){
+    return "";
+  }
+
+  if(value.startsWith("+")){
+    return value.substring(1);
+  }
+
+  if(value.startsWith("961")){
+    return value;
+  }
+
+  if(value.startsWith("0")){
+    return "961" + value.substring(1);
+  }
+
+  if(value.length === 8){
+    return "961" + value;
+  }
+
+  return value;
+}
+
+
+function normalizeInstagram(value){
+
+  let username =
+    String(value ?? "")
+      .trim();
+
+  if(!username){
+    return "";
+  }
+
+  username =
+    username.replace(/^@/,"");
+
+  if(username.includes("instagram.com/")){
+
+    username =
+      username
+        .split("instagram.com/")[1]
+        .split(/[?#]/)[0]
+        .replace(/^@/,"");
+
+  }
+
+  return username;
+
+}
+
+
+function generatePublicAdUrl(adId){
+
+  return (
+    window.location.origin +
+    window.location.pathname +
+    "?ad=" +
+    encodeURIComponent(adId)
+  );
+
+}
+
+
+/* =========================================================
+   CANVAS RESIZE
 ========================================================= */
 
 function resizeCanvas(){
 
-  W = window.innerWidth;
-  H = window.innerHeight;
+  const dpr =
+    Math.max(1,window.devicePixelRatio || 1);
 
-  dpr =
-    Math.min(
-      window.devicePixelRatio || 1,
-      2
-    );
+  const width =
+    wallViewport.clientWidth;
 
+  const height =
+    wallViewport.clientHeight;
 
   canvas.width =
-    Math.floor(W*dpr);
+    Math.floor(width * dpr);
 
   canvas.height =
-    Math.floor(H*dpr);
-
+    Math.floor(height * dpr);
 
   canvas.style.width =
-    W + "px";
+    width + "px";
 
   canvas.style.height =
-    H + "px";
-
+    height + "px";
 
   ctx.setTransform(
     dpr,
@@ -1535,92 +1505,104 @@ function resizeCanvas(){
     0
   );
 
-
-  calculateWorld();
-
-  clampCamera();
+  wallWidth = width;
+  wallHeight = height;
 
   draw();
 
 }
 
 
-window.addEventListener(
-  "resize",
-  resizeCanvas
-);
-
-
 /* =========================================================
-   WORLD
+   WORLD / CAMERA
 ========================================================= */
 
-function calculateWorld(){
+function getCellSize(){
 
-  worldSize =
-    Math.max(
-      W,
-      H
-    );
-
-  cellSize =
-    worldSize / COLS;
-
-
-  if(zoom === 1){
-
-    cameraX =
-      (W-worldSize)/2;
-
-    cameraY =
-      (H-worldSize)/2;
-
-  }
+  return worldSize / COLS;
 
 }
 
 
-/* =========================================================
-   CAMERA
-========================================================= */
+function screenToWorld(screenX,screenY){
+
+  return {
+    x:(screenX - cameraX) / zoom,
+    y:(screenY - cameraY) / zoom
+  };
+
+}
+
+
+function worldToScreen(worldX,worldY){
+
+  return {
+    x:worldX * zoom + cameraX,
+    y:worldY * zoom + cameraY
+  };
+
+}
+
 
 function clampCamera(){
 
   const scaled =
     worldSize * zoom;
 
+  const minX =
+    Math.min(
+      wallWidth - scaled,
+      0
+    );
 
-  if(scaled <= W){
+  const maxX =
+    Math.max(
+      0,
+      wallWidth - scaled
+    );
+
+  const minY =
+    Math.min(
+      wallHeight - scaled,
+      0
+    );
+
+  const maxY =
+    Math.max(
+      0,
+      wallHeight - scaled
+    );
+
+  if(scaled <= wallWidth){
 
     cameraX =
-      (W-scaled)/2;
+      (wallWidth - scaled) / 2;
 
   }else{
 
     cameraX =
-      Math.max(
-        W-scaled,
-        Math.min(
-          0,
+      Math.min(
+        0,
+        Math.max(
+          minX,
           cameraX
         )
       );
 
   }
 
-
-  if(scaled <= H){
+  if(scaled <= wallHeight){
 
     cameraY =
-      (H-scaled)/2;
+      (wallHeight - scaled) / 2;
 
   }else{
 
     cameraY =
-      Math.max(
-        H-scaled,
-        Math.min(
-          0,
+      Math.min(
+        0,
+        Math.max(
+          minY,
           cameraY
         )
       );
@@ -1630,78 +1612,126 @@ function clampCamera(){
 }
 
 
+function zoomAt(
+  newZoom,
+  screenX,
+  screenY
+){
+
+  const oldZoom = zoom;
+
+  newZoom =
+    Math.max(
+      MIN_ZOOM,
+      Math.min(MAX_ZOOM,newZoom)
+    );
+
+  if(newZoom === oldZoom){
+    return;
+  }
+
+  const world =
+    screenToWorld(
+      screenX,
+      screenY
+    );
+
+  zoom = newZoom;
+
+  cameraX =
+    screenX -
+    world.x * zoom;
+
+  cameraY =
+    screenY -
+    world.y * zoom;
+
+  clampCamera();
+
+  draw();
+
+}
+
+
+/* =========================================================
+   INITIAL CAMERA
+========================================================= */
+
+function resetCamera(){
+
+  zoom = 0.75;
+
+  cameraX =
+    (wallWidth - worldSize * zoom) / 2;
+
+  cameraY =
+    (wallHeight - worldSize * zoom) / 2;
+
+  clampCamera();
+
+  draw();
+
+}
+
+
 /* =========================================================
    WALL TEXTURE
 ========================================================= */
-
-let textureCanvas = null;
-
 
 function createWallTexture(){
 
   textureCanvas =
     document.createElement("canvas");
 
-  textureCanvas.width = 1000;
-  textureCanvas.height = 1000;
+  textureCanvas.width =
+    1600;
 
+  textureCanvas.height =
+    1600;
 
-  const t =
+  textureCtx =
     textureCanvas.getContext("2d");
 
+  const w =
+    textureCanvas.width;
 
-  /*
-   * IMPORTANT:
-   * Texture is generated ONLY ONCE.
-   * This prevents changing colors.
-   */
+  const h =
+    textureCanvas.height;
 
-  t.fillStyle = "#8a8176";
 
-  t.fillRect(
+  /* concrete base */
+
+  textureCtx.fillStyle =
+    "#aaa49a";
+
+  textureCtx.fillRect(
     0,
     0,
-    1000,
-    1000
+    w,
+    h
   );
 
 
-  /*
-   * Concrete noise
-   */
+  /* subtle noise */
 
-  for(let i=0;i<12000;i++){
+  for(let i=0;i<18000;i++){
 
     const x =
-      Math.random()*1000;
+      Math.random() * w;
 
     const y =
-      Math.random()*1000;
-
-    const shade =
-      80 +
-      Math.floor(
-        Math.random()*80
-      );
-
-    const alpha =
-      Math.random()*0.10;
-
-
-    t.fillStyle =
-      `rgba(
-        ${shade},
-        ${Math.max(0,shade-5)},
-        ${Math.max(0,shade-10)},
-        ${alpha}
-      )`;
-
+      Math.random() * h;
 
     const size =
-      Math.random()*4;
+      Math.random() * 4 + 1;
 
+    const alpha =
+      Math.random() * .09;
 
-    t.fillRect(
+    textureCtx.fillStyle =
+      `rgba(40,35,30,${alpha})`;
+
+    textureCtx.fillRect(
       x,
       y,
       size,
@@ -1711,237 +1741,112 @@ function createWallTexture(){
   }
 
 
-  /*
-   * Horizontal marks
-   */
+  /* cracks */
 
-  for(let i=0;i<30;i++){
-
-    const y =
-      Math.random()*1000;
-
-
-    t.fillStyle =
-      "rgba(30,30,30,.06)";
-
-
-    t.fillRect(
-      0,
-      y,
-      1000,
-      Math.random()*10+2
-    );
-
-  }
-
-
-  /*
-   * Cracks
-   */
-
-  for(let i=0;i<20;i++){
+  for(let i=0;i<25;i++){
 
     let x =
-      Math.random()*1000;
+      Math.random() * w;
 
     let y =
-      Math.random()*1000;
+      Math.random() * h;
 
+    textureCtx.beginPath();
 
-    t.beginPath();
-
-    t.moveTo(
-      x,
-      y
-    );
-
+    textureCtx.moveTo(x,y);
 
     for(let j=0;j<5;j++){
 
       x +=
-        (Math.random()-.5)*70;
+        (Math.random() - .5) * 100;
 
       y +=
-        Math.random()*60;
+        Math.random() * 80;
 
-
-      t.lineTo(
-        x,
-        y
-      );
+      textureCtx.lineTo(x,y);
 
     }
 
+    textureCtx.strokeStyle =
+      "rgba(50,45,40,.14)";
 
-    t.strokeStyle =
-      "rgba(30,25,20,.20)";
+    textureCtx.lineWidth = 2;
 
-    t.lineWidth =
-      Math.random()*2+.5;
-
-    t.stroke();
+    textureCtx.stroke();
 
   }
 
 
-  /*
-   * Posters
-   */
+  /* posters */
 
-  const posters = [
+  for(let i=0;i<15;i++){
 
-    [80,130,190,100],
-    [710,110,160,110],
-    [130,700,180,120],
-    [720,720,190,120]
+    const x =
+      Math.random() * (w - 180);
 
-  ];
+    const y =
+      Math.random() * (h - 220);
 
+    const pw =
+      90 + Math.random() * 90;
 
-  posters.forEach(p=>{
+    const ph =
+      100 + Math.random() * 120;
 
-    t.fillStyle =
-      "rgba(40,35,30,.35)";
+    textureCtx.fillStyle =
+      "rgba(245,240,225,.5)";
 
-
-    t.fillRect(
-      p[0]+5,
-      p[1]+6,
-      p[2],
-      p[3]
+    textureCtx.fillRect(
+      x,
+      y,
+      pw,
+      ph
     );
 
+    textureCtx.strokeStyle =
+      "rgba(40,40,40,.15)";
 
-    t.fillStyle =
-      "rgba(150,120,100,.85)";
-
-
-    t.fillRect(
-      p[0],
-      p[1],
-      p[2],
-      p[3]
+    textureCtx.strokeRect(
+      x,
+      y,
+      pw,
+      ph
     );
 
-
-    t.fillStyle =
-      "rgba(255,255,255,.15)";
-
-
-    t.fillRect(
-      p[0]+10,
-      p[1]+12,
-      p[2]-20,
-      8
-    );
-
-
-    t.fillRect(
-      p[0]+10,
-      p[1]+30,
-      p[2]*.55,
-      5
-    );
-
-  });
-
-
-  /*
-   * Lebanon text
-   */
-
-  t.save();
-
-  t.translate(
-    350,
-    400
-  );
-
-  t.rotate(-.08);
-
-  t.font =
-    "bold 80px Arial";
-
-  t.fillStyle =
-    "rgba(20,20,20,.22)";
-
-  t.fillText(
-    "LEBANON",
-    0,
-    0
-  );
-
-  t.restore();
-
-
-  t.font =
-    "bold 65px Arial";
-
-  t.fillStyle =
-    "rgba(30,30,30,.16)";
-
-  t.fillText(
-    "بيروت",
-    470,
-    650
-  );
+  }
 
 }
 
 
-createWallTexture();
-
-
 /* =========================================================
-   DRAW
+   WALL DRAW
 ========================================================= */
 
 function draw(){
 
-  /*
-   * Prevent excessive rendering.
-   */
-
-  const now =
-    performance.now();
-
-  if(
-    now-lastDrawTime < 16
-  ){
-
+  if(!ctx){
     return;
-
   }
-
-  lastDrawTime = now;
-
 
   ctx.clearRect(
     0,
     0,
-    W,
-    H
+    wallWidth,
+    wallHeight
   );
 
-
   ctx.save();
-
 
   ctx.translate(
     cameraX,
     cameraY
   );
 
-
   ctx.scale(
     zoom,
     zoom
   );
 
-
-  /*
-   * WALL
-   */
 
   ctx.drawImage(
     textureCanvas,
@@ -1968,213 +1873,94 @@ function draw(){
 }
 
 
-/* =========================================================
-   WALL DETAILS
-========================================================= */
-
 function drawWallDetails(){
 
-  if(zoom < 1.5){
-    return;
-  }
-
-
-  const x =
-    CENTER_START * cellSize;
-
-  const y =
-    CENTER_START * cellSize;
-
-  const size =
-    (CENTER_END-CENTER_START+1) *
-    cellSize;
-
-
-  ctx.fillStyle =
-    "rgba(255,190,40,.07)";
-
-
-  ctx.fillRect(
-    x,
-    y,
-    size,
-    size
-  );
-
+  /* wall border */
 
   ctx.strokeStyle =
-    "rgba(255,210,80,.45)";
-
+    "rgba(0,0,0,.35)";
 
   ctx.lineWidth =
-    Math.max(
-      1,
-      1.5/zoom
-    );
-
+    14 / zoom;
 
   ctx.strokeRect(
-    x,
-    y,
-    size,
-    size
+    0,
+    0,
+    worldSize,
+    worldSize
+  );
+
+
+  /* subtle Lebanese colors */
+
+  ctx.fillStyle =
+    "rgba(200,30,40,.05)";
+
+  ctx.fillRect(
+    worldSize * .46,
+    0,
+    worldSize * .08,
+    worldSize
   );
 
 }
 
-
-/* =========================================================
-   VISIBLE RANGE
-========================================================= */
-
-function getVisibleRange(){
-
-  const left =
-    Math.max(
-      0,
-      -cameraX/zoom
-    );
-
-  const top =
-    Math.max(
-      0,
-      -cameraY/zoom
-    );
-
-  const right =
-    Math.min(
-      worldSize,
-      (W-cameraX)/zoom
-    );
-
-  const bottom =
-    Math.min(
-      worldSize,
-      (H-cameraY)/zoom
-    );
-
-
-  return {
-
-    startCol:
-      Math.max(
-        0,
-        Math.floor(left/cellSize)-1
-      ),
-
-    endCol:
-      Math.min(
-        COLS-1,
-        Math.ceil(right/cellSize)+1
-      ),
-
-    startRow:
-      Math.max(
-        0,
-        Math.floor(top/cellSize)-1
-      ),
-
-    endRow:
-      Math.min(
-        ROWS-1,
-        Math.ceil(bottom/cellSize)+1
-      )
-
-  };
-
-}
-
-
-/* =========================================================
-   AVAILABILITY
-========================================================= */
 
 function drawAvailability(){
 
-  if(
-    !wallDataLoaded ||
-    zoom < 2.2
-  ){
-
+  if(zoom < 1.8){
     return;
-
   }
 
+  const cell =
+    getCellSize();
 
-  const range =
-    getVisibleRange();
-
-
-  for(
-    let r=range.startRow;
-    r<=range.endRow;
-    r++
-  ){
-
-    for(
-      let c=range.startCol;
-      c<=range.endCol;
-      c++
-    ){
-
-      const unit =
-        getUnit(r,c);
-
-      if(!unit) continue;
+  const visible =
+    getVisibleCells();
 
 
-      const x =
-        c*cellSize;
+  visible.forEach(cellData=>{
 
-      const y =
-        r*cellSize;
+    const id =
+      cellData.id;
 
+    const unit =
+      unitMap.get(id);
 
-      if(
-        unit.status === "Active"
-      ){
+    if(!unit){
+      return;
+    }
 
-        ctx.fillStyle =
-          "rgba(35,35,35,.78)";
+    let fill =
+      null;
 
+    if(unit.status === "Available"){
 
-        ctx.fillRect(
-          x,
-          y,
-          cellSize,
-          cellSize
-        );
+      fill =
+        selectedCells.has(id)
+          ? "rgba(255,255,255,.22)"
+          : "rgba(255,255,255,.035)";
 
-      }
+    }else{
 
-
-      else if(
-        unit.status === "Reserved"
-      ){
-
-        ctx.fillStyle =
-          "rgba(255,150,40,.40)";
-
-
-        ctx.fillRect(
-          x,
-          y,
-          cellSize,
-          cellSize
-        );
-
-      }
+      fill =
+        "rgba(20,20,20,.15)";
 
     }
 
-  }
+    ctx.fillStyle = fill;
+
+    ctx.fillRect(
+      cellData.col * cell,
+      cellData.row * cell,
+      cell,
+      cell
+    );
+
+  });
 
 }
 
-
-/* =========================================================
-   GRID
-========================================================= */
 
 function drawGrid(){
 
@@ -2182,50 +1968,56 @@ function drawGrid(){
     return;
   }
 
+  const cell =
+    getCellSize();
 
-  const range =
-    getVisibleRange();
+  const visible =
+    getVisibleCells();
 
+  const minRow =
+    Math.min(
+      ...visible.map(x=>x.row)
+    );
 
-  const step =
-    cellSize;
+  const maxRow =
+    Math.max(
+      ...visible.map(x=>x.row)
+    );
+
+  const minCol =
+    Math.min(
+      ...visible.map(x=>x.col)
+    );
+
+  const maxCol =
+    Math.max(
+      ...visible.map(x=>x.col)
+    );
 
 
   ctx.strokeStyle =
-    "rgba(20,20,20,.30)";
-
+    `rgba(30,30,30,${Math.min(.34,zoom/25)})`;
 
   ctx.lineWidth =
-    Math.max(
-      .5,
-      1/zoom
-    );
+    1 / zoom;
 
-
-  /*
-   * Vertical
-   */
 
   for(
-    let c=range.startCol;
-    c<=range.endCol+1;
+    let c=minCol;
+    c<=maxCol+1;
     c++
   ){
 
-    const x =
-      c*step;
-
-
     ctx.beginPath();
 
     ctx.moveTo(
-      x,
-      range.startRow*step
+      c * cell,
+      minRow * cell
     );
 
     ctx.lineTo(
-      x,
-      (range.endRow+1)*step
+      c * cell,
+      (maxRow + 1) * cell
     );
 
     ctx.stroke();
@@ -2233,30 +2025,22 @@ function drawGrid(){
   }
 
 
-  /*
-   * Horizontal
-   */
-
   for(
-    let r=range.startRow;
-    r<=range.endRow+1;
+    let r=minRow;
+    r<=maxRow+1;
     r++
   ){
 
-    const y =
-      r*step;
-
-
     ctx.beginPath();
 
     ctx.moveTo(
-      range.startCol*step,
-      y
+      minCol * cell,
+      r * cell
     );
 
     ctx.lineTo(
-      (range.endCol+1)*step,
-      y
+      (maxCol + 1) * cell,
+      r * cell
     );
 
     ctx.stroke();
@@ -2264,435 +2048,71 @@ function drawGrid(){
   }
 
 
-  /*
-   * IDs only at extreme zoom.
-   */
-
   if(zoom >= 7){
 
-    ctx.font =
-      `${Math.max(
-        5,
-        8/zoom
-      )}px Arial`;
-
-
     ctx.fillStyle =
-      "rgba(0,0,0,.55)";
+      "rgba(20,20,20,.6)";
 
+    ctx.font =
+      `${Math.max(6,cell*.25)}px Arial`;
 
-    for(
-      let r=range.startRow;
-      r<=range.endRow;
-      r++
-    ){
+    visible.forEach(c=>{
 
-      for(
-        let c=range.startCol;
-        c<=range.endCol;
-        c++
-      ){
-
-        const id =
-          getUnitId(r,c);
-
-
-        ctx.fillText(
-          id,
-          c*step+step*.12,
-          r*step+step*.55
-        );
-
-      }
-
-    }
-
-  }
-
-}
-
-
-/* =========================================================
-   ADS
-========================================================= */
-
-function drawAds(){
-
-  if(
-    !wallDataLoaded ||
-    !ads ||
-    !ads.length
-  ){
-
-    return;
-
-  }
-
-
-  ads.forEach(ad=>{
-
-    if(
-      !Array.isArray(ad.unitIds) ||
-      !ad.unitIds.length
-    ){
-
-      return;
-
-    }
-
-
-    let minRow = ROWS;
-    let maxRow = -1;
-
-    let minCol = COLS;
-    let maxCol = -1;
-
-
-    ad.unitIds.forEach(id=>{
-
-      const match =
-        String(id)
-          .match(/A(\d+)/i);
-
-
-      if(!match){
-        return;
-      }
-
-
-      const number =
-        parseInt(
-          match[1],
-          10
-        );
-
-
-      if(
-        number<1 ||
-        number>10000
-      ){
-
-        return;
-
-      }
-
-
-      const index =
-        number-1;
-
-
-      const row =
-        Math.floor(
-          index/COLS
-        );
-
-
-      const col =
-        index%COLS;
-
-
-      minRow =
-        Math.min(
-          minRow,
-          row
-        );
-
-
-      maxRow =
-        Math.max(
-          maxRow,
-          row
-        );
-
-
-      minCol =
-        Math.min(
-          minCol,
-          col
-        );
-
-
-      maxCol =
-        Math.max(
-          maxCol,
-          col
-        );
+      ctx.fillText(
+        c.id,
+        c.col * cell + cell*.08,
+        c.row * cell + cell*.45
+      );
 
     });
 
-
-    if(maxRow<0){
-      return;
-    }
-
-
-    const x =
-      minCol*cellSize;
-
-    const y =
-      minRow*cellSize;
-
-
-    const width =
-      (maxCol-minCol+1)*
-      cellSize;
-
-
-    const height =
-      (maxRow-minRow+1)*
-      cellSize;
-
-
-    /*
-     * Check visibility.
-     */
-
-    const screenLeft =
-      cameraX+x*zoom;
-
-    const screenRight =
-      cameraX+(x+width)*zoom;
-
-    const screenTop =
-      cameraY+y*zoom;
-
-    const screenBottom =
-      cameraY+(y+height)*zoom;
-
-
-    if(
-      screenRight<0 ||
-      screenLeft>W ||
-      screenBottom<0 ||
-      screenTop>H
-    ){
-
-      return;
-
-    }
-
-
-    /*
-     * Advertisement background.
-     */
-
-    ctx.fillStyle =
-      "rgba(255,255,255,.94)";
-
-
-    ctx.fillRect(
-      x+cellSize*.08,
-      y+cellSize*.08,
-      Math.max(
-        1,
-        width-cellSize*.16
-      ),
-      Math.max(
-        1,
-        height-cellSize*.16
-      )
-    );
-
-
-    /*
-     * Border.
-     */
-
-    ctx.strokeStyle =
-      "rgba(20,20,20,.85)";
-
-
-    ctx.lineWidth =
-      Math.max(
-        1,
-        1.5/zoom
-      );
-
-
-    ctx.strokeRect(
-      x+cellSize*.08,
-      y+cellSize*.08,
-      Math.max(
-        1,
-        width-cellSize*.16
-      ),
-      Math.max(
-        1,
-        height-cellSize*.16
-      )
-    );
-
-
-    /*
-     * Content.
-     */
-
-    ctx.fillStyle =
-      "#111";
-
-
-    ctx.textAlign =
-      "center";
-
-
-    ctx.textBaseline =
-      "middle";
-
-
-    const centerX =
-      x+width/2;
-
-    const centerY =
-      y+height/2;
-
-
-    if(ad.name){
-
-      const fontSize =
-        Math.max(
-          8,
-          Math.min(
-            28,
-            width*.12
-          )
-        );
-
-
-      ctx.font =
-        `bold ${fontSize}px Arial`;
-
-
-      ctx.fillText(
-        String(ad.name),
-        centerX,
-        centerY
-      );
-
-
-    }else{
-
-      ctx.font =
-        `bold ${Math.max(
-          8,
-          Math.min(
-            20,
-            width*.09
-          )
-        )}px Arial`;
-
-
-      ctx.fillText(
-        "إعلان",
-        centerX,
-        centerY
-      );
-
-    }
-
-
-    ctx.textAlign =
-      "start";
-
-
-    ctx.textBaseline =
-      "alphabetic";
-
-  });
-
-}
-
-
-/* =========================================================
-   SELECTION
-========================================================= */
-
-function cellKey(r,c){
-
-  return r+"_"+c;
-
-}
-
-
-function isAdjacentToSelection(r,c){
-
-  if(
-    selectedCells.size===0
-  ){
-
-    return true;
-
   }
-
-
-  return [
-
-    [r-1,c],
-    [r+1,c],
-    [r,c-1],
-    [r,c+1]
-
-  ].some(
-    ([nr,nc])=>
-      selectedCells.has(
-        cellKey(nr,nc)
-      )
-  );
 
 }
 
 
 function drawSelection(){
 
-  selectedCells.forEach(key=>{
+  if(selectedCells.size === 0){
+    return;
+  }
 
-    const parts =
-      key.split("_");
+  const cell =
+    getCellSize();
 
+  selectedCells.forEach(id=>{
 
-    const r =
-      Number(parts[0]);
+    const unit =
+      unitMap.get(id);
 
-    const c =
-      Number(parts[1]);
-
-
-    const x =
-      c*cellSize;
-
-    const y =
-      r*cellSize;
-
+    if(!unit){
+      return;
+    }
 
     ctx.fillStyle =
-      selectedType==="Center"
-        ? "rgba(255,205,40,.75)"
-        : "rgba(80,180,255,.72)";
-
+      "rgba(255,255,255,.48)";
 
     ctx.fillRect(
-      x,
-      y,
-      cellSize,
-      cellSize
+      unit.col * cell,
+      unit.row * cell,
+      cell,
+      cell
     );
 
-
     ctx.strokeStyle =
-      "#fff";
-
+      "rgba(0,0,0,.85)";
 
     ctx.lineWidth =
       Math.max(
         1,
-        2/zoom
+        2 / zoom
       );
 
-
     ctx.strokeRect(
-      x,
-      y,
-      cellSize,
-      cellSize
+      unit.col * cell,
+      unit.row * cell,
+      cell,
+      cell
     );
 
   });
@@ -2700,110 +2120,499 @@ function drawSelection(){
 }
 
 
-/* =========================================================
-   SCREEN TO CELL
-========================================================= */
+function getAdForUnit(id){
 
-function screenToCell(
-  clientX,
-  clientY
-){
+  for(const ad of ads){
 
-  const worldX =
-    (clientX-cameraX)/zoom;
+    const ids =
+      normalizeAdUnitIds(ad);
 
-  const worldY =
-    (clientY-cameraY)/zoom;
-
-
-  const col =
-    Math.floor(
-      worldX/cellSize
-    );
-
-
-  const row =
-    Math.floor(
-      worldY/cellSize
-    );
-
-
-  if(
-    row<0 ||
-    row>=ROWS ||
-    col<0 ||
-    col>=COLS
-  ){
-
-    return null;
+    if(ids.includes(id)){
+      return ad;
+    }
 
   }
 
+  return null;
 
-  return {
-    row,
-    col
-  };
+}
+
+
+function normalizeAdUnitIds(ad){
+
+  let ids =
+    ad?.unitIds;
+
+  if(Array.isArray(ids)){
+    return ids.map(x=>String(x).trim());
+  }
+
+  if(typeof ids === "string"){
+
+    try{
+
+      const parsed =
+        JSON.parse(ids);
+
+      if(Array.isArray(parsed)){
+        return parsed.map(x=>String(x).trim());
+      }
+
+    }catch(e){}
+
+    return ids
+      .split(",")
+      .map(x=>x.trim())
+      .filter(Boolean);
+
+  }
+
+  return [];
+
+}
+
+
+function getImage(url){
+
+  if(!url){
+    return null;
+  }
+
+  if(imageCache.has(url)){
+    return imageCache.get(url);
+  }
+
+  const img =
+    new Image();
+
+  img.onload =
+    ()=>{
+      draw();
+    };
+
+  img.onerror =
+    ()=>{
+      imageCache.delete(url);
+      draw();
+    };
+
+  img.src = url;
+
+  imageCache.set(
+    url,
+    img
+  );
+
+  return img;
+
+}
+
+
+function drawAds(){
+
+  if(!ads.length){
+    return;
+  }
+
+  const cell =
+    getCellSize();
+
+
+  ads.forEach(ad=>{
+
+    const ids =
+      normalizeAdUnitIds(ad);
+
+    if(!ids.length){
+      return;
+    }
+
+
+    let minRow = 999;
+    let maxRow = -1;
+    let minCol = 999;
+    let maxCol = -1;
+
+
+    ids.forEach(id=>{
+
+      const unit =
+        unitMap.get(id);
+
+      if(!unit){
+        return;
+      }
+
+      const row =
+        Number(unit.row);
+
+      const col =
+        Number(unit.col);
+
+      minRow =
+        Math.min(minRow,row);
+
+      maxRow =
+        Math.max(maxRow,row);
+
+      minCol =
+        Math.min(minCol,col);
+
+      maxCol =
+        Math.max(maxCol,col);
+
+    });
+
+
+    if(maxRow < 0){
+      return;
+    }
+
+
+    const x =
+      minCol * cell;
+
+    const y =
+      minRow * cell;
+
+    const width =
+      (maxCol-minCol+1) * cell;
+
+    const height =
+      (maxRow-minRow+1) * cell;
+
+
+    ctx.fillStyle =
+      "rgba(248,245,235,.95)";
+
+    ctx.fillRect(
+      x,
+      y,
+      width,
+      height
+    );
+
+
+    ctx.strokeStyle =
+      "rgba(25,25,25,.45)";
+
+    ctx.lineWidth =
+      Math.max(
+        1,
+        2 / zoom
+      );
+
+    ctx.strokeRect(
+      x,
+      y,
+      width,
+      height
+    );
+
+
+    const logoUrl =
+      ad.logoUrl ||
+      ad.logo ||
+      "";
+
+
+    const img =
+      getImage(logoUrl);
+
+
+    const padding =
+      Math.max(
+        4,
+        cell * .3
+      );
+
+
+    if(img && img.complete && img.naturalWidth){
+
+      const maxW =
+        Math.max(
+          10,
+          width - padding * 2
+        );
+
+      const maxH =
+        Math.max(
+          10,
+          height * .62
+        );
+
+      const ratio =
+        Math.min(
+          maxW / img.naturalWidth,
+          maxH / img.naturalHeight
+        );
+
+      const iw =
+        img.naturalWidth * ratio;
+
+      const ih =
+        img.naturalHeight * ratio;
+
+
+      ctx.drawImage(
+        img,
+        x + (width-iw)/2,
+        y + padding,
+        iw,
+        ih
+      );
+
+    }
+
+
+    const name =
+      String(
+        ad.name ||
+        ad.adName ||
+        ""
+      ).trim();
+
+
+    if(name){
+
+      const fontSize =
+        Math.max(
+          8,
+          Math.min(
+            24,
+            Math.sqrt(
+              width * height
+            ) * .08
+          )
+        );
+
+      ctx.fillStyle =
+        "#161616";
+
+      ctx.font =
+        `900 ${fontSize}px Arial`;
+
+      ctx.textAlign =
+        "center";
+
+      ctx.textBaseline =
+        "middle";
+
+      ctx.fillText(
+        name,
+        x + width/2,
+        y + height*.78,
+        Math.max(
+          20,
+          width-padding*2
+        )
+      );
+
+      ctx.textAlign =
+        "start";
+
+      ctx.textBaseline =
+        "alphabetic";
+
+    }
+
+  });
 
 }
 
 
 /* =========================================================
-   SELECT CELL
+   VISIBLE CELLS
 ========================================================= */
 
-function selectCell(
-  row,
-  col
-){
+function getVisibleCells(){
 
-  if(!wallDataLoaded){
+  const cell =
+    getCellSize();
 
-    showTemporaryHint(
-      "الحائط لم يكتمل تحميله بعد."
-    );
+  const topLeft =
+    screenToWorld(0,0);
 
-    return;
-
-  }
-
-
-  const key =
-    cellKey(
-      row,
-      col
+  const bottomRight =
+    screenToWorld(
+      wallWidth,
+      wallHeight
     );
 
 
-  /*
-   * Remove
-   */
+  const minCol =
+    Math.max(
+      0,
+      Math.floor(
+        topLeft.x / cell
+      ) - 1
+    );
 
-  if(
-    selectedCells.has(key)
+  const maxCol =
+    Math.min(
+      COLS-1,
+      Math.ceil(
+        bottomRight.x / cell
+      ) + 1
+    );
+
+  const minRow =
+    Math.max(
+      0,
+      Math.floor(
+        topLeft.y / cell
+      ) - 1
+    );
+
+  const maxRow =
+    Math.min(
+      ROWS-1,
+      Math.ceil(
+        bottomRight.y / cell
+      ) + 1
+    );
+
+
+  const result = [];
+
+
+  for(
+    let row=minRow;
+    row<=maxRow;
+    row++
   ){
 
-    selectedCells.delete(key);
+    for(
+      let col=minCol;
+      col<=maxCol;
+      col++
+    ){
 
-    updateUI();
+      const id =
+        "A" +
+        String(
+          row * COLS + col + 1
+        ).padStart(4,"0");
 
-    draw();
 
-    return;
+      result.push({
+        id,
+        row,
+        col
+      });
+
+    }
 
   }
 
+  return result;
 
-  /*
-   * Availability
-   */
+}
 
-  if(
-    !isUnitAvailable(
-      row,
-      col
+
+/* =========================================================
+   UNIT SELECTION
+========================================================= */
+
+function isCenterCell(unit){
+
+  const row =
+    Number(unit.row);
+
+  const col =
+    Number(unit.col);
+
+  return (
+    row >= CENTER_START &&
+    row <= CENTER_END &&
+    col >= CENTER_START &&
+    col <= CENTER_END
+  );
+
+}
+
+
+function isCorrectType(unit){
+
+  if(selectedType === "Center"){
+    return isCenterCell(unit);
+  }
+
+  return !isCenterCell(unit);
+
+}
+
+
+function areAdjacent(id1,id2){
+
+  const a =
+    unitMap.get(id1);
+
+  const b =
+    unitMap.get(id2);
+
+  if(!a || !b){
+    return false;
+  }
+
+  return (
+    Math.abs(
+      Number(a.row)-Number(b.row)
+    ) +
+    Math.abs(
+      Number(a.col)-Number(b.col)
     )
-  ){
+    === 1
+  );
+
+}
+
+
+function selectionIsConnectedWith(candidateId){
+
+  if(selectedCells.size === 0){
+    return true;
+  }
+
+  for(const id of selectedCells){
+
+    if(areAdjacent(
+      id,
+      candidateId
+    )){
+      return true;
+    }
+
+  }
+
+  return false;
+
+}
+
+
+function toggleCell(id){
+
+  const unit =
+    unitMap.get(id);
+
+  if(!unit){
+    return;
+  }
+
+
+  const ad =
+    getAdForUnit(id);
+
+  if(ad){
+
+    showAdDetails(ad);
+
+    return;
+
+  }
+
+
+  if(unit.status !== "Available"){
 
     showTemporaryHint(
       "هذه المساحة غير متاحة حالياً."
@@ -2814,17 +2623,12 @@ function selectCell(
   }
 
 
-  /*
-   * Type
-   */
-
-  if(
-    selectedType==="Center" &&
-    !isCenter(row,col)
-  ){
+  if(!isCorrectType(unit)){
 
     showTemporaryHint(
-      "منطقة Center موجودة في وسط الحائط."
+      selectedType === "Center"
+        ? "المساحة المحددة يجب أن تكون داخل منطقة Center."
+        : "المساحة المحددة يجب أن تكون خارج منطقة Center."
     );
 
     return;
@@ -2832,13 +2636,23 @@ function selectCell(
   }
 
 
-  if(
-    selectedType==="Standard" &&
-    isCenter(row,col)
-  ){
+  if(selectedCells.has(id)){
+
+    selectedCells.delete(id);
+
+    updateUI();
+
+    draw();
+
+    return;
+
+  }
+
+
+  if(!selectionIsConnectedWith(id)){
 
     showTemporaryHint(
-      "هذه المنطقة مخصصة لـ Center."
+      "لازم تكون المساحات متصلة ببعضها."
     );
 
     return;
@@ -2846,27 +2660,7 @@ function selectCell(
   }
 
 
-  /*
-   * Connection
-   */
-
-  if(
-    !isAdjacentToSelection(
-      row,
-      col
-    )
-  ){
-
-    showTemporaryHint(
-      "يجب أن تكون الوحدات متصلة."
-    );
-
-    return;
-
-  }
-
-
-  selectedCells.add(key);
+  selectedCells.add(id);
 
   updateUI();
 
@@ -2876,63 +2670,348 @@ function selectCell(
 
 
 /* =========================================================
-   POINTER
+   UPDATE UI
 ========================================================= */
 
-let dragging = false;
+function updateUI(){
 
-let lastX = 0;
-let lastY = 0;
+  const count =
+    selectedCells.size;
 
-let moved = false;
-
-
-canvas.addEventListener(
-  "pointerdown",
-  e=>{
-
-    dragging = true;
-
-    moved = false;
-
-    lastX = e.clientX;
-    lastY = e.clientY;
+  selectedCountEl.textContent =
+    count +
+    (
+      count === 1
+        ? " مساحة"
+        : " مساحات"
+    );
 
 
-    try{
+  const price =
+    selectedType === "Center"
+      ? count * CENTER_PRICE
+      : count * STANDARD_PRICE;
 
-      canvas.setPointerCapture(
-        e.pointerId
+
+  totalPriceEl.textContent =
+    "$" + price;
+
+
+  confirmArea.disabled =
+    count === 0;
+
+
+  if(count === 0){
+
+    selectionStatus.textContent =
+      "حدّد المكان والمساحة التي ترغب بحجزها.";
+
+  }else{
+
+    selectionStatus.textContent =
+      "المساحة متاحة ✓";
+
+  }
+
+
+  bottomPanel.classList.toggle(
+    "hidden",
+    count === 0
+  );
+
+}
+
+
+/* =========================================================
+   CHANGE TYPE
+========================================================= */
+
+function changeType(type){
+
+  selectedType =
+    type;
+
+  selectedCells.clear();
+
+  standardBtn.classList.toggle(
+    "active",
+    type === "Standard"
+  );
+
+  centerBtn.classList.toggle(
+    "active",
+    type === "Center"
+  );
+
+  updateUI();
+
+  draw();
+
+}
+
+
+standardBtn.addEventListener(
+  "click",
+  ()=>{
+    changeType("Standard");
+  }
+);
+
+
+centerBtn.addEventListener(
+  "click",
+  ()=>{
+    changeType("Center");
+  }
+);
+
+
+/* =========================================================
+   LOAD WALL DATA
+========================================================= */
+
+async function loadWallData(){
+
+  try{
+
+    const response =
+      await fetch(
+        APP_URL +
+        "?action=wall&t=" +
+        Date.now()
       );
 
-    }catch(err){}
+
+    if(!response.ok){
+
+      throw new Error(
+        "HTTP " +
+        response.status
+      );
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    if(!data.success){
+
+      throw new Error(
+        data.message ||
+        "Failed to load wall"
+      );
+
+    }
+
+
+    unitMap.clear();
+
+
+    (data.units || [])
+      .forEach(unit=>{
+
+        unitMap.set(
+          String(unit.id).trim(),
+          unit
+        );
+
+      });
+
+
+    ads =
+      (data.ads || []).map(ad=>{
+
+        return {
+          ...ad,
+          unitIds:
+            normalizeAdUnitIds(ad)
+        };
+
+      });
+
+
+    wallDataLoaded =
+      true;
+
+
+    draw();
+
+
+    return data;
+
+
+  }catch(error){
+
+    console.error(
+      "Wall loading error:",
+      error
+    );
+
+    wallDataLoaded =
+      false;
+
+
+    showTemporaryHint(
+      "تعذّر تحميل حالة الحائط."
+    );
+
+
+    return null;
+
+  }
+
+}
+
+
+/* =========================================================
+   GET UNIT ID FROM SCREEN
+========================================================= */
+
+function getUnitAtScreen(
+  screenX,
+  screenY
+){
+
+  const world =
+    screenToWorld(
+      screenX,
+      screenY
+    );
+
+  if(
+    world.x < 0 ||
+    world.y < 0 ||
+    world.x >= worldSize ||
+    world.y >= worldSize
+  ){
+
+    return null;
+
+  }
+
+
+  const cell =
+    getCellSize();
+
+
+  const col =
+    Math.floor(
+      world.x / cell
+    );
+
+  const row =
+    Math.floor(
+      world.y / cell
+    );
+
+
+  if(
+    row < 0 ||
+    row >= ROWS ||
+    col < 0 ||
+    col >= COLS
+  ){
+
+    return null;
+
+  }
+
+
+  return (
+    "A" +
+    String(
+      row * COLS + col + 1
+    ).padStart(4,"0")
+  );
+
+}
+
+
+/* =========================================================
+   POINTER EVENTS
+========================================================= */
+
+wallViewport.addEventListener(
+  "pointerdown",
+  event=>{
+
+    if(event.pointerType === "mouse" &&
+       event.button !== 0){
+
+      return;
+
+    }
+
+
+    isPointerDown = true;
+
+    pointerId =
+      event.pointerId;
+
+    didDrag = false;
+
+
+    pointerStartX =
+      event.clientX;
+
+    pointerStartY =
+      event.clientY;
+
+    lastPointerX =
+      event.clientX;
+
+    lastPointerY =
+      event.clientY;
+
+
+    wallViewport.setPointerCapture(
+      event.pointerId
+    );
 
   }
 );
 
 
-canvas.addEventListener(
+wallViewport.addEventListener(
   "pointermove",
-  e=>{
+  event=>{
 
-    if(!dragging){
+    if(
+      !isPointerDown ||
+      event.pointerId !== pointerId
+    ){
+
       return;
+
     }
 
 
     const dx =
-      e.clientX-lastX;
+      event.clientX -
+      lastPointerX;
 
     const dy =
-      e.clientY-lastY;
+      event.clientY -
+      lastPointerY;
+
+
+    const totalDx =
+      event.clientX -
+      pointerStartX;
+
+    const totalDy =
+      event.clientY -
+      pointerStartY;
 
 
     if(
-      Math.abs(dx)>2 ||
-      Math.abs(dy)>2
+      Math.abs(totalDx) > 5 ||
+      Math.abs(totalDy) > 5
     ){
 
-      moved = true;
+      didDrag = true;
 
     }
 
@@ -2941,8 +3020,11 @@ canvas.addEventListener(
     cameraY += dy;
 
 
-    lastX = e.clientX;
-    lastY = e.clientY;
+    lastPointerX =
+      event.clientX;
+
+    lastPointerY =
+      event.clientY;
 
 
     clampCamera();
@@ -2953,33 +3035,46 @@ canvas.addEventListener(
 );
 
 
-canvas.addEventListener(
+wallViewport.addEventListener(
   "pointerup",
-  e=>{
+  event=>{
 
-    if(!dragging){
+    if(
+      event.pointerId !== pointerId
+    ){
+
       return;
+
     }
 
 
-    dragging = false;
+    isPointerDown = false;
 
 
-    if(!moved){
+    if(!didDrag){
 
-      const cell =
-        screenToCell(
-          e.clientX,
-          e.clientY
+      const rect =
+        canvas.getBoundingClientRect();
+
+      const x =
+        event.clientX -
+        rect.left;
+
+      const y =
+        event.clientY -
+        rect.top;
+
+
+      const id =
+        getUnitAtScreen(
+          x,
+          y
         );
 
 
-      if(cell){
+      if(id){
 
-        selectCell(
-          cell.row,
-          cell.col
-        );
+        toggleCell(id);
 
       }
 
@@ -2989,103 +3084,161 @@ canvas.addEventListener(
 );
 
 
-/* =========================================================
-   WHEEL ZOOM
-========================================================= */
-
-canvas.addEventListener(
-  "wheel",
-  e=>{
-
-    e.preventDefault();
-
-
-    const factor =
-      e.deltaY<0
-        ? 1.22
-        : .82;
-
-
-    zoomAt(
-      e.clientX,
-      e.clientY,
-      factor
-    );
-
-  },
-  {
-    passive:false
+wallViewport.addEventListener(
+  "pointercancel",
+  ()=>{
+    isPointerDown = false;
   }
 );
 
 
 /* =========================================================
-   ZOOM
+   WHEEL ZOOM
 ========================================================= */
 
-function zoomAt(
-  x,
-  y,
-  factor
-){
+wallViewport.addEventListener(
+  "wheel",
+  event=>{
 
-  const oldZoom =
-    zoom;
+    event.preventDefault();
 
 
-  const newZoom =
-    Math.max(
-      1,
-      Math.min(
-        16,
-        zoom*factor
-      )
+    const rect =
+      canvas.getBoundingClientRect();
+
+
+    const x =
+      event.clientX -
+      rect.left;
+
+    const y =
+      event.clientY -
+      rect.top;
+
+
+    const factor =
+      event.deltaY < 0
+        ? 1.15
+        : 0.87;
+
+
+    zoomAt(
+      zoom * factor,
+      x,
+      y
     );
 
-
-  if(
-    newZoom===oldZoom
-  ){
-
-    return;
-
-  }
+  },
+  {passive:false}
+);
 
 
-  const worldX =
-    (x-cameraX)/oldZoom;
+/* =========================================================
+   TOUCH PINCH
+========================================================= */
+
+wallViewport.addEventListener(
+  "touchstart",
+  event=>{
+
+    if(event.touches.length !== 2){
+      return;
+    }
+
+    const a =
+      event.touches[0];
+
+    const b =
+      event.touches[1];
 
 
-  const worldY =
-    (y-cameraY)/oldZoom;
+    pinchStartDistance =
+      Math.hypot(
+        a.clientX-b.clientX,
+        a.clientY-b.clientY
+      );
+
+    pinchStartZoom =
+      zoom;
+
+  },
+  {passive:true}
+);
 
 
-  zoom =
-    newZoom;
+wallViewport.addEventListener(
+  "touchmove",
+  event=>{
+
+    if(event.touches.length !== 2){
+      return;
+    }
+
+    event.preventDefault();
 
 
-  cameraX =
-    x-worldX*zoom;
+    const a =
+      event.touches[0];
+
+    const b =
+      event.touches[1];
 
 
-  cameraY =
-    y-worldY*zoom;
+    const distance =
+      Math.hypot(
+        a.clientX-b.clientX,
+        a.clientY-b.clientY
+      );
 
 
-  clampCamera();
+    if(!pinchStartDistance){
+      return;
+    }
 
-  draw();
+
+    const centerX =
+      (
+        a.clientX +
+        b.clientX
+      ) / 2;
+
+    const centerY =
+      (
+        a.clientY +
+        b.clientY
+      ) / 2;
 
 
-  if(zoom>3){
+    const rect =
+      canvas.getBoundingClientRect();
 
-    document
-      .getElementById("hint")
-      .classList.add("hidden");
 
-  }
+    const x =
+      centerX -
+      rect.left;
 
-}
+    const y =
+      centerY -
+      rect.top;
+
+
+    const newZoom =
+      pinchStartZoom *
+      (
+        distance /
+        pinchStartDistance
+      );
+
+
+    zoomAt(
+      newZoom,
+      x,
+      y
+    );
+
+  },
+  {passive:false}
+);
 
 
 /* =========================================================
@@ -3097,13 +3250,11 @@ document
   .addEventListener(
     "click",
     ()=>{
-
       zoomAt(
-        W/2,
-        H/2,
-        1.5
+        zoom * 1.25,
+        wallWidth/2,
+        wallHeight/2
       );
-
     }
   );
 
@@ -3113,13 +3264,11 @@ document
   .addEventListener(
     "click",
     ()=>{
-
       zoomAt(
-        W/2,
-        H/2,
-        .67
+        zoom * .8,
+        wallWidth/2,
+        wallHeight/2
       );
-
     }
   );
 
@@ -3129,618 +3278,525 @@ document
   .addEventListener(
     "click",
     ()=>{
-
-      zoom = 1;
-
-      calculateWorld();
-
-      clampCamera();
-
-      draw();
-
+      resetCamera();
     }
   );
-
-
-/* =========================================================
-   TOUCH PINCH
-========================================================= */
-
-let touches = {};
-
-
-canvas.addEventListener(
-  "touchstart",
-  e=>{
-
-    for(
-      const t of e.changedTouches
-    ){
-
-      touches[
-        t.identifier
-      ] = {
-
-        x:t.clientX,
-        y:t.clientY
-
-      };
-
-    }
-
-  },
-  {
-    passive:false
-  }
-);
-
-
-canvas.addEventListener(
-  "touchmove",
-  e=>{
-
-    if(
-      e.touches.length!==2
-    ){
-
-      return;
-
-    }
-
-
-    e.preventDefault();
-
-
-    const a =
-      e.touches[0];
-
-    const b =
-      e.touches[1];
-
-
-    const ta =
-      touches[a.identifier];
-
-    const tb =
-      touches[b.identifier];
-
-
-    if(!ta || !tb){
-      return;
-    }
-
-
-    const previousDistance =
-      Math.hypot(
-        ta.x-tb.x,
-        ta.y-tb.y
-      );
-
-
-    const currentDistance =
-      Math.hypot(
-        a.clientX-b.clientX,
-        a.clientY-b.clientY
-      );
-
-
-    if(
-      previousDistance>0
-    ){
-
-      const factor =
-        currentDistance/
-        previousDistance;
-
-
-      const centerX =
-        (a.clientX+b.clientX)/2;
-
-
-      const centerY =
-        (a.clientY+b.clientY)/2;
-
-
-      zoomAt(
-        centerX,
-        centerY,
-        factor
-      );
-
-    }
-
-
-    for(
-      const t of e.touches
-    ){
-
-      touches[
-        t.identifier
-      ] = {
-
-        x:t.clientX,
-        y:t.clientY
-
-      };
-
-    }
-
-  },
-  {
-    passive:false
-  }
-);
-
-
-canvas.addEventListener(
-  "touchend",
-  e=>{
-
-    for(
-      const t of e.changedTouches
-    ){
-
-      delete touches[
-        t.identifier
-      ];
-
-    }
-
-  }
-);
-
-
-/* =========================================================
-   TYPE BUTTONS
-========================================================= */
-
-document
-  .querySelectorAll(".typeBtn")
-  .forEach(btn=>{
-
-    btn.addEventListener(
-      "click",
-      ()=>{
-
-        selectedType =
-          btn.dataset.type;
-
-
-        selectedCells.clear();
-
-
-        document
-          .querySelectorAll(".typeBtn")
-          .forEach(b=>
-            b.classList.remove(
-              "active"
-            )
-          );
-
-
-        btn.classList.add(
-          "active"
-        );
-
-
-        updateUI();
-
-        draw();
-
-      }
-    );
-
-  });
-
-
-/* =========================================================
-   UI
-========================================================= */
-
-function updateUI(){
-
-  const count =
-    selectedCells.size;
-
-
-  const price =
-    selectedType==="Center"
-      ? count*CENTER_PRICE
-      : count*STANDARD_PRICE;
-
-
-  document
-    .getElementById("selectedCount")
-    .textContent =
-      count;
-
-
-  document
-    .getElementById("totalPrice")
-    .textContent =
-      price;
-
-
-  document
-    .getElementById("confirmArea")
-    .disabled =
-      count===0;
-
-}
-
-
-/* =========================================================
-   CLEAR
-========================================================= */
-
-document
-  .getElementById("clearSelection")
-  .addEventListener(
-    "click",
-    ()=>{
-
-      selectedCells.clear();
-
-      updateUI();
-
-      draw();
-
-    }
-  );
-
-
-/* =========================================================
-   HINT
-========================================================= */
-
-let hintTimer = null;
-
-
-function showTemporaryHint(message){
-
-  const hint =
-    document.getElementById("hint");
-
-
-  hint.textContent =
-    message;
-
-
-  hint.classList.remove(
-    "hidden"
-  );
-
-
-  clearTimeout(
-    hintTimer
-  );
-
-
-  hintTimer =
-    setTimeout(
-      ()=>{
-
-        hint.textContent =
-          "كبّر الحائط لتشوف الوحدات وتختار مطرحك";
-
-
-        if(zoom>3){
-
-          hint.classList.add(
-            "hidden"
-          );
-
-        }
-
-      },
-      2200
-    );
-
-}
 
 
 /* =========================================================
    BOOKING
 ========================================================= */
 
-const bookingModal =
-  document.getElementById(
-    "bookingModal"
-  );
+confirmArea.addEventListener(
+  "click",
+  ()=>{
 
-
-document
-  .getElementById("confirmArea")
-  .addEventListener(
-    "click",
-    ()=>{
-
-      if(
-        selectedCells.size===0
-      ){
-
-        return;
-
-      }
-
-
-      const count =
-        selectedCells.size;
-
-
-      const price =
-        selectedType==="Center"
-          ? count*CENTER_PRICE
-          : count*STANDARD_PRICE;
-
-
-      document
-        .getElementById("summaryType")
-        .textContent =
-          selectedType;
-
-
-      document
-        .getElementById("summaryUnits")
-        .textContent =
-          count;
-
-
-      document
-        .getElementById("summaryPrice")
-        .textContent =
-          price;
-
-
-      bookingModal
-        .classList.add("show");
-
+    if(selectedCells.size === 0){
+      return;
     }
-  );
+
+    const count =
+      selectedCells.size;
+
+    const price =
+      selectedType === "Center"
+        ? count * CENTER_PRICE
+        : count * STANDARD_PRICE;
+
+
+    document
+      .getElementById("bookingUnits")
+      .textContent =
+        count;
+
+
+    document
+      .getElementById("bookingAmount")
+      .textContent =
+        "$" + price;
+
+
+    openModal(
+      bookingModal
+    );
+
+  }
+);
 
 
 /* =========================================================
    CLOSE BOOKING
 ========================================================= */
 
-function closeBooking(){
-
-  bookingModal
-    .classList.remove(
-      "show"
-    );
-
-}
-
-
 document
   .getElementById("closeBooking")
   .addEventListener(
     "click",
-    closeBooking
-  );
-
-
-document
-  .getElementById("cancelBooking")
-  .addEventListener(
-    "click",
-    closeBooking
+    ()=>{
+      closeModal(
+        bookingModal
+      );
+    }
   );
 
 
 /* =========================================================
-   SELECTED IDS
+   UPLOAD LOGO
 ========================================================= */
 
-function getSelectedUnitIds(){
+async function uploadLogoFile(){
 
-  return [...selectedCells]
-    .map(key=>{
+  const input =
+    document.getElementById("logoFile");
 
-      const parts =
-        key.split("_");
+  const file =
+    input.files &&
+    input.files[0];
 
 
-      return getUnitId(
-        Number(parts[0]),
-        Number(parts[1])
-      );
+  if(!file){
+    return "";
+  }
 
-    });
+
+  if(file.size > 5 * 1024 * 1024){
+
+    throw new Error(
+      "حجم الشعار يجب ألا يتجاوز 5MB."
+    );
+
+  }
+
+
+  const allowed = [
+    "image/png",
+    "image/jpeg",
+    "image/webp",
+    "image/gif"
+  ];
+
+
+  if(!allowed.includes(file.type)){
+
+    throw new Error(
+      "صيغة الشعار غير مدعومة."
+    );
+
+  }
+
+
+  const base64 =
+    await new Promise(
+      (resolve,reject)=>{
+
+        const reader =
+          new FileReader();
+
+        reader.onload =
+          ()=>{
+            resolve(
+              reader.result
+            );
+          };
+
+        reader.onerror =
+          reject;
+
+        reader.readAsDataURL(
+          file
+        );
+
+      }
+    );
+
+
+  const response =
+    await fetch(
+      APP_URL,
+      {
+        method:"POST",
+        headers:{
+          "Content-Type":
+            "text/plain;charset=utf-8"
+        },
+        body:JSON.stringify({
+
+          action:"uploadLogo",
+
+          data:base64,
+
+          mimeType:file.type,
+
+          fileName:file.name
+
+        })
+      }
+    );
+
+
+  if(!response.ok){
+
+    throw new Error(
+      "تعذر رفع الشعار."
+    );
+
+  }
+
+
+  const result =
+    await response.json();
+
+
+  if(!result.success){
+
+    throw new Error(
+      result.message ||
+      "تعذر رفع الشعار."
+    );
+
+  }
+
+
+  return (
+    result.url ||
+    result.logoUrl ||
+    ""
+  );
 
 }
 
 
 /* =========================================================
-   SUBMIT BOOKING
+   CREATE ORDER
 ========================================================= */
+
+async function createBooking(){
+
+  const customerName =
+    document
+      .getElementById("customerName")
+      .value
+      .trim();
+
+
+  const customerPhone =
+    document
+      .getElementById("customerPhone")
+      .value
+      .trim();
+
+
+  const adName =
+    document
+      .getElementById("adName")
+      .value
+      .trim();
+
+
+  const adText =
+    document
+      .getElementById("adText")
+      .value
+      .trim();
+
+
+  const whatsapp =
+    document
+      .getElementById("whatsapp")
+      .value
+      .trim();
+
+
+  const instagram =
+    document
+      .getElementById("instagram")
+      .value
+      .trim();
+
+
+  if(!customerName){
+
+    showTemporaryHint(
+      "اكتب الاسم أو اسم الشركة."
+    );
+
+    return;
+
+  }
+
+
+  if(!customerPhone){
+
+    showTemporaryHint(
+      "رقم الهاتف مطلوب."
+    );
+
+    return;
+
+  }
+
+
+  if(selectedCells.size === 0){
+
+    closeModal(
+      bookingModal
+    );
+
+    showTemporaryHint(
+      "لم يتم اختيار مساحة."
+    );
+
+    return;
+
+  }
+
+
+  const submitBtn =
+    document
+      .getElementById("submitBooking");
+
+
+  submitBtn.disabled =
+    true;
+
+  submitBtn.textContent =
+    "جاري إرسال الطلب...";
+
+
+  try{
+
+    /* Upload logo first */
+
+    let logoUrl = "";
+
+    const logoInput =
+      document
+        .getElementById("logoFile");
+
+
+    if(
+      logoInput.files &&
+      logoInput.files[0]
+    ){
+
+      submitBtn.textContent =
+        "جاري رفع الشعار...";
+
+
+      logoUrl =
+        await uploadLogoFile();
+
+    }
+
+
+    submitBtn.textContent =
+      "جاري تأكيد المساحة...";
+
+
+    const unitIds =
+      Array.from(
+        selectedCells
+      );
+
+
+    const amount =
+      selectedType === "Center"
+        ? unitIds.length * CENTER_PRICE
+        : unitIds.length * STANDARD_PRICE;
+
+
+    const payload = {
+
+      action:"createOrder",
+
+      customerName,
+
+      phone:customerPhone,
+
+      unitType:selectedType,
+
+      unitIds,
+
+      unitsCount:
+        unitIds.length,
+
+      totalAmount:
+        amount,
+
+      logo:logoUrl,
+
+      logoUrl,
+
+      adName,
+
+      adText,
+
+      whatsapp,
+
+      instagram
+
+    };
+
+
+    const response =
+      await fetch(
+        APP_URL,
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "text/plain;charset=utf-8"
+          },
+
+          body:
+            JSON.stringify(payload)
+
+        }
+      );
+
+
+    if(!response.ok){
+
+      throw new Error(
+        "HTTP " +
+        response.status
+      );
+
+    }
+
+
+    const result =
+      await response.json();
+
+
+    if(!result.success){
+
+      throw new Error(
+        result.message ||
+        "تعذر إنشاء الطلب."
+      );
+
+    }
+
+
+    pendingOrderId =
+      result.orderId ||
+      result.id ||
+      "";
+
+
+    closeModal(
+      bookingModal
+    );
+
+
+    document
+      .getElementById("whishNumber")
+      .textContent =
+        result.whishNumber ||
+        WHISH_NUMBER;
+
+
+    document
+      .getElementById("paymentAmount")
+      .textContent =
+        "$" + amount;
+
+
+    openModal(
+      paymentModal
+    );
+
+
+    await loadWallData();
+
+
+  }catch(error){
+
+    console.error(
+      "Create order error:",
+      error
+    );
+
+
+    showTemporaryHint(
+      error.message ||
+      "حدث خطأ أثناء إرسال الطلب."
+    );
+
+  }finally{
+
+    submitBtn.disabled =
+      false;
+
+    submitBtn.textContent =
+      "إرسال طلب الحجز";
+
+  }
+
+}
+
 
 document
   .getElementById("submitBooking")
   .addEventListener(
     "click",
+    createBooking
+  );
+
+
+/* =========================================================
+   PAYMENT CONFIRMATION
+========================================================= */
+
+document
+  .getElementById("closePayment")
+  .addEventListener(
+    "click",
+    ()=>{
+      closeModal(
+        paymentModal
+      );
+    }
+  );
+
+
+document
+  .getElementById("confirmPaymentBtn")
+  .addEventListener(
+    "click",
     async ()=>{
 
-      const name =
+      if(!pendingOrderId){
+
+        showTemporaryHint(
+          "لم يتم العثور على رقم الطلب."
+        );
+
+        return;
+
+      }
+
+
+      const btn =
         document
-          .getElementById("customerName")
-          .value
-          .trim();
+          .getElementById("confirmPaymentBtn");
 
 
-      const phone =
-        document
-          .getElementById("customerPhone")
-          .value
-          .trim();
+      btn.disabled =
+        true;
 
-
-      if(!name){
-
-        alert(
-          "يرجى إدخال الاسم."
-        );
-
-        return;
-
-      }
-
-
-      if(!phone){
-
-        alert(
-          "يرجى إدخال رقم الهاتف."
-        );
-
-        return;
-
-      }
-
-
-      const unitIds =
-        getSelectedUnitIds();
-
-
-      if(!unitIds.length){
-
-        alert(
-          "يرجى اختيار مساحة."
-        );
-
-        return;
-
-      }
-
-
-      const button =
-        document.getElementById(
-          "submitBooking"
-        );
-
-
-      button.disabled = true;
-
-      button.textContent =
-        "جاري التحقق...";
+      btn.textContent =
+        "جاري إرسال التأكيد...";
 
 
       try{
-
-
-        /* =========================
-           PREVIEW
-        ========================= */
-
-        const previewResponse =
-          await fetch(
-            APP_URL,
-            {
-
-              method:"POST",
-
-              headers:{
-                "Content-Type":
-                  "text/plain;charset=utf-8"
-              },
-
-              body:
-                JSON.stringify({
-
-                  action:"preview",
-
-                  unitType:
-                    selectedType,
-
-                  unitIds:
-                    unitIds
-
-                })
-
-            }
-          );
-
-
-        const preview =
-          await previewResponse.json();
-
-
-        if(
-          !preview ||
-          !preview.success
-        ){
-
-          throw new Error(
-            preview?.message ||
-            "المساحة المحددة غير متاحة."
-          );
-
-        }
-
-
-        /* =========================
-           CREATE ORDER
-        ========================= */
-
-        button.textContent =
-          "جاري إرسال الطلب...";
-
-
-        const payload = {
-
-          action:
-            "createOrder",
-
-          customerName:
-            name,
-
-          phone:
-            phone,
-
-          unitType:
-            selectedType,
-
-          unitIds:
-            unitIds,
-
-          logoUrl:
-            document
-              .getElementById("logoUrl")
-              .value
-              .trim(),
-
-          adName:
-            document
-              .getElementById("adName")
-              .value
-              .trim(),
-
-          adText:
-            document
-              .getElementById("adText")
-              .value
-              .trim(),
-
-          whatsapp:
-            document
-              .getElementById("whatsapp")
-              .value
-              .trim(),
-
-          instagram:
-            document
-              .getElementById("instagram")
-              .value
-              .trim()
-
-        };
-
 
         const response =
           await fetch(
             APP_URL,
             {
-
               method:"POST",
 
               headers:{
@@ -3748,10 +3804,15 @@ document
                   "text/plain;charset=utf-8"
               },
 
-              body:
-                JSON.stringify(
-                  payload
-                )
+              body:JSON.stringify({
+
+                action:
+                  "confirmPayment",
+
+                orderId:
+                  pendingOrderId
+
+              })
 
             }
           );
@@ -3761,62 +3822,48 @@ document
           await response.json();
 
 
-        if(
-          !result ||
-          !result.success
-        ){
+        if(!result.success){
 
           throw new Error(
-            result?.message ||
-            "تعذر إنشاء الطلب."
+            result.message ||
+            "تعذر تأكيد الدفع."
           );
 
         }
 
 
-        window.HITAN_LAST_ORDER =
-          result;
-
-
-        closeBooking();
-
-
-        /*
-         * Refresh wall.
-         */
-
-        await loadWallData();
-
-
-        selectedCells.clear();
-
-        updateUI();
-
-        draw();
+        closeModal(
+          paymentModal
+        );
 
 
         document
-          .getElementById("successModal")
-          .classList.add("show");
+          .getElementById("successOrderId")
+          .textContent =
+            pendingOrderId;
+
+
+        openModal(
+          successModal
+        );
 
 
       }catch(error){
 
         console.error(error);
 
-
-        alert(
+        showTemporaryHint(
           error.message ||
-          "تعذّر الاتصال بالخادم."
+          "تعذر تأكيد الدفع."
         );
-
 
       }finally{
 
-        button.disabled = false;
+        btn.disabled =
+          false;
 
-        button.textContent =
-          "متابعة الحجز";
+        btn.textContent =
+          "✓ أكدت الدفع";
 
       }
 
@@ -3825,118 +3872,29 @@ document
 
 
 /* =========================================================
-   SHARE
+   SUCCESS
 ========================================================= */
-
-let shareUrl =
-  window.location.origin +
-  window.location.pathname;
-
-
-function buildShareUrl(){
-
-  let ids =
-    getSelectedUnitIds();
-
-
-  if(
-    !ids.length &&
-    window.HITAN_LAST_ORDER
-  ){
-
-    ids =
-      window.HITAN_LAST_ORDER.unitIds ||
-      [];
-
-  }
-
-
-  if(ids.length){
-
-    return (
-      window.location.origin +
-      window.location.pathname +
-      "?wall=" +
-      encodeURIComponent(ids[0])
-    );
-
-  }
-
-
-  return shareUrl;
-
-}
-
 
 document
-  .getElementById("shareBtn")
+  .getElementById("closeSuccess")
   .addEventListener(
     "click",
-    async ()=>{
+    ()=>{
+      closeModal(
+        successModal
+      );
 
-      shareUrl =
-        buildShareUrl();
+      selectedCells.clear();
 
+      pendingOrderId = null;
 
-      const message =
-`حطّيت مشروعي على حيطان لبنان! 🧱🇱🇧
+      updateUI();
 
-كل اسم إلو مطرح.
-
-إلك مطرح كمان؟
-${shareUrl}`;
-
-
-      if(navigator.share){
-
-        try{
-
-          await navigator.share({
-
-            title:
-              "حيطان لبنان",
-
-            text:
-              message,
-
-            url:
-              shareUrl
-
-          });
-
-        }catch(e){}
-
-      }else{
-
-        try{
-
-          await navigator.clipboard
-            .writeText(
-              message
-            );
-
-          alert(
-            "تم نسخ رسالة المشاركة."
-          );
-
-        }catch(e){
-
-          prompt(
-            "انسخ الرابط:",
-            shareUrl
-          );
-
-        }
-
-      }
+      loadWallData();
 
     }
   );
 
-
-/* =========================================================
-   COPY
-========================================================= */
 
 document
   .getElementById("copyBtn")
@@ -3944,28 +3902,26 @@ document
     "click",
     async ()=>{
 
-      shareUrl =
-        buildShareUrl();
+      const id =
+        document
+          .getElementById("successOrderId")
+          .textContent;
 
 
       try{
 
-        await navigator.clipboard
-          .writeText(
-            shareUrl
-          );
-
-
-        alert(
-          "تم نسخ رابط مطرحك."
+        await navigator.clipboard.writeText(
+          id
         );
 
+        showTemporaryHint(
+          "تم نسخ رقم الطلب."
+        );
 
       }catch(e){
 
-        prompt(
-          "انسخ الرابط:",
-          shareUrl
+        showTemporaryHint(
+          "رقم الطلب: " + id
         );
 
       }
@@ -3975,10 +3931,321 @@ document
 
 
 /* =========================================================
-   SHARED WALL
+   AD DETAILS
 ========================================================= */
 
-function focusSharedUnit(){
+function showAdDetails(ad){
+
+  if(!ad){
+    return;
+  }
+
+
+  lastAdForDetails =
+    ad;
+
+
+  const logo =
+    document.getElementById("adLogo");
+
+
+  const logoUrl =
+    ad.logoUrl ||
+    ad.logo ||
+    "";
+
+
+  if(logoUrl){
+
+    logo.src =
+      logoUrl;
+
+    logo.classList.remove(
+      "hidden"
+    );
+
+  }else{
+
+    logo.removeAttribute(
+      "src"
+    );
+
+    logo.classList.add(
+      "hidden"
+    );
+
+  }
+
+
+  document
+    .getElementById("adName")
+    .textContent =
+      ad.name ||
+      ad.adName ||
+      "إعلان";
+
+
+  document
+    .getElementById("adText")
+    .textContent =
+      ad.text ||
+      ad.adText ||
+      "";
+
+
+  /* PHONE */
+
+  const phoneBtn =
+    document
+      .getElementById("adPhone");
+
+
+  const phone =
+    normalizePhone(
+      ad.phone ||
+      ad.customerPhone ||
+      ""
+    );
+
+
+  if(phone){
+
+    phoneBtn.style.display =
+      "flex";
+
+    phoneBtn.href =
+      "tel:" +
+      phone;
+
+    phoneBtn.textContent =
+      "📞 " + phone;
+
+  }else{
+
+    phoneBtn.style.display =
+      "none";
+
+  }
+
+
+  /* WHATSAPP */
+
+  const whatsappBtn =
+    document
+      .getElementById("adWhatsapp");
+
+
+  const whatsapp =
+    normalizeWhatsApp(
+      ad.whatsapp ||
+      ""
+    );
+
+
+  if(whatsapp){
+
+    whatsappBtn.style.display =
+      "flex";
+
+    whatsappBtn.href =
+      "https://wa.me/" +
+      whatsapp;
+
+  }else{
+
+    whatsappBtn.style.display =
+      "none";
+
+  }
+
+
+  /* INSTAGRAM */
+
+  const instagramBtn =
+    document
+      .getElementById("adInstagram");
+
+
+  const instagram =
+    normalizeInstagram(
+      ad.instagram ||
+      ""
+    );
+
+
+  if(instagram){
+
+    instagramBtn.style.display =
+      "flex";
+
+    instagramBtn.href =
+      "https://instagram.com/" +
+      instagram;
+
+  }else{
+
+    instagramBtn.style.display =
+      "none";
+
+  }
+
+
+  openModal(
+    adModal
+  );
+
+}
+
+
+/* =========================================================
+   CLOSE AD
+========================================================= */
+
+document
+  .getElementById("closeAd")
+  .addEventListener(
+    "click",
+    ()=>{
+      closeModal(
+        adModal
+      );
+    }
+  );
+
+
+/* =========================================================
+   BOOK FROM AD
+========================================================= */
+
+document
+  .getElementById("bookFromAd")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      closeModal(
+        adModal
+      );
+
+      selectedCells.clear();
+
+      updateUI();
+
+      showTemporaryHint(
+        "اختر المساحة التي تريد حجزها."
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   SHARE AD
+========================================================= */
+
+document
+  .getElementById("shareAdBtn")
+  .addEventListener(
+    "click",
+    async ()=>{
+
+      if(!lastAdForDetails){
+        return;
+      }
+
+
+      const adId =
+        lastAdForDetails.adId ||
+        lastAdForDetails.id ||
+        "";
+
+
+      if(!adId){
+        return;
+      }
+
+
+      const url =
+        generatePublicAdUrl(
+          adId
+        );
+
+
+      const shareData = {
+
+        title:
+          "حيطان لبنان",
+
+        text:
+          "حطّيت مشروعي على حيطان لبنان!",
+
+        url
+
+      };
+
+
+      try{
+
+        if(
+          navigator.share
+        ){
+
+          await navigator.share(
+            shareData
+          );
+
+        }else{
+
+          await navigator.clipboard.writeText(
+            url
+          );
+
+          showTemporaryHint(
+            "تم نسخ رابط الإعلان."
+          );
+
+        }
+
+      }catch(error){
+
+        if(
+          error &&
+          error.name === "AbortError"
+        ){
+
+          return;
+
+        }
+
+        try{
+
+          await navigator.clipboard.writeText(
+            url
+          );
+
+          showTemporaryHint(
+            "تم نسخ رابط الإعلان."
+          );
+
+        }catch(e){
+
+          showTemporaryHint(
+            url
+          );
+
+        }
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   PUBLIC AD LINK
+========================================================= */
+
+async function openPublicAdFromUrl(){
 
   const params =
     new URLSearchParams(
@@ -3986,102 +4253,290 @@ function focusSharedUnit(){
     );
 
 
-  const unit =
-    params.get("wall");
+  const adId =
+    params.get("ad");
 
 
-  if(!unit){
+  if(!adId){
     return;
   }
 
 
-  const match =
-    unit.match(/A(\d+)/i);
+  try{
+
+    const response =
+      await fetch(
+        APP_URL +
+        "?action=ad&id=" +
+        encodeURIComponent(adId) +
+        "&t=" +
+        Date.now()
+      );
 
 
-  if(!match){
-    return;
-  }
+    if(!response.ok){
+      throw new Error();
+    }
 
 
-  const number =
-    parseInt(
-      match[1],
-      10
+    const result =
+      await response.json();
+
+
+    if(
+      !result.success ||
+      !result.ad
+    ){
+
+      showTemporaryHint(
+        "الإعلان غير متاح حالياً."
+      );
+
+      return;
+
+    }
+
+
+    const ad =
+      result.ad;
+
+
+    const ids =
+      normalizeAdUnitIds(ad);
+
+
+    if(ids.length){
+
+      focusOnUnitIds(
+        ids
+      );
+
+    }
+
+
+    setTimeout(
+      ()=>{
+        showAdDetails(ad);
+      },
+      350
     );
 
 
-  if(
-    number<1 ||
-    number>10000
-  ){
+  }catch(error){
 
-    return;
+    console.error(
+      "Public ad error:",
+      error
+    );
 
   }
 
-
-  const index =
-    number-1;
+}
 
 
-  const row =
-    Math.floor(
-      index/COLS
+/* =========================================================
+   FOCUS ON AD
+========================================================= */
+
+function focusOnUnitIds(ids){
+
+  const units =
+    ids
+      .map(id=>unitMap.get(id))
+      .filter(Boolean);
+
+
+  if(!units.length){
+    return;
+  }
+
+
+  const cell =
+    getCellSize();
+
+
+  let minRow = Infinity;
+  let maxRow = -Infinity;
+  let minCol = Infinity;
+  let maxCol = -Infinity;
+
+
+  units.forEach(unit=>{
+
+    minRow =
+      Math.min(
+        minRow,
+        Number(unit.row)
+      );
+
+    maxRow =
+      Math.max(
+        maxRow,
+        Number(unit.row)
+      );
+
+    minCol =
+      Math.min(
+        minCol,
+        Number(unit.col)
+      );
+
+    maxCol =
+      Math.max(
+        maxCol,
+        Number(unit.col)
+      );
+
+  });
+
+
+  const centerWorldX =
+    (
+      (minCol + maxCol + 1) /
+      2
+    ) * cell;
+
+
+  const centerWorldY =
+    (
+      (minRow + maxRow + 1) /
+      2
+    ) * cell;
+
+
+  const widthWorld =
+    (
+      maxCol-minCol+1
+    ) * cell;
+
+
+  const heightWorld =
+    (
+      maxRow-minRow+1
+    ) * cell;
+
+
+  const targetZoom =
+    Math.max(
+      2,
+      Math.min(
+        8,
+        Math.min(
+          wallWidth /
+            Math.max(widthWorld*1.8,1),
+
+          wallHeight /
+            Math.max(heightWorld*1.8,1)
+        )
+      )
     );
 
 
-  const col =
-    index%COLS;
-
-
-  zoom = 8;
-
-
-  const worldX =
-    (col+.5)*cellSize;
-
-
-  const worldY =
-    (row+.5)*cellSize;
+  zoom =
+    Math.max(
+      MIN_ZOOM,
+      Math.min(
+        MAX_ZOOM,
+        targetZoom
+      )
+    );
 
 
   cameraX =
-    W/2 -
-    worldX*zoom;
+    wallWidth/2 -
+    centerWorldX * zoom;
 
 
   cameraY =
-    H/2 -
-    worldY*zoom;
+    wallHeight/2 -
+    centerWorldY * zoom;
 
 
   clampCamera();
 
   draw();
 
+}
 
-  showTemporaryHint(
-    "هذا مطرح الإعلان على حيطان لبنان"
+
+/* =========================================================
+   CLICK OUTSIDE MODAL
+========================================================= */
+
+[
+  bookingModal,
+  paymentModal,
+  successModal,
+  adModal
+].forEach(modal=>{
+
+  modal.addEventListener(
+    "click",
+    event=>{
+
+      if(event.target === modal){
+
+        closeModal(
+          modal
+        );
+
+      }
+
+    }
   );
 
-}
+});
+
+
+/* =========================================================
+   ESCAPE
+========================================================= */
+
+document.addEventListener(
+  "keydown",
+  event=>{
+
+    if(event.key !== "Escape"){
+      return;
+    }
+
+
+    [
+      bookingModal,
+      paymentModal,
+      successModal,
+      adModal
+    ].forEach(
+      modal=>{
+        closeModal(modal);
+      }
+    );
+
+  }
+);
+
+
+/* =========================================================
+   RESIZE
+========================================================= */
+
+window.addEventListener(
+  "resize",
+  ()=>{
+    resizeCanvas();
+    clampCamera();
+    draw();
+  }
+);
 
 
 /* =========================================================
    AUTO REFRESH
 ========================================================= */
 
-/*
- * Refresh wall data every 30 seconds.
- *
- * This allows an approved advertisement
- * to appear without manually refreshing.
- */
-
 setInterval(
   async ()=>{
-
+    
     if(
       document.visibilityState !==
       "visible"
@@ -4092,22 +4547,7 @@ setInterval(
     }
 
 
-    const oldAdsCount =
-      ads.length;
-
-
     await loadWallData();
-
-
-    /*
-     * Redraw only after successful reload.
-     */
-
-    if(wallDataLoaded){
-
-      draw();
-
-    }
 
   },
   30000
@@ -4120,7 +4560,11 @@ setInterval(
 
 async function initialize(){
 
+  createWallTexture();
+
   resizeCanvas();
+
+  resetCamera();
 
   updateUI();
 
@@ -4129,19 +4573,8 @@ async function initialize(){
     await loadWallData();
 
 
-  document
-    .getElementById("loading")
-    .classList.add("hidden");
-
-
-  draw();
-
-
-  setTimeout(
-    ()=>{
-      focusSharedUnit();
-    },
-    100
+  loading.classList.add(
+    "hidden"
   );
 
 
@@ -4153,6 +4586,14 @@ async function initialize(){
 
   }
 
+
+  setTimeout(
+    ()=>{
+      openPublicAdFromUrl();
+    },
+    200
+  );
+
 }
 
 
@@ -4161,5 +4602,4 @@ initialize();
 </script>
 
 </body>
-
 </html>
