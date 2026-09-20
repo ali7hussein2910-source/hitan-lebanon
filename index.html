@@ -2355,296 +2355,292 @@ function getAdImage(url){
 }
 
 
-function drawActiveAds(){
+function drawActiveAds() {
+  if (!activeAds || !activeAds.length) return;
 
-  if(
-    !window.HITAN_WALL_DATA ||
-    !window.HITAN_WALL_DATA.ads
-  ){
+  activeAds.forEach(ad => {
+    if (!ad.unitIds || !ad.unitIds.length) return;
 
-    return;
+    const cells = ad.unitIds
+      .map(id => units.find(u => u.id === id))
+      .filter(Boolean);
 
-  }
+    if (!cells.length) return;
 
-  const ads =
-    window.HITAN_WALL_DATA.ads
-      .filter(
-        ad =>
-          ad.status === "Active"
-      );
+    // تحديد حدود الإعلان
+    const minRow = Math.min(...cells.map(c => c.row));
+    const maxRow = Math.max(...cells.map(c => c.row));
+    const minCol = Math.min(...cells.map(c => c.col));
+    const maxCol = Math.max(...cells.map(c => c.col));
 
-  ads.forEach(ad=>{
+    const x = minCol * cellSize;
+    const y = minRow * cellSize;
+    const w = (maxCol - minCol + 1) * cellSize;
+    const h = (maxRow - minRow + 1) * cellSize;
 
-    if(
-      !ad.unitIds ||
-      !ad.unitIds.length
-    ){
-
-      return;
-
-    }
-
-    let minRow = Infinity;
-    let maxRow = -Infinity;
-
-    let minCol = Infinity;
-    let maxCol = -Infinity;
-
-    ad.unitIds.forEach(id=>{
-
-      const unit =
-        window.HITAN_UNITS[id];
-
-      if(!unit) return;
-
-      /*
-        Backend rows/columns are 1-based.
-      */
-
-      const row =
-        Number(unit.row) - 1;
-
-      const col =
-        Number(unit.col) - 1;
-
-      minRow =
-        Math.min(
-          minRow,
-          row
-        );
-
-      maxRow =
-        Math.max(
-          maxRow,
-          row
-        );
-
-      minCol =
-        Math.min(
-          minCol,
-          col
-        );
-
-      maxCol =
-        Math.max(
-          maxCol,
-          col
-        );
-
-    });
-
-    if(!isFinite(minRow)){
-      return;
-    }
-
-    const x =
-      minCol * cellSize;
-
-    const y =
-      minRow * cellSize;
-
-    const width =
-      (maxCol-minCol+1)
-      * cellSize;
-
-    const height =
-      (maxRow-minRow+1)
-      * cellSize;
-
-    /*
-      Advertisement border
-    */
-
-    ctx.strokeStyle =
-      "rgba(255,255,255,.70)";
-
-    ctx.lineWidth =
-      Math.max(
-        1,
-        2/zoom
-      );
-
-    ctx.strokeRect(
-      x,
-      y,
-      width,
-      height
-    );
-
-    /*
-      Detailed content
-      appears when zoomed.
-    */
-
-    if(zoom < 3){
-      return;
-    }
+    // إذا الإعلان صغير جداً، لا نعرض التفاصيل
+    const area = w * h;
 
     ctx.save();
 
-    ctx.beginPath();
+    /*
+     * الإعلان يظهر كأنه Poster / لوحة ملصقة
+     * وليس كمربع حجز أبيض.
+     */
 
-    ctx.rect(
-      x,
-      y,
-      width,
-      height
+    // ظل خفيف خلف الإعلان
+    ctx.shadowColor = "rgba(0,0,0,0.55)";
+    ctx.shadowBlur = 12;
+    ctx.shadowOffsetX = 3;
+    ctx.shadowOffsetY = 5;
+
+    // خلفية الإعلان
+    ctx.fillStyle = "rgba(245,240,228,0.94)";
+    ctx.fillRect(x + 3, y + 3, w - 6, h - 6);
+
+    ctx.shadowColor = "transparent";
+
+    // حافة ورقية خفيفة
+    ctx.strokeStyle = "rgba(80,65,50,0.65)";
+    ctx.lineWidth = Math.max(1, cellSize * 0.08);
+    ctx.strokeRect(
+      x + 3,
+      y + 3,
+      w - 6,
+      h - 6
     );
 
-    ctx.clip();
+    // تأثير ورق قديم
+    const paperGradient = ctx.createLinearGradient(x, y, x + w, y + h);
+    paperGradient.addColorStop(0, "rgba(255,255,255,0.20)");
+    paperGradient.addColorStop(0.5, "rgba(180,160,130,0.05)");
+    paperGradient.addColorStop(1, "rgba(80,60,40,0.12)");
+
+    ctx.fillStyle = paperGradient;
+    ctx.fillRect(x + 4, y + 4, w - 8, h - 8);
 
     /*
-      Dark readable overlay
-    */
+     * التفاصيل تظهر فقط عندما يكون الإعلان
+     * بحجم يسمح برؤيته.
+     */
 
-    ctx.fillStyle =
-      "rgba(0,0,0,.25)";
+    if (zoom >= 2.2) {
 
-    ctx.fillRect(
-      x,
-      y,
-      width,
-      height
-    );
+      const padding = Math.max(8, Math.min(w, h) * 0.08);
 
-    /*
-      Logo
-    */
+      let logoHeight = 0;
 
-    if(ad.logoUrl){
+      // =========================
+      // LOGO
+      // =========================
 
-      const img =
-        getAdImage(
-          ad.logoUrl
-        );
+      if (ad.logoUrl && w > 70 && h > 70) {
 
-      if(img){
+        if (!ad._logoImage) {
+          const img = new Image();
 
-        const logoWidth =
-          width*.72;
+          img.onload = function () {
+            ad._logoImage = img;
+            requestAnimationFrame(draw);
+          };
 
-        const logoHeight =
-          height*.48;
+          img.src = ad.logoUrl;
+          ad._logoImage = "loading";
+        }
 
-        const logoX =
-          x +
-          (width-logoWidth)/2;
+        if (ad._logoImage instanceof Image) {
 
-        const logoY =
+          const img = ad._logoImage;
+
+          const maxLogoW = w * 0.70;
+          const maxLogoH = h * 0.42;
+
+          const ratio = Math.min(
+            maxLogoW / img.width,
+            maxLogoH / img.height
+          );
+
+          const drawW = img.width * ratio;
+          const drawH = img.height * ratio;
+
+          const logoX = x + (w - drawW) / 2;
+          const logoY = y + padding;
+
+          ctx.drawImage(
+            img,
+            logoX,
+            logoY,
+            drawW,
+            drawH
+          );
+
+          logoHeight = drawH + padding;
+        }
+      }
+
+      // =========================
+      // AD NAME
+      // =========================
+
+      if (ad.name) {
+
+        const availableWidth = w - padding * 2;
+
+        let fontSize;
+
+        if (area < 12000) {
+          fontSize = Math.max(11, Math.min(18, w * 0.12));
+        } else if (area < 50000) {
+          fontSize = Math.max(14, Math.min(28, w * 0.10));
+        } else {
+          fontSize = Math.max(18, Math.min(42, w * 0.085));
+        }
+
+        ctx.font = `bold ${fontSize}px Arial`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+
+        const nameY =
           y +
-          height*.08;
+          logoHeight +
+          (h - logoHeight) * 0.42;
 
-        ctx.drawImage(
-          img,
-          logoX,
-          logoY,
-          logoWidth,
-          logoHeight
+        // ظل للنص
+        ctx.fillStyle = "rgba(0,0,0,0.25)";
+        ctx.fillText(
+          ad.name,
+          x + w / 2 + 1,
+          nameY + 1,
+          availableWidth
         );
 
+        ctx.fillStyle = "#202020";
+        ctx.fillText(
+          ad.name,
+          x + w / 2,
+          nameY,
+          availableWidth
+        );
       }
 
+      // =========================
+      // AD TEXT
+      // =========================
+
+      if (ad.text && area > 18000) {
+
+        const textFontSize =
+          Math.max(
+            10,
+            Math.min(20, w * 0.055)
+          );
+
+        ctx.font = `${textFontSize}px Arial`;
+        ctx.fillStyle = "rgba(30,30,30,0.85)";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "top";
+
+        const maxWidth = w - padding * 2;
+
+        // قص النص إذا كان طويلاً
+        let text = String(ad.text);
+
+        const maxChars =
+          area > 80000 ? 180 :
+          area > 40000 ? 100 :
+          55;
+
+        if (text.length > maxChars) {
+          text = text.substring(0, maxChars) + "…";
+        }
+
+        // تقسيم النص إلى أسطر
+        const words = text.split(/\s+/);
+        const lines = [];
+        let line = "";
+
+        words.forEach(word => {
+
+          const testLine =
+            line ? line + " " + word : word;
+
+          if (
+            ctx.measureText(testLine).width <= maxWidth
+          ) {
+            line = testLine;
+          } else {
+            if (line) lines.push(line);
+            line = word;
+          }
+        });
+
+        if (line) lines.push(line);
+
+        const lineHeight = textFontSize * 1.35;
+
+        const textY =
+          y +
+          h -
+          lines.length * lineHeight -
+          padding;
+
+        lines.forEach((lineText, index) => {
+
+          ctx.fillText(
+            lineText,
+            x + w / 2,
+            textY + index * lineHeight,
+            maxWidth
+          );
+
+        });
+      }
+
+      // =========================
+      // PHONE
+      // =========================
+
+      if (ad.phone && area > 50000) {
+
+        ctx.font =
+          `${Math.max(11, Math.min(18, w * 0.04))}px Arial`;
+
+        ctx.fillStyle = "rgba(30,30,30,0.9)";
+        ctx.textAlign = "center";
+
+        ctx.fillText(
+          ad.phone,
+          x + w / 2,
+          y + h - padding * 0.8
+        );
+      }
     }
 
     /*
-      Name
-    */
+     * عند الزوم البعيد جداً:
+     * نضيف لمسة صغيرة تدل أن هذه مساحة إعلانية
+     * بدل ظهورها كمساحة بيضاء كبيرة.
+     */
 
-    if(ad.name){
+    if (zoom < 2.2) {
 
-      const fontSize =
-        Math.max(
-          10,
-          Math.min(
-            30,
-            width*.13
-          )
-        );
+      ctx.fillStyle = "rgba(20,20,20,0.55)";
 
-      ctx.font =
-        `bold ${fontSize}px Arial`;
+      const dotSize = Math.max(2, cellSize * 0.12);
 
-      ctx.textAlign =
-        "center";
-
-      ctx.textBaseline =
-        "middle";
-
-      ctx.fillStyle =
-        "#fff";
-
-      ctx.fillText(
-        ad.name,
-        x + width/2,
-        y + height*.72
+      ctx.beginPath();
+      ctx.arc(
+        x + w / 2,
+        y + h / 2,
+        dotSize,
+        0,
+        Math.PI * 2
       );
-
-    }
-
-    /*
-      Additional text
-    */
-
-    if(
-      ad.text &&
-      width > 80 &&
-      height > 50
-    ){
-
-      const fontSize =
-        Math.max(
-          8,
-          Math.min(
-            18,
-            width*.07
-          )
-        );
-
-      ctx.font =
-        `${fontSize}px Arial`;
-
-      ctx.fillStyle =
-        "rgba(255,255,255,.9)";
-
-      ctx.textAlign =
-        "center";
-
-      ctx.textBaseline =
-        "middle";
-
-      const maxWidth =
-        width*.84;
-
-      let text =
-        String(ad.text);
-
-      /*
-        Keep canvas rendering safe.
-      */
-
-      if(text.length > 80){
-
-        text =
-          text.substring(
-            0,
-            80
-          ) + "…";
-
-      }
-
-      ctx.fillText(
-        text,
-        x + width/2,
-        y + height*.88,
-        maxWidth
-      );
-
+      ctx.fill();
     }
 
     ctx.restore();
-
   });
-
 }
 
 
