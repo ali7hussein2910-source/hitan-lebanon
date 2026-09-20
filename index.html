@@ -1,1 +1,539 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>حيطان لبنان | كل اسم إلو مطرح</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #202020;
+      color: white;
+      overflow: hidden;
+    }
+
+    /* HEADER */
+
+    header {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+
+      height: 75px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 0 25px;
+
+      background: rgba(20,20,20,0.92);
+
+      z-index: 10;
+    }
+
+    .brand {
+      text-align: right;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 27px;
+    }
+
+    .brand p {
+      margin: 3px 0 0;
+      font-size: 13px;
+      opacity: 0.7;
+    }
+
+    .book-btn {
+      border: 0;
+      border-radius: 30px;
+
+      padding: 13px 22px;
+
+      background: #ffffff;
+      color: #111;
+
+      font-size: 16px;
+      font-weight: bold;
+
+      cursor: pointer;
+    }
+
+    .book-btn:hover {
+      transform: scale(1.03);
+    }
+
+    /* WALL */
+
+    #wall-container {
+
+      position: absolute;
+
+      top: 75px;
+      right: 0;
+      bottom: 0;
+      left: 0;
+
+      overflow: hidden;
+
+      cursor: grab;
+    }
+
+    #wall-container:active {
+      cursor: grabbing;
+    }
+
+    #wall {
+
+      position: absolute;
+
+      width: 1800px;
+      height: 1200px;
+
+      left: 50%;
+      top: 50%;
+
+      transform:
+        translate(-50%, -50%)
+        scale(1);
+
+      transform-origin: center;
+
+      background:
+
+        linear-gradient(
+          rgba(255,255,255,0.04),
+          rgba(0,0,0,0.08)
+        ),
+
+        repeating-linear-gradient(
+          90deg,
+          rgba(0,0,0,0.04) 0px,
+          rgba(0,0,0,0.04) 2px,
+          transparent 2px,
+          transparent 140px
+        ),
+
+        repeating-linear-gradient(
+          0deg,
+          rgba(0,0,0,0.04) 0px,
+          rgba(0,0,0,0.04) 2px,
+          transparent 2px,
+          transparent 110px
+        ),
+
+        #8c8175;
+
+      box-shadow:
+        inset 0 0 100px rgba(0,0,0,0.55);
+    }
+
+    /* WALL DETAILS */
+
+    .graffiti {
+      position: absolute;
+
+      font-size: 50px;
+      font-weight: 900;
+
+      opacity: 0.13;
+
+      transform: rotate(-12deg);
+      user-select: none;
+    }
+
+    .g1 {
+      left: 8%;
+      top: 14%;
+    }
+
+    .g2 {
+      left: 72%;
+      top: 10%;
+      transform: rotate(9deg);
+    }
+
+    .g3 {
+      left: 15%;
+      top: 70%;
+      transform: rotate(5deg);
+    }
+
+    .g4 {
+      left: 75%;
+      top: 73%;
+      transform: rotate(-7deg);
+    }
+
+    /* CENTER */
+
+    .center-zone {
+
+      position: absolute;
+
+      left: 40%;
+      top: 33%;
+
+      width: 20%;
+      height: 34%;
+
+      border: 3px dashed rgba(255,255,255,0.18);
+
+      background:
+        rgba(255,255,255,0.035);
+
+      box-shadow:
+        inset 0 0 50px rgba(0,0,0,0.25);
+
+      pointer-events: none;
+    }
+
+    .center-label {
+
+      position: absolute;
+
+      top: 8px;
+      left: 50%;
+
+      transform: translateX(-50%);
+
+      font-size: 13px;
+
+      background: rgba(0,0,0,0.4);
+
+      padding: 5px 12px;
+
+      border-radius: 20px;
+
+      opacity: 0.7;
+    }
+
+    /* INFO */
+
+    .hint {
+
+      position: fixed;
+
+      bottom: 20px;
+      left: 50%;
+
+      transform: translateX(-50%);
+
+      background: rgba(0,0,0,0.65);
+
+      padding: 9px 16px;
+
+      border-radius: 20px;
+
+      font-size: 12px;
+
+      opacity: 0.75;
+
+      z-index: 5;
+    }
+
+    /* MODAL */
+
+    #booking-modal {
+
+      display: none;
+
+      position: fixed;
+
+      inset: 0;
+
+      background: rgba(0,0,0,0.7);
+
+      z-index: 20;
+
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal {
+
+      width: min(430px, 92%);
+
+      background: #f5f5f5;
+
+      color: #111;
+
+      border-radius: 20px;
+
+      padding: 25px;
+
+      box-shadow: 0 20px 80px rgba(0,0,0,0.5);
+    }
+
+    .modal h2 {
+      margin-top: 0;
+    }
+
+    .close {
+      float: left;
+
+      border: 0;
+      background: transparent;
+
+      font-size: 25px;
+
+      cursor: pointer;
+    }
+
+    .option {
+
+      border: 2px solid #ddd;
+
+      border-radius: 15px;
+
+      padding: 15px;
+
+      margin: 10px 0;
+
+      cursor: pointer;
+
+      background: white;
+    }
+
+    .option:hover {
+      border-color: #333;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<header>
+
+  <div class="brand">
+
+    <h1>🧱 حيطان لبنان</h1>
+
+    <p>كل اسم إلو مطرح 🇱🇧</p>
+
+  </div>
+
+  <button
+    class="book-btn"
+    onclick="openBooking()">
+
+    + احجز مطرحك
+
+  </button>
+
+</header>
+
+
+<div id="wall-container">
+
+  <div id="wall">
+
+    <div class="graffiti g1">
+      LEBANON
+    </div>
+
+    <div class="graffiti g2">
+      BEIRUT
+    </div>
+
+    <div class="graffiti g3">
+      SAIDA
+    </div>
+
+    <div class="graffiti g4">
+      TYRE
+    </div>
+
+    <div class="center-zone">
+
+      <div class="center-label">
+        CENTER
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<div class="hint">
+
+  اسحب الحائط للتحرك • استخدم إصبعين أو عجلة الماوس للتكبير
+
+</div>
+
+
+<!-- BOOKING MODAL -->
+
+<div id="booking-modal">
+
+  <div class="modal">
+
+    <button
+      class="close"
+      onclick="closeBooking()">
+
+      ×
+
+    </button>
+
+    <h2>
+      احجز مطرحك 🧱
+    </h2>
+
+    <p>
+      اختار نوع المساحة:
+    </p>
+
+    <div
+      class="option"
+      onclick="selectType('Standard')">
+
+      <strong>
+        Standard
+      </strong>
+
+      <br>
+
+      $1 لكل وحدة
+
+    </div>
+
+    <div
+      class="option"
+      onclick="selectType('Center')">
+
+      <strong>
+        Center
+      </strong>
+
+      <br>
+
+      $5 لكل وحدة
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+  const modal =
+    document.getElementById("booking-modal");
+
+
+  function openBooking() {
+
+    modal.style.display = "flex";
+
+  }
+
+
+  function closeBooking() {
+
+    modal.style.display = "none";
+
+  }
+
+
+  function selectType(type) {
+
+    alert(
+      "اخترت: " +
+      type +
+      "\n\nالخطوة التالية ستكون اختيار عدد الوحدات."
+    );
+
+  }
+
+
+  /* SIMPLE WALL DRAG */
+
+  const container =
+    document.getElementById("wall-container");
+
+  const wall =
+    document.getElementById("wall");
+
+  let dragging = false;
+
+  let startX = 0;
+  let startY = 0;
+
+  let offsetX = 0;
+  let offsetY = 0;
+
+
+  container.addEventListener(
+    "pointerdown",
+    function(e) {
+
+      dragging = true;
+
+      startX = e.clientX;
+      startY = e.clientY;
+
+      container.setPointerCapture(
+        e.pointerId
+      );
+
+    }
+  );
+
+
+  container.addEventListener(
+    "pointermove",
+    function(e) {
+
+      if (!dragging) return;
+
+      offsetX +=
+        e.clientX - startX;
+
+      offsetY +=
+        e.clientY - startY;
+
+      startX = e.clientX;
+      startY = e.clientY;
+
+      wall.style.transform =
+        `translate(
+          calc(-50% + ${offsetX}px),
+          calc(-50% + ${offsetY}px)
+        )`;
+
+    }
+  );
+
+
+  container.addEventListener(
+    "pointerup",
+    function() {
+
+      dragging = false;
+
+    }
+  );
+
+</script>
+
+</body>
+
+</html>
