@@ -5,8 +5,10 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+>
 
 <title>حيطان لبنان</title>
 
@@ -17,312 +19,469 @@
   -webkit-tap-highlight-color:transparent;
 }
 
-html,body,#app{
+html,
+body,
+#app{
+
   margin:0;
+
   width:100%;
   height:100%;
+
   overflow:hidden;
+
   background:#222;
-  font-family:Arial,Tahoma,sans-serif;
+
+  font-family:
+    Arial,
+    Tahoma,
+    sans-serif;
 }
 
 #app{
+
   position:fixed;
+
   inset:0;
 }
 
 #wallViewport{
+
   position:absolute;
+
   inset:0;
+
   overflow:hidden;
+
   background:#555;
+
   touch-action:none;
 }
 
 #wallCanvas{
+
   position:absolute;
+
   inset:0;
+
   width:100%;
   height:100%;
+
   display:block;
+
 }
 
-/* ---------------- TOP BRAND ---------------- */
+/* =========================
+   BRAND
+========================= */
 
 #brand{
+
   position:absolute;
+
   top:14px;
   right:14px;
+
   z-index:20;
+
   padding:10px 14px;
+
   border-radius:14px;
+
   color:white;
-  background:rgba(0,0,0,.48);
-  backdrop-filter:blur(8px);
-  box-shadow:0 5px 20px rgba(0,0,0,.25);
+
+  background:
+    rgba(0,0,0,.48);
+
+  backdrop-filter:
+    blur(8px);
+
+  box-shadow:
+    0 5px 20px rgba(0,0,0,.25);
+
   pointer-events:none;
 }
 
 #brand .title{
+
   font-size:20px;
+
   font-weight:800;
 }
 
 #brand .subtitle{
+
   margin-top:2px;
+
   font-size:11px;
+
   opacity:.8;
 }
 
-/* ---------------- HINT ---------------- */
+/* =========================
+   HINT
+========================= */
 
 #hint{
+
   position:absolute;
+
   top:18px;
   left:50%;
-  transform:translateX(-50%);
+
+  transform:
+    translateX(-50%);
+
   z-index:20;
 
   padding:9px 15px;
+
   border-radius:30px;
 
   color:#fff;
-  background:rgba(0,0,0,.48);
-  backdrop-filter:blur(8px);
+
+  background:
+    rgba(0,0,0,.48);
+
+  backdrop-filter:
+    blur(8px);
 
   font-size:13px;
+
   pointer-events:none;
 
-  transition:opacity .4s;
+  transition:
+    opacity .4s;
 }
 
 #hint.hidden{
+
   opacity:0;
 }
 
-/* ---------------- ZOOM ---------------- */
+/* =========================
+   ZOOM
+========================= */
 
 #zoomControls{
+
   position:absolute;
+
   left:14px;
   top:50%;
-  transform:translateY(-50%);
+
+  transform:
+    translateY(-50%);
+
   z-index:30;
 
   display:flex;
+
   flex-direction:column;
+
   gap:8px;
 }
 
 .zoomBtn{
+
   width:44px;
   height:44px;
 
   border:0;
+
   border-radius:14px;
 
-  background:rgba(0,0,0,.55);
+  background:
+    rgba(0,0,0,.55);
+
   color:white;
 
   font-size:25px;
+
   font-weight:bold;
 
-  backdrop-filter:blur(8px);
-  box-shadow:0 5px 18px rgba(0,0,0,.25);
+  backdrop-filter:
+    blur(8px);
+
+  box-shadow:
+    0 5px 18px rgba(0,0,0,.25);
 
   cursor:pointer;
 }
 
 .zoomBtn:active{
-  transform:scale(.94);
+
+  transform:
+    scale(.94);
 }
 
-/* ---------------- SELECTION INFO ---------------- */
+/* =========================
+   SELECTION INFO
+========================= */
 
 #selectionInfo{
+
   position:absolute;
+
   top:72px;
   left:14px;
+
   z-index:25;
 
   min-width:150px;
+
   padding:10px 13px;
 
   border-radius:14px;
 
-  background:rgba(0,0,0,.55);
+  background:
+    rgba(0,0,0,.55);
+
   color:white;
 
-  backdrop-filter:blur(8px);
+  backdrop-filter:
+    blur(8px);
 
   font-size:12px;
+
   line-height:1.6;
 
   pointer-events:none;
 }
 
 #selectionInfo strong{
+
   font-size:16px;
 }
 
-/* ---------------- BOTTOM PANEL ---------------- */
+/* =========================
+   BOTTOM PANEL
+========================= */
 
 #bottomPanel{
+
   position:absolute;
+
   left:50%;
   bottom:14px;
-  transform:translateX(-50%);
 
-  width:min(620px,calc(100% - 28px));
+  transform:
+    translateX(-50%);
+
+  width:
+    min(620px,calc(100% - 28px));
 
   z-index:40;
 
-  background:rgba(20,20,20,.82);
+  background:
+    rgba(20,20,20,.82);
+
   color:white;
 
-  backdrop-filter:blur(14px);
+  backdrop-filter:
+    blur(14px);
 
-  border:1px solid rgba(255,255,255,.12);
+  border:
+    1px solid rgba(255,255,255,.12);
+
   border-radius:22px;
 
   padding:14px;
 
-  box-shadow:0 12px 40px rgba(0,0,0,.35);
+  box-shadow:
+    0 12px 40px rgba(0,0,0,.35);
 }
 
 .panelTop{
+
   display:flex;
+
   align-items:center;
+
   justify-content:space-between;
+
   gap:10px;
 }
 
 .panelTitle{
+
   font-size:17px;
+
   font-weight:800;
 }
 
 .panelHint{
+
   margin-top:3px;
+
   font-size:11px;
+
   opacity:.7;
 }
 
 .typeButtons{
+
   display:flex;
+
   gap:8px;
+
   margin-top:12px;
 }
 
 .typeBtn{
+
   flex:1;
 
   padding:10px;
 
-  border:1px solid rgba(255,255,255,.15);
+  border:
+    1px solid rgba(255,255,255,.15);
+
   border-radius:12px;
 
-  background:rgba(255,255,255,.07);
+  background:
+    rgba(255,255,255,.07);
+
   color:white;
 
   cursor:pointer;
 }
 
 .typeBtn.active{
+
   background:#fff;
+
   color:#111;
+
   font-weight:bold;
 }
 
 .priceRow{
+
   display:flex;
+
   justify-content:space-between;
+
   align-items:center;
 
   margin-top:12px;
+
   padding-top:10px;
 
-  border-top:1px solid rgba(255,255,255,.12);
+  border-top:
+    1px solid rgba(255,255,255,.12);
 }
 
 .price{
+
   font-size:20px;
+
   font-weight:900;
 }
 
 .primaryBtn{
+
   border:0;
+
   border-radius:13px;
 
   padding:11px 18px;
 
   background:#fff;
+
   color:#111;
 
   font-size:14px;
+
   font-weight:800;
 
   cursor:pointer;
 }
 
 .primaryBtn:disabled{
+
   opacity:.35;
+
   cursor:not-allowed;
 }
 
-/* ---------------- MODALS ---------------- */
+/* =========================
+   MODALS
+========================= */
 
 .modal{
+
   position:absolute;
+
   inset:0;
 
   z-index:100;
 
   display:none;
+
   align-items:center;
+
   justify-content:center;
 
-  background:rgba(0,0,0,.62);
-  backdrop-filter:blur(7px);
+  background:
+    rgba(0,0,0,.62);
+
+  backdrop-filter:
+    blur(7px);
 
   padding:18px;
 }
 
 .modal.show{
+
   display:flex;
 }
 
 .modalBox{
-  width:min(520px,100%);
+
+  width:
+    min(520px,100%);
+
   max-height:90vh;
+
   overflow:auto;
 
   background:#fff;
+
   color:#111;
 
   border-radius:24px;
 
   padding:22px;
 
-  box-shadow:0 20px 70px rgba(0,0,0,.4);
+  box-shadow:
+    0 20px 70px rgba(0,0,0,.4);
 }
 
 .modalTitle{
+
   font-size:22px;
+
   font-weight:900;
+
   margin-bottom:5px;
 }
 
 .modalSubtitle{
+
   font-size:13px;
+
   color:#666;
+
   margin-bottom:18px;
 }
 
 .closeBtn{
+
   float:left;
 
   border:0;
+
   background:#eee;
 
   width:34px;
@@ -336,49 +495,69 @@ html,body,#app{
 }
 
 .summary{
+
   background:#f5f5f5;
+
   border-radius:15px;
+
   padding:13px;
+
   margin-bottom:15px;
 }
 
 .summaryRow{
+
   display:flex;
+
   justify-content:space-between;
+
   margin:6px 0;
 }
 
 .summaryRow.total{
-  border-top:1px solid #ddd;
+
+  border-top:
+    1px solid #ddd;
+
   padding-top:9px;
+
   margin-top:9px;
 
   font-weight:900;
+
   font-size:18px;
 }
 
 .field{
+
   margin-bottom:12px;
 }
 
 .field label{
+
   display:block;
+
   margin-bottom:5px;
 
   font-size:12px;
+
   font-weight:bold;
 }
 
 .field input,
 .field textarea{
+
   width:100%;
 
   padding:11px 12px;
 
-  border:1px solid #ddd;
+  border:
+    1px solid #ddd;
+
   border-radius:12px;
 
   font-family:inherit;
+
   font-size:14px;
 
   outline:none;
@@ -386,31 +565,41 @@ html,body,#app{
 
 .field input:focus,
 .field textarea:focus{
+
   border-color:#111;
 }
 
 .field textarea{
+
   min-height:80px;
+
   resize:vertical;
 }
 
 .optional{
+
   font-weight:normal;
+
   color:#999;
 }
 
 .modalActions{
+
   display:flex;
+
   gap:8px;
+
   margin-top:16px;
 }
 
 .secondaryBtn{
+
   flex:1;
 
   padding:12px;
 
   border:0;
+
   border-radius:13px;
 
   background:#eee;
@@ -421,14 +610,17 @@ html,body,#app{
 }
 
 .confirmBtn{
+
   flex:2;
 
   padding:12px;
 
   border:0;
+
   border-radius:13px;
 
   background:#111;
+
   color:#fff;
 
   font-weight:bold;
@@ -436,43 +628,58 @@ html,body,#app{
   cursor:pointer;
 }
 
-/* ---------------- SUCCESS ---------------- */
+/* =========================
+   SUCCESS
+========================= */
 
 .successIcon{
+
   width:70px;
   height:70px;
 
-  margin:5px auto 15px;
+  margin:
+    5px auto 15px;
 
   display:flex;
+
   align-items:center;
+
   justify-content:center;
 
   border-radius:50%;
 
   background:#111;
+
   color:#fff;
 
   font-size:34px;
 }
 
 .shareText{
+
   text-align:center;
+
   color:#555;
+
   font-size:13px;
+
   line-height:1.7;
 }
 
 .shareBtn{
+
   width:100%;
+
   margin-top:14px;
 
   padding:13px;
 
   border:0;
+
   border-radius:13px;
 
   background:#111;
+
   color:#fff;
 
   font-weight:bold;
@@ -481,12 +688,16 @@ html,body,#app{
 }
 
 .copyBtn{
+
   width:100%;
+
   margin-top:8px;
 
   padding:12px;
 
-  border:1px solid #ddd;
+  border:
+    1px solid #ddd;
+
   border-radius:13px;
 
   background:#fff;
@@ -496,60 +707,120 @@ html,body,#app{
   cursor:pointer;
 }
 
-/* ---------------- MOBILE ---------------- */
+/* =========================
+   LOADING
+========================= */
+
+#loading{
+
+  position:absolute;
+
+  inset:0;
+
+  z-index:200;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  background:
+    rgba(0,0,0,.72);
+
+  color:white;
+
+  font-size:15px;
+
+  font-weight:bold;
+
+  text-align:center;
+
+  padding:30px;
+}
+
+#loading.hidden{
+
+  display:none;
+}
+
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:600px){
 
   #brand{
+
     top:10px;
     right:10px;
+
     padding:8px 11px;
   }
 
   #brand .title{
+
     font-size:17px;
   }
 
   #hint{
+
     top:11px;
+
     font-size:11px;
+
     max-width:65%;
+
     text-align:center;
   }
 
   #selectionInfo{
+
     top:58px;
     left:10px;
+
     font-size:11px;
   }
 
   #zoomControls{
+
     left:10px;
   }
 
   .zoomBtn{
+
     width:40px;
     height:40px;
   }
 
   #bottomPanel{
+
     bottom:8px;
-    width:calc(100% - 16px);
+
+    width:
+      calc(100% - 16px);
+
     border-radius:20px;
+
     padding:12px;
   }
 
   .panelTitle{
+
     font-size:15px;
   }
 
   .typeBtn{
+
     padding:9px 5px;
+
     font-size:12px;
   }
 
   .primaryBtn{
+
     padding:10px 13px;
+
     font-size:12px;
   }
 
@@ -564,7 +835,15 @@ html,body,#app{
 <div id="app">
 
   <div id="wallViewport">
+
     <canvas id="wallCanvas"></canvas>
+
+  </div>
+
+  <div id="loading">
+
+    جاري تحميل حائط حيطان لبنان...
+
   </div>
 
   <div id="brand">
@@ -580,20 +859,31 @@ html,body,#app{
   </div>
 
   <div id="hint">
+
     كبّر الحائط لتشوف الوحدات وتختار مطرحك
+
   </div>
 
   <div id="zoomControls">
 
-    <button class="zoomBtn" id="zoomIn">
+    <button
+      class="zoomBtn"
+      id="zoomIn"
+    >
       +
     </button>
 
-    <button class="zoomBtn" id="zoomOut">
+    <button
+      class="zoomBtn"
+      id="zoomOut"
+    >
       −
     </button>
 
-    <button class="zoomBtn" id="zoomReset">
+    <button
+      class="zoomBtn"
+      id="zoomReset"
+    >
       ⌂
     </button>
 
@@ -601,7 +891,9 @@ html,body,#app{
 
   <div id="selectionInfo">
 
-    المساحة المختارة<br>
+    المساحة المختارة
+
+    <br>
 
     <strong id="selectedCount">
       0
@@ -627,7 +919,10 @@ html,body,#app{
 
       </div>
 
-      <button class="primaryBtn" id="clearSelection">
+      <button
+        class="primaryBtn"
+        id="clearSelection"
+      >
         مسح
       </button>
 
@@ -635,11 +930,17 @@ html,body,#app{
 
     <div class="typeButtons">
 
-      <button class="typeBtn active" data-type="Standard">
+      <button
+        class="typeBtn active"
+        data-type="Standard"
+      >
         Standard · $1
       </button>
 
-      <button class="typeBtn" data-type="Center">
+      <button
+        class="typeBtn"
+        data-type="Center"
+      >
         Center · $5
       </button>
 
@@ -652,12 +953,18 @@ html,body,#app{
         المجموع
 
         <div class="price">
+
           $<span id="totalPrice">0</span>
+
         </div>
 
       </div>
 
-      <button class="primaryBtn" id="confirmArea" disabled>
+      <button
+        class="primaryBtn"
+        id="confirmArea"
+        disabled
+      >
         تأكيد المساحة
       </button>
 
@@ -665,13 +972,19 @@ html,body,#app{
 
   </div>
 
-  <!-- BOOKING MODAL -->
+  <!-- BOOKING -->
 
-  <div class="modal" id="bookingModal">
+  <div
+    class="modal"
+    id="bookingModal"
+  >
 
     <div class="modalBox">
 
-      <button class="closeBtn" id="closeBooking">
+      <button
+        class="closeBtn"
+        id="closeBooking"
+      >
         ×
       </button>
 
@@ -680,7 +993,9 @@ html,body,#app{
       </div>
 
       <div class="modalSubtitle">
+
         كل الحقول اختيارية ما عدا الاسم ورقم الهاتف.
+
       </div>
 
       <div class="summary">
@@ -753,10 +1068,13 @@ html,body,#app{
       <div class="field">
 
         <label>
+
           الشعار
+
           <span class="optional">
             (اختياري)
           </span>
+
         </label>
 
         <input
@@ -769,10 +1087,13 @@ html,body,#app{
       <div class="field">
 
         <label>
+
           اسم الإعلان
+
           <span class="optional">
             (اختياري)
           </span>
+
         </label>
 
         <input
@@ -785,10 +1106,13 @@ html,body,#app{
       <div class="field">
 
         <label>
+
           نص إضافي
+
           <span class="optional">
             (اختياري)
           </span>
+
         </label>
 
         <textarea
@@ -801,10 +1125,13 @@ html,body,#app{
       <div class="field">
 
         <label>
+
           WhatsApp
+
           <span class="optional">
             (اختياري)
           </span>
+
         </label>
 
         <input
@@ -818,10 +1145,13 @@ html,body,#app{
       <div class="field">
 
         <label>
+
           Instagram
+
           <span class="optional">
             (اختياري)
           </span>
+
         </label>
 
         <input
@@ -853,9 +1183,12 @@ html,body,#app{
 
   </div>
 
-  <!-- SUCCESS MODAL -->
+  <!-- SUCCESS -->
 
-  <div class="modal" id="successModal">
+  <div
+    class="modal"
+    id="successModal"
+  >
 
     <div class="modalBox">
 
@@ -871,6 +1204,10 @@ html,body,#app{
       </div>
 
       <div class="shareText">
+
+        تم استلام طلبك بنجاح.
+
+        <br>
 
         بعد تأكيد الدفع ومراجعة الطلب،
         سيظهر إعلانك على الحائط.
@@ -917,22 +1254,28 @@ const APP_URL =
 "https://script.google.com/macros/s/AKfycbzyM_gJsIV-icWDh_sy95KhPqsQpeLlS6eyl__O2zVs1aZyQf-Bp5ja_FrhW9icSHuY/exec";
 
 const ROWS = 100;
+
 const COLS = 100;
 
 const CENTER_START = 40;
-const CENTER_END   = 59;
+
+const CENTER_END = 59;
 
 const STANDARD_PRICE = 1;
-const CENTER_PRICE   = 5;
+
+const CENTER_PRICE = 5;
 
 
 /* =========================================================
-   REAL WALL DATA
+   WALL DATA
 ========================================================= */
 
-window.HITAN_WALL_DATA = null;
-window.HITAN_UNITS = {};
-window.HITAN_ADS = {};
+let wallDataLoaded = false;
+
+let unitMap = new Map();
+
+let ads = [];
+
 
 async function loadWallData(){
 
@@ -940,11 +1283,18 @@ async function loadWallData(){
 
     const response =
       await fetch(
-        APP_URL + "?action=wall",
-        {
-          cache:"no-store"
-        }
+        APP_URL +
+        "?action=wall&t=" +
+        Date.now()
       );
+
+    if(!response.ok){
+
+      throw new Error(
+        "HTTP " +
+        response.status
+      );
+    }
 
     const data =
       await response.json();
@@ -955,52 +1305,28 @@ async function loadWallData(){
         data.message ||
         "Failed to load wall data"
       );
-
     }
 
-    window.HITAN_WALL_DATA =
-      data;
+    unitMap.clear();
 
-    window.HITAN_UNITS = {};
-    window.HITAN_ADS = {};
+    (data.units || [])
+      .forEach(unit => {
 
-    /*
-      Units lookup
-    */
+        unitMap.set(
+          String(unit.id).trim(),
+          unit
+        );
 
-    (data.units || []).forEach(unit=>{
+      });
 
-      window.HITAN_UNITS[
-        String(unit.id)
-      ] = unit;
+    ads =
+      data.ads || [];
 
-    });
-
-    /*
-      Ads lookup
-    */
-
-    (data.ads || []).forEach(ad=>{
-
-      window.HITAN_ADS[
-        String(ad.adId)
-      ] = ad;
-
-    });
+    wallDataLoaded = true;
 
     console.log(
       "HITAN WALL DATA:",
       data
-    );
-
-    console.log(
-      "Units loaded:",
-      data.units?.length || 0
-    );
-
-    console.log(
-      "Ads loaded:",
-      data.ads?.length || 0
     );
 
     return data;
@@ -1011,6 +1337,8 @@ async function loadWallData(){
       "Error loading wall data:",
       error
     );
+
+    wallDataLoaded = false;
 
     showTemporaryHint(
       "تعذّر تحميل حالة الحائط."
@@ -1024,11 +1352,78 @@ async function loadWallData(){
 
 
 /* =========================================================
+   UNIT HELPERS
+========================================================= */
+
+function getUnitId(row,col){
+
+  const number =
+    row * COLS + col + 1;
+
+  return "A" +
+    String(number)
+      .padStart(4,"0");
+}
+
+
+function getUnit(row,col){
+
+  return unitMap.get(
+    getUnitId(row,col)
+  );
+}
+
+
+function isUnitAvailable(row,col){
+
+  const unit =
+    getUnit(row,col);
+
+  if(!unit){
+
+    return false;
+  }
+
+  return (
+    unit.status === "Available"
+  );
+}
+
+
+function isUnitActive(row,col){
+
+  const unit =
+    getUnit(row,col);
+
+  if(!unit) return false;
+
+  return (
+    unit.status === "Active"
+  );
+}
+
+
+function isUnitReserved(row,col){
+
+  const unit =
+    getUnit(row,col);
+
+  if(!unit) return false;
+
+  return (
+    unit.status === "Reserved"
+  );
+}
+
+
+/* =========================================================
    CANVAS
 ========================================================= */
 
 const canvas =
-  document.getElementById("wallCanvas");
+  document.getElementById(
+    "wallCanvas"
+  );
 
 const ctx =
   canvas.getContext("2d");
@@ -1044,6 +1439,7 @@ let dpr =
     window.devicePixelRatio || 1,
     2
   );
+
 
 function resizeCanvas(){
 
@@ -1088,6 +1484,7 @@ function resizeCanvas(){
 
 }
 
+
 window.addEventListener(
   "resize",
   resizeCanvas
@@ -1106,7 +1503,9 @@ let cellSize =
 let zoom = 1;
 
 let cameraX = 0;
+
 let cameraY = 0;
+
 
 function calculateWorld(){
 
@@ -1148,8 +1547,7 @@ function clampCamera(){
     const minX =
       W-scaled;
 
-    const maxX =
-      0;
+    const maxX = 0;
 
     cameraX =
       Math.max(
@@ -1162,6 +1560,7 @@ function clampCamera(){
 
   }
 
+
   if(scaled <= H){
 
     cameraY =
@@ -1172,8 +1571,7 @@ function clampCamera(){
     const minY =
       H-scaled;
 
-    const maxY =
-      0;
+    const maxY = 0;
 
     cameraY =
       Math.max(
@@ -1190,25 +1588,26 @@ function clampCamera(){
 
 
 /* =========================================================
-   WALL TEXTURE
+   TEXTURE
 ========================================================= */
 
 let textureCanvas = null;
 
+
 function createWallTexture(){
 
   textureCanvas =
-    document.createElement("canvas");
+    document.createElement(
+      "canvas"
+    );
 
   textureCanvas.width = 1000;
+
   textureCanvas.height = 1000;
 
   const t =
     textureCanvas.getContext("2d");
 
-  /*
-    Concrete
-  */
 
   t.fillStyle =
     "#8a8176";
@@ -1220,11 +1619,12 @@ function createWallTexture(){
     1000
   );
 
-  /*
-    Noise
-  */
 
-  for(let i=0;i<18000;i++){
+  for(
+    let i=0;
+    i<18000;
+    i++
+  ){
 
     const x =
       Math.random()*1000;
@@ -1258,11 +1658,12 @@ function createWallTexture(){
 
   }
 
-  /*
-    Concrete variations
-  */
 
-  for(let i=0;i<35;i++){
+  for(
+    let i=0;
+    i<35;
+    i++
+  ){
 
     const y =
       Math.random()*1000;
@@ -1284,11 +1685,12 @@ function createWallTexture(){
 
   }
 
-  /*
-    Cracks
-  */
 
-  for(let i=0;i<24;i++){
+  for(
+    let i=0;
+    i<24;
+    i++
+  ){
 
     let x =
       Math.random()*1000;
@@ -1303,7 +1705,11 @@ function createWallTexture(){
       y
     );
 
-    for(let j=0;j<5;j++){
+    for(
+      let j=0;
+      j<5;
+      j++
+    ){
 
       x +=
         (Math.random()-.5)*70;
@@ -1333,18 +1739,19 @@ function createWallTexture(){
 
   }
 
-  /*
-    Posters
-  */
 
   const posters = [
 
     [80,130,190,100],
+
     [710,110,160,110],
+
     [130,700,180,120],
+
     [720,720,190,120]
 
   ];
+
 
   posters.forEach(p=>{
 
@@ -1392,9 +1799,6 @@ function createWallTexture(){
 
   });
 
-  /*
-    Graffiti
-  */
 
   t.font =
     "bold 80px Arial";
@@ -1412,6 +1816,7 @@ function createWallTexture(){
 
   t.rotate(.08);
 
+
   t.font =
     "bold 65px Arial";
 
@@ -1425,6 +1830,7 @@ function createWallTexture(){
   );
 
 }
+
 
 createWallTexture();
 
@@ -1464,43 +1870,15 @@ function draw(){
 
   drawWallDetails();
 
-  drawActiveAds();
+  drawAvailability();
 
   drawGrid();
 
   drawSelection();
 
+  drawAds();
+
   ctx.restore();
-
-}
-
-
-/* =========================================================
-   GET UNIT BY CELL
-========================================================= */
-
-function getUnitByCell(row,col){
-
-  const number =
-    row * COLS +
-    col +
-    1;
-
-  const id =
-    "A" +
-    String(number)
-      .padStart(4,"0");
-
-  if(
-    !window.HITAN_UNITS ||
-    !window.HITAN_UNITS[id]
-  ){
-
-    return null;
-
-  }
-
-  return window.HITAN_UNITS[id];
 
 }
 
@@ -1511,95 +1889,19 @@ function getUnitByCell(row,col){
 
 function drawWallDetails(){
 
-  /*
-    Show real reservation status
-    when data is available.
-  */
-
-  if(
-    window.HITAN_UNITS &&
-    Object.keys(window.HITAN_UNITS).length
-  ){
-
-    for(let r=0;r<ROWS;r++){
-
-      for(let c=0;c<COLS;c++){
-
-        const unit =
-          getUnitByCell(
-            r,
-            c
-          );
-
-        if(!unit) continue;
-
-        const x =
-          c * cellSize;
-
-        const y =
-          r * cellSize;
-
-        /*
-          Active
-        */
-
-        if(
-          unit.status === "Active"
-        ){
-
-          ctx.fillStyle =
-            "rgba(20,20,20,.58)";
-
-          ctx.fillRect(
-            x,
-            y,
-            cellSize,
-            cellSize
-          );
-
-        }
-
-        /*
-          Reserved
-        */
-
-        else if(
-          unit.status === "Reserved"
-        ){
-
-          ctx.fillStyle =
-            "rgba(255,170,0,.40)";
-
-          ctx.fillRect(
-            x,
-            y,
-            cellSize,
-            cellSize
-          );
-
-        }
-
-      }
-
-    }
-
-  }
-
-  /*
-    Center area marker
-  */
-
   if(zoom > 1.5){
 
     const x =
-      CENTER_START * cellSize;
+      CENTER_START *
+      cellSize;
 
     const y =
-      CENTER_START * cellSize;
+      CENTER_START *
+      cellSize;
 
     const size =
-      (CENTER_END-CENTER_START+1)
-      * cellSize;
+      (CENTER_END-CENTER_START+1) *
+      cellSize;
 
     ctx.fillStyle =
       "rgba(255,190,40,.08)";
@@ -1633,347 +1935,84 @@ function drawWallDetails(){
 
 
 /* =========================================================
-   ACTIVE ADS
+   AVAILABILITY
 ========================================================= */
 
-const adImageCache = {};
-
-function getAdImage(url){
-
-  if(!url) return null;
+function drawAvailability(){
 
   if(
-    adImageCache[url] === "loading"
-  ){
-    return null;
-  }
-
-  if(
-    adImageCache[url] &&
-    adImageCache[url].complete
-  ){
-
-    return adImageCache[url];
-
-  }
-
-  const img =
-    new Image();
-
-  adImageCache[url] =
-    "loading";
-
-  img.onload = ()=>{
-
-    adImageCache[url] =
-      img;
-
-    draw();
-
-  };
-
-  img.onerror = ()=>{
-
-    delete adImageCache[url];
-
-  };
-
-  img.src = url;
-
-  return null;
-
-}
-
-
-function drawActiveAds(){
-
-  if(
-    !window.HITAN_WALL_DATA ||
-    !window.HITAN_WALL_DATA.ads
+    !wallDataLoaded ||
+    zoom < 2.2
   ){
 
     return;
-
   }
 
-  const ads =
-    window.HITAN_WALL_DATA.ads
-      .filter(
-        ad =>
-          ad.status === "Active"
-      );
 
-  ads.forEach(ad=>{
+  /*
+   * Only draw individual unit status
+   * when the user has zoomed enough.
+   */
 
-    if(
-      !ad.unitIds ||
-      !ad.unitIds.length
+  for(
+    let r=0;
+    r<ROWS;
+    r++
+  ){
+
+    for(
+      let c=0;
+      c<COLS;
+      c++
     ){
-
-      return;
-
-    }
-
-    let minRow = Infinity;
-    let maxRow = -Infinity;
-
-    let minCol = Infinity;
-    let maxCol = -Infinity;
-
-    ad.unitIds.forEach(id=>{
 
       const unit =
-        window.HITAN_UNITS[id];
+        getUnit(r,c);
 
-      if(!unit) return;
+      if(!unit) continue;
 
-      /*
-        Backend rows/columns are 1-based.
-      */
+      const x =
+        c * cellSize;
 
-      const row =
-        Number(unit.row) - 1;
+      const y =
+        r * cellSize;
 
-      const col =
-        Number(unit.col) - 1;
 
-      minRow =
-        Math.min(
-          minRow,
-          row
+      if(
+        unit.status === "Active"
+      ){
+
+        ctx.fillStyle =
+          "rgba(40,40,40,.78)";
+
+        ctx.fillRect(
+          x,
+          y,
+          cellSize,
+          cellSize
         );
 
-      maxRow =
-        Math.max(
-          maxRow,
-          row
-        );
+      }
 
-      minCol =
-        Math.min(
-          minCol,
-          col
-        );
+      else if(
+        unit.status === "Reserved"
+      ){
 
-      maxCol =
-        Math.max(
-          maxCol,
-          col
-        );
+        ctx.fillStyle =
+          "rgba(255,150,40,.40)";
 
-    });
-
-    if(!isFinite(minRow)){
-      return;
-    }
-
-    const x =
-      minCol * cellSize;
-
-    const y =
-      minRow * cellSize;
-
-    const width =
-      (maxCol-minCol+1)
-      * cellSize;
-
-    const height =
-      (maxRow-minRow+1)
-      * cellSize;
-
-    /*
-      Advertisement border
-    */
-
-    ctx.strokeStyle =
-      "rgba(255,255,255,.70)";
-
-    ctx.lineWidth =
-      Math.max(
-        1,
-        2/zoom
-      );
-
-    ctx.strokeRect(
-      x,
-      y,
-      width,
-      height
-    );
-
-    /*
-      Detailed content
-      appears when zoomed.
-    */
-
-    if(zoom < 3){
-      return;
-    }
-
-    ctx.save();
-
-    ctx.beginPath();
-
-    ctx.rect(
-      x,
-      y,
-      width,
-      height
-    );
-
-    ctx.clip();
-
-    /*
-      Dark readable overlay
-    */
-
-    ctx.fillStyle =
-      "rgba(0,0,0,.25)";
-
-    ctx.fillRect(
-      x,
-      y,
-      width,
-      height
-    );
-
-    /*
-      Logo
-    */
-
-    if(ad.logoUrl){
-
-      const img =
-        getAdImage(
-          ad.logoUrl
-        );
-
-      if(img){
-
-        const logoWidth =
-          width*.72;
-
-        const logoHeight =
-          height*.48;
-
-        const logoX =
-          x +
-          (width-logoWidth)/2;
-
-        const logoY =
-          y +
-          height*.08;
-
-        ctx.drawImage(
-          img,
-          logoX,
-          logoY,
-          logoWidth,
-          logoHeight
+        ctx.fillRect(
+          x,
+          y,
+          cellSize,
+          cellSize
         );
 
       }
 
     }
 
-    /*
-      Name
-    */
-
-    if(ad.name){
-
-      const fontSize =
-        Math.max(
-          10,
-          Math.min(
-            30,
-            width*.13
-          )
-        );
-
-      ctx.font =
-        `bold ${fontSize}px Arial`;
-
-      ctx.textAlign =
-        "center";
-
-      ctx.textBaseline =
-        "middle";
-
-      ctx.fillStyle =
-        "#fff";
-
-      ctx.fillText(
-        ad.name,
-        x + width/2,
-        y + height*.72
-      );
-
-    }
-
-    /*
-      Additional text
-    */
-
-    if(
-      ad.text &&
-      width > 80 &&
-      height > 50
-    ){
-
-      const fontSize =
-        Math.max(
-          8,
-          Math.min(
-            18,
-            width*.07
-          )
-        );
-
-      ctx.font =
-        `${fontSize}px Arial`;
-
-      ctx.fillStyle =
-        "rgba(255,255,255,.9)";
-
-      ctx.textAlign =
-        "center";
-
-      ctx.textBaseline =
-        "middle";
-
-      const maxWidth =
-        width*.84;
-
-      let text =
-        String(ad.text);
-
-      /*
-        Keep canvas rendering safe.
-      */
-
-      if(text.length > 80){
-
-        text =
-          text.substring(
-            0,
-            80
-          ) + "…";
-
-      }
-
-      ctx.fillText(
-        text,
-        x + width/2,
-        y + height*.88,
-        maxWidth
-      );
-
-    }
-
-    ctx.restore();
-
-  });
+  }
 
 }
 
@@ -1984,9 +2023,7 @@ function drawActiveAds(){
 
 function drawGrid(){
 
-  if(zoom < 2.2){
-    return;
-  }
+  if(zoom < 2.2) return;
 
   const step =
     cellSize;
@@ -1996,10 +2033,7 @@ function drawGrid(){
       20,
       20,
       20,
-      ${Math.min(
-        .42,
-        (zoom-2)/10
-      )}
+      ${Math.min(.42,(zoom-2)/10)}
     )`;
 
   ctx.lineWidth =
@@ -2008,7 +2042,6 @@ function drawGrid(){
       1/zoom
     );
 
-  const start = 0;
 
   for(
     let i=0;
@@ -2017,7 +2050,7 @@ function drawGrid(){
   ){
 
     const x =
-      start + i*step;
+      i * step;
 
     ctx.beginPath();
 
@@ -2035,6 +2068,7 @@ function drawGrid(){
 
   }
 
+
   for(
     let i=0;
     i<=ROWS;
@@ -2042,7 +2076,7 @@ function drawGrid(){
   ){
 
     const y =
-      start + i*step;
+      i * step;
 
     ctx.beginPath();
 
@@ -2060,20 +2094,15 @@ function drawGrid(){
 
   }
 
-  /*
-    Unit IDs
-  */
 
   if(zoom >= 7){
 
     ctx.font =
-      `${Math.max(
-        5,
-        8/zoom
-      )}px Arial`;
+      `${Math.max(5,8/zoom)}px Arial`;
 
     ctx.fillStyle =
       "rgba(0,0,0,.55)";
+
 
     for(
       let r=0;
@@ -2088,20 +2117,14 @@ function drawGrid(){
       ){
 
         const id =
-          "A" +
-          String(
-            r*COLS+c+1
-          ).padStart(
-            4,
-            "0"
-          );
+          getUnitId(r,c);
 
         const x =
-          c*step+
+          c*step +
           step*.12;
 
         const y =
-          r*step+
+          r*step +
           step*.55;
 
         ctx.fillText(
@@ -2120,6 +2143,189 @@ function drawGrid(){
 
 
 /* =========================================================
+   ADS
+========================================================= */
+
+function drawAds(){
+
+  if(
+    !wallDataLoaded ||
+    zoom < 3
+  ){
+
+    return;
+  }
+
+
+  ads.forEach(ad=>{
+
+    if(
+      !ad.unitIds ||
+      !ad.unitIds.length
+    ){
+
+      return;
+    }
+
+
+    let minRow=999;
+
+    let maxRow=-1;
+
+    let minCol=999;
+
+    let maxCol=-1;
+
+
+    ad.unitIds.forEach(id=>{
+
+      const match =
+        String(id)
+          .match(/A(\d+)/i);
+
+      if(!match) return;
+
+      const number =
+        parseInt(
+          match[1],
+          10
+        );
+
+      if(
+        number<1 ||
+        number>10000
+      ){
+
+        return;
+      }
+
+      const index =
+        number-1;
+
+      const r =
+        Math.floor(
+          index/COLS
+        );
+
+      const c =
+        index%COLS;
+
+      minRow =
+        Math.min(
+          minRow,
+          r
+        );
+
+      maxRow =
+        Math.max(
+          maxRow,
+          r
+        );
+
+      minCol =
+        Math.min(
+          minCol,
+          c
+        );
+
+      maxCol =
+        Math.max(
+          maxCol,
+          c
+        );
+
+    });
+
+
+    if(maxRow<0) return;
+
+
+    const x =
+      minCol*cellSize;
+
+    const y =
+      minRow*cellSize;
+
+    const width =
+      (maxCol-minCol+1) *
+      cellSize;
+
+    const height =
+      (maxRow-minRow+1) *
+      cellSize;
+
+
+    ctx.fillStyle =
+      "rgba(255,255,255,.88)";
+
+    ctx.fillRect(
+      x+cellSize*.08,
+      y+cellSize*.08,
+      width-cellSize*.16,
+      height-cellSize*.16
+    );
+
+
+    ctx.fillStyle =
+      "#111";
+
+    ctx.textAlign =
+      "center";
+
+    ctx.textBaseline =
+      "middle";
+
+
+    if(ad.name){
+
+      ctx.font =
+        `bold ${Math.max(
+          8,
+          Math.min(
+            28,
+            width*.12
+          )
+        )}px Arial`;
+
+      ctx.fillText(
+        ad.name,
+        x+width/2,
+        y+height/2
+      );
+
+    }
+
+    else{
+
+      ctx.font =
+        `bold ${Math.max(
+          7,
+          Math.min(
+            20,
+            width*.09
+          )
+        )}px Arial`;
+
+      ctx.fillText(
+        "إعلان",
+        x+width/2,
+        y+height/2
+      );
+
+    }
+
+    ctx.textAlign =
+      "start";
+
+    ctx.textBaseline =
+      "alphabetic";
+
+  });
+
+}
+
+
+/* =========================================================
    SELECTION
 ========================================================= */
 
@@ -2129,34 +2335,39 @@ let selectedCells =
 let selectedType =
   "Standard";
 
+
 function cellKey(r,c){
 
   return r+"_"+c;
 
 }
 
+
 function isCenter(r,c){
 
-  return(
+  return (
+
     r>=CENTER_START &&
+
     r<=CENTER_END &&
+
     c>=CENTER_START &&
+
     c<=CENTER_END
+
   );
 
 }
+
 
 function drawSelection(){
 
   selectedCells.forEach(key=>{
 
-    const [
-      r,
-      c
-    ] =
+    const [r,c] =
       key
-      .split("_")
-      .map(Number);
+        .split("_")
+        .map(Number);
 
     const x =
       c*cellSize;
@@ -2164,10 +2375,14 @@ function drawSelection(){
     const y =
       r*cellSize;
 
+
     ctx.fillStyle =
       selectedType==="Center"
+
       ? "rgba(255,205,40,.75)"
+
       : "rgba(80,180,255,.72)";
+
 
     ctx.fillRect(
       x,
@@ -2175,6 +2390,7 @@ function drawSelection(){
       cellSize,
       cellSize
     );
+
 
     ctx.strokeStyle =
       "#fff";
@@ -2222,18 +2438,25 @@ function screenToCell(
       worldY/cellSize
     );
 
+
   if(
+
     row<0 ||
+
     row>=ROWS ||
+
     col<0 ||
+
     col>=COLS
+
   ){
 
     return null;
 
   }
 
-  return{
+
+  return {
     row,
     col
   };
@@ -2258,23 +2481,32 @@ function isAdjacentToSelection(
 
   }
 
-  const neighbors = [
+
+  const neighbors=[
 
     [r-1,c],
+
     [r+1,c],
+
     [r,c-1],
+
     [r,c+1]
 
   ];
 
+
   return neighbors.some(
+
     ([nr,nc]) =>
+
       selectedCells.has(
         cellKey(nr,nc)
       )
+
   );
 
 }
+
 
 function selectionIsContiguous(){
 
@@ -2286,71 +2518,74 @@ function selectionIsContiguous(){
 
   }
 
+
   const first =
-    [...selectedCells][0]
-      .split("_")
-      .map(Number);
+    [...selectedCells][0];
+
+  const queue=[
+    first
+  ];
 
   const visited =
     new Set([
-      [...selectedCells][0]
+      first
     ]);
 
-  const queue =
-    [first];
 
-  while(
-    queue.length
-  ){
+  while(queue.length){
 
-    const [
-      r,
-      c
-    ] =
+    const current =
       queue.shift();
 
-    const neighbors = [
+    const [r,c] =
+      current
+        .split("_")
+        .map(Number);
+
+
+    const neighbors=[
 
       [r-1,c],
+
       [r+1,c],
+
       [r,c-1],
+
       [r,c+1]
 
     ];
 
-    for(
-      const [
-        nr,
-        nc
-      ]
-      of neighbors
-    ){
 
-      const k =
-        cellKey(
-          nr,
-          nc
-        );
+    neighbors.forEach(
+      ([nr,nc])=>{
 
-      if(
-        selectedCells.has(k) &&
-        !visited.has(k)
-      ){
+        const k =
+          cellKey(
+            nr,
+            nc
+          );
 
-        visited.add(k);
+        if(
 
-        queue.push([
-          nr,
-          nc
-        ]);
+          selectedCells.has(k) &&
+
+          !visited.has(k)
+
+        ){
+
+          visited.add(k);
+
+          queue.push(k);
+
+        }
 
       }
-
-    }
+    );
 
   }
 
-  return(
+
+  return (
     visited.size ===
     selectedCells.size
   );
@@ -2367,80 +2602,27 @@ function selectCell(
   col
 ){
 
+  if(!wallDataLoaded){
+
+    showTemporaryHint(
+      "الحائط لم يكتمل تحميله بعد."
+    );
+
+    return;
+
+  }
+
+
   const key =
     cellKey(
       row,
       col
     );
 
-  /*
-    Real unit from Google Sheets
-  */
-
-  const unit =
-    getUnitByCell(
-      row,
-      col
-    );
 
   /*
-    Don't allow selection
-    before data loads.
-  */
-
-  if(!unit){
-
-    showTemporaryHint(
-      "جاري تحميل حالة الحائط..."
-    );
-
-    return;
-
-  }
-
-  /*
-    Only Available units
-    can be selected.
-  */
-
-  if(
-    unit.status !==
-    "Available"
-  ){
-
-    if(
-      unit.status ===
-      "Reserved"
-    ){
-
-      showTemporaryHint(
-        "هذه المساحة محجوزة حالياً."
-      );
-
-    }else if(
-      unit.status ===
-      "Active"
-    ){
-
-      showTemporaryHint(
-        "هذه المساحة عليها إعلان."
-      );
-
-    }else{
-
-      showTemporaryHint(
-        "هذه المساحة غير متاحة حالياً."
-      );
-
-    }
-
-    return;
-
-  }
-
-  /*
-    Already selected
-  */
+   * Remove selected square
+   */
 
   if(
     selectedCells.has(key)
@@ -2456,14 +2638,37 @@ function selectCell(
 
   }
 
+
   /*
-    Center
-  */
+   * Availability
+   */
 
   if(
-    selectedType ===
-    "Center" &&
+    !isUnitAvailable(
+      row,
+      col
+    )
+  ){
+
+    showTemporaryHint(
+      "هذه المساحة غير متاحة حالياً."
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * Correct type
+   */
+
+  if(
+
+    selectedType==="Center" &&
+
     !isCenter(row,col)
+
   ){
 
     showTemporaryHint(
@@ -2474,14 +2679,13 @@ function selectCell(
 
   }
 
-  /*
-    Standard
-  */
 
   if(
-    selectedType ===
-    "Standard" &&
+
+    selectedType==="Standard" &&
+
     isCenter(row,col)
+
   ){
 
     showTemporaryHint(
@@ -2492,9 +2696,10 @@ function selectCell(
 
   }
 
+
   /*
-    Connected shape
-  */
+   * Adjacent
+   */
 
   if(
     !isAdjacentToSelection(
@@ -2511,6 +2716,7 @@ function selectCell(
 
   }
 
+
   selectedCells.add(key);
 
   updateUI();
@@ -2521,15 +2727,17 @@ function selectCell(
 
 
 /* =========================================================
-   POINTER / MOUSE
+   POINTER
 ========================================================= */
 
 let dragging=false;
 
 let lastX=0;
+
 let lastY=0;
 
 let moved=false;
+
 
 canvas.addEventListener(
   "pointerdown",
@@ -2539,11 +2747,9 @@ canvas.addEventListener(
 
     moved=false;
 
-    lastX =
-      e.clientX;
+    lastX=e.clientX;
 
-    lastY =
-      e.clientY;
+    lastY=e.clientY;
 
     canvas.setPointerCapture(
       e.pointerId
@@ -2552,13 +2758,12 @@ canvas.addEventListener(
   }
 );
 
+
 canvas.addEventListener(
   "pointermove",
   e=>{
 
-    if(!dragging){
-      return;
-    }
+    if(!dragging) return;
 
     const dx =
       e.clientX-lastX;
@@ -2566,16 +2771,22 @@ canvas.addEventListener(
     const dy =
       e.clientY-lastY;
 
+
     if(
+
       Math.abs(dx)>2 ||
+
       Math.abs(dy)>2
+
     ){
 
       moved=true;
 
     }
 
+
     cameraX += dx;
+
     cameraY += dy;
 
     lastX =
@@ -2584,6 +2795,7 @@ canvas.addEventListener(
     lastY =
       e.clientY;
 
+
     clampCamera();
 
     draw();
@@ -2591,15 +2803,15 @@ canvas.addEventListener(
   }
 );
 
+
 canvas.addEventListener(
   "pointerup",
   e=>{
 
-    if(!dragging){
-      return;
-    }
+    if(!dragging) return;
 
     dragging=false;
+
 
     if(!moved){
 
@@ -2625,7 +2837,7 @@ canvas.addEventListener(
 
 
 /* =========================================================
-   WHEEL ZOOM
+   WHEEL
 ========================================================= */
 
 canvas.addEventListener(
@@ -2636,8 +2848,8 @@ canvas.addEventListener(
 
     const factor =
       e.deltaY<0
-      ? 1.22
-      : .82;
+        ? 1.22
+        : .82;
 
     zoomAt(
       e.clientX,
@@ -2674,6 +2886,7 @@ function zoomAt(
       )
     );
 
+
   if(
     newZoom===oldZoom
   ){
@@ -2681,6 +2894,7 @@ function zoomAt(
     return;
 
   }
+
 
   const worldX =
     (x-cameraX)/
@@ -2690,8 +2904,10 @@ function zoomAt(
     (y-cameraY)/
     oldZoom;
 
+
   zoom =
     newZoom;
+
 
   cameraX =
     x-worldX*zoom;
@@ -2699,20 +2915,24 @@ function zoomAt(
   cameraY =
     y-worldY*zoom;
 
+
   clampCamera();
 
   draw();
+
 
   if(zoom>3){
 
     document
       .getElementById("hint")
-      .classList
-      .add("hidden");
+      .classList.add(
+        "hidden"
+      );
 
   }
 
 }
+
 
 document
   .getElementById("zoomIn")
@@ -2729,6 +2949,7 @@ document
     }
   );
 
+
 document
   .getElementById("zoomOut")
   .addEventListener(
@@ -2743,6 +2964,7 @@ document
 
     }
   );
+
 
 document
   .getElementById("zoomReset")
@@ -2768,6 +2990,7 @@ document
 
 let touches={};
 
+
 canvas.addEventListener(
   "touchstart",
   e=>{
@@ -2776,9 +2999,14 @@ canvas.addEventListener(
       const t of e.changedTouches
     ){
 
-      touches[t.identifier]={
+      touches[
+        t.identifier
+      ]={
+
         x:t.clientX,
+
         y:t.clientY
+
       };
 
     }
@@ -2788,6 +3016,7 @@ canvas.addEventListener(
     passive:false
   }
 );
+
 
 canvas.addEventListener(
   "touchmove",
@@ -2801,7 +3030,9 @@ canvas.addEventListener(
 
     }
 
+
     e.preventDefault();
+
 
     const a =
       e.touches[0];
@@ -2809,11 +3040,17 @@ canvas.addEventListener(
     const b =
       e.touches[1];
 
+
     const ta =
-      touches[a.identifier];
+      touches[
+        a.identifier
+      ];
 
     const tb =
-      touches[b.identifier];
+      touches[
+        b.identifier
+      ];
+
 
     if(!ta || !tb){
 
@@ -2821,32 +3058,36 @@ canvas.addEventListener(
 
     }
 
+
     const previousDistance =
       Math.hypot(
         ta.x-tb.x,
         ta.y-tb.y
       );
 
-    const newDistance =
+
+    const currentDistance =
       Math.hypot(
         a.clientX-b.clientX,
         a.clientY-b.clientY
       );
 
+
     if(
-      previousDistance>0 &&
-      newDistance>0
+      previousDistance>0
     ){
 
       const factor =
-        newDistance/
+        currentDistance/
         previousDistance;
+
 
       const centerX =
         (a.clientX+b.clientX)/2;
 
       const centerY =
         (a.clientY+b.clientY)/2;
+
 
       zoomAt(
         centerX,
@@ -2856,13 +3097,19 @@ canvas.addEventListener(
 
     }
 
+
     for(
       const t of e.touches
     ){
 
-      touches[t.identifier]={
+      touches[
+        t.identifier
+      ]={
+
         x:t.clientX,
+
         y:t.clientY
+
       };
 
     }
@@ -2872,6 +3119,7 @@ canvas.addEventListener(
     passive:false
   }
 );
+
 
 canvas.addEventListener(
   "touchend",
@@ -2908,17 +3156,20 @@ document
 
         selectedCells.clear();
 
+
         document
           .querySelectorAll(".typeBtn")
-          .forEach(
-            b =>
-              b.classList
-               .remove("active")
+          .forEach(b=>
+            b.classList.remove(
+              "active"
+            )
           );
+
 
         btn.classList.add(
           "active"
         );
+
 
         updateUI();
 
@@ -2939,41 +3190,69 @@ function updateUI(){
   const count =
     selectedCells.size;
 
+
   const price =
-    selectedType ===
-    "Center"
+    selectedType==="Center"
+
       ? count*CENTER_PRICE
+
       : count*STANDARD_PRICE;
+
 
   document
     .getElementById(
       "selectedCount"
     )
     .textContent =
-    count;
+      count;
+
 
   document
     .getElementById(
       "totalPrice"
     )
     .textContent =
-    price;
+      price;
+
 
   document
     .getElementById(
       "confirmArea"
     )
     .disabled =
-    count===0;
+      count===0;
 
 }
 
 
 /* =========================================================
-   TEMPORARY HINT
+   CLEAR
+========================================================= */
+
+document
+  .getElementById(
+    "clearSelection"
+  )
+  .addEventListener(
+    "click",
+    ()=>{
+
+      selectedCells.clear();
+
+      updateUI();
+
+      draw();
+
+    }
+  );
+
+
+/* =========================================================
+   TEMP HINT
 ========================================================= */
 
 let hintTimer=null;
+
 
 function showTemporaryHint(
   message
@@ -2984,16 +3263,20 @@ function showTemporaryHint(
       "hint"
     );
 
+
   hint.textContent =
     message;
+
 
   hint.classList.remove(
     "hidden"
   );
 
+
   clearTimeout(
     hintTimer
   );
+
 
   hintTimer =
     setTimeout(
@@ -3001,6 +3284,7 @@ function showTemporaryHint(
 
         hint.textContent =
           "كبّر الحائط لتشوف الوحدات وتختار مطرحك";
+
 
         if(zoom>3){
 
@@ -3026,6 +3310,7 @@ const bookingModal =
     "bookingModal"
   );
 
+
 document
   .getElementById(
     "confirmArea"
@@ -3042,39 +3327,47 @@ document
 
       }
 
+
       const count =
         selectedCells.size;
 
+
       const price =
-        selectedType ===
-        "Center"
+        selectedType==="Center"
+
           ? count*CENTER_PRICE
+
           : count*STANDARD_PRICE;
+
 
       document
         .getElementById(
           "summaryType"
         )
         .textContent =
-        selectedType;
+          selectedType;
+
 
       document
         .getElementById(
           "summaryUnits"
         )
         .textContent =
-        count;
+          count;
+
 
       document
         .getElementById(
           "summaryPrice"
         )
         .textContent =
-        price;
+          price;
+
 
       bookingModal
-        .classList
-        .add("show");
+        .classList.add(
+          "show"
+        );
 
     }
   );
@@ -3087,10 +3380,12 @@ document
 function closeBooking(){
 
   bookingModal
-    .classList
-    .remove("show");
+    .classList.remove(
+      "show"
+    );
 
 }
+
 
 document
   .getElementById(
@@ -3100,6 +3395,7 @@ document
     "click",
     closeBooking
   );
+
 
 document
   .getElementById(
@@ -3112,37 +3408,25 @@ document
 
 
 /* =========================================================
-   GET UNIT IDS
+   GET IDS
 ========================================================= */
 
 function getSelectedUnitIds(){
 
-  return [
-    ...selectedCells
-  ]
-  .map(key=>{
+  return [...selectedCells]
+    .map(key=>{
 
-    const [
-      r,
-      c
-    ] =
-      key
-      .split("_")
-      .map(Number);
+      const [r,c] =
+        key
+          .split("_")
+          .map(Number);
 
-    const number =
-      r*COLS+c+1;
+      return getUnitId(
+        r,
+        c
+      );
 
-    return(
-      "A"+
-      String(number)
-        .padStart(
-          4,
-          "0"
-        )
-    );
-
-  });
+    });
 
 }
 
@@ -3157,7 +3441,7 @@ document
   )
   .addEventListener(
     "click",
-    async()=>{
+    async ()=>{
 
       const name =
         document
@@ -3167,6 +3451,7 @@ document
           .value
           .trim();
 
+
       const phone =
         document
           .getElementById(
@@ -3174,6 +3459,7 @@ document
           )
           .value
           .trim();
+
 
       if(!name){
 
@@ -3185,6 +3471,7 @@ document
 
       }
 
+
       if(!phone){
 
         alert(
@@ -3195,10 +3482,14 @@ document
 
       }
 
+
       const unitIds =
         getSelectedUnitIds();
 
-      if(!unitIds.length){
+
+      if(
+        unitIds.length===0
+      ){
 
         alert(
           "يرجى اختيار مساحة."
@@ -3208,93 +3499,158 @@ document
 
       }
 
-      /*
-        IMPORTANT:
-        Send createOrder directly.
-        The backend performs the final
-        availability + contiguity check.
-      */
 
-      const payload = {
+      /*
+       * Important:
+       * Before creating the order,
+       * verify the selection again
+       * directly from server.
+       */
+
+      const previewPayload = {
 
         action:
-          "createOrder",
-
-        customerName:
-          name,
-
-        phone:
-          phone,
+          "preview",
 
         unitType:
           selectedType,
 
         unitIds:
-          unitIds,
-
-        logoUrl:
-          document
-            .getElementById(
-              "logoUrl"
-            )
-            .value
-            .trim(),
-
-        adName:
-          document
-            .getElementById(
-              "adName"
-            )
-            .value
-            .trim(),
-
-        adText:
-          document
-            .getElementById(
-              "adText"
-            )
-            .value
-            .trim(),
-
-        whatsapp:
-          document
-            .getElementById(
-              "whatsapp"
-            )
-            .value
-            .trim(),
-
-        instagram:
-          document
-            .getElementById(
-              "instagram"
-            )
-            .value
-            .trim()
+          unitIds
 
       };
 
-      const button =
-        document
-          .getElementById(
-            "submitBooking"
-          );
 
-      button.disabled =
-        true;
+      const button =
+        document.getElementById(
+          "submitBooking"
+        );
+
+
+      button.disabled=true;
 
       button.textContent =
-        "جاري إرسال الطلب...";
+        "جاري التحقق...";
+
 
       try{
+
+        /*
+         * SERVER VALIDATION
+         */
+
+        const previewResponse =
+          await fetch(
+            APP_URL,
+            {
+
+              method:"POST",
+
+              headers:{
+                "Content-Type":
+                  "text/plain;charset=utf-8"
+              },
+
+              body:
+                JSON.stringify(
+                  previewPayload
+                )
+
+            }
+          );
+
+
+        const preview =
+          await previewResponse.json();
+
+
+        if(
+          !preview ||
+          !preview.success
+        ){
+
+          throw new Error(
+            preview?.message ||
+            "المساحة المحددة غير متاحة."
+          );
+
+        }
+
+
+        /*
+         * CREATE REAL ORDER
+         */
+
+        button.textContent =
+          "جاري إرسال الطلب...";
+
+
+        const payload = {
+
+          action:
+            "createOrder",
+
+          customerName:
+            name,
+
+          phone:
+            phone,
+
+          unitType:
+            selectedType,
+
+          unitIds:
+            unitIds,
+
+          logoUrl:
+            document
+              .getElementById(
+                "logoUrl"
+              )
+              .value
+              .trim(),
+
+          adName:
+            document
+              .getElementById(
+                "adName"
+              )
+              .value
+              .trim(),
+
+          adText:
+            document
+              .getElementById(
+                "adText"
+              )
+              .value
+              .trim(),
+
+          whatsapp:
+            document
+              .getElementById(
+                "whatsapp"
+              )
+              .value
+              .trim(),
+
+          instagram:
+            document
+              .getElementById(
+                "instagram"
+              )
+              .value
+              .trim()
+
+        };
+
 
         const response =
           await fetch(
             APP_URL,
             {
 
-              method:
-                "POST",
+              method:"POST",
 
               headers:{
                 "Content-Type":
@@ -3309,49 +3665,57 @@ document
             }
           );
 
+
         const result =
           await response.json();
 
+
         if(
-          result &&
-          result.success
+          !result ||
+          !result.success
         ){
 
-          closeBooking();
-
-          /*
-            Refresh wall data because
-            selected units are now Reserved.
-          */
-
-          await loadWallData();
-
-          draw();
-
-          document
-            .getElementById(
-              "successModal"
-            )
-            .classList
-            .add("show");
-
-        }else{
-
-          alert(
+          throw new Error(
             result?.message ||
-            "تعذّر إنشاء الحجز."
+            "تعذر إنشاء الطلب."
           );
 
-          /*
-            Refresh in case another
-            customer reserved a unit.
-          */
-
-          await loadWallData();
-
-          draw();
-
         }
+
+
+        /*
+         * Save order ID
+         */
+
+        window.HITAN_LAST_ORDER =
+          result;
+
+
+        closeBooking();
+
+
+        /*
+         * Refresh wall
+         */
+
+        await loadWallData();
+
+
+        selectedCells.clear();
+
+        updateUI();
+
+        draw();
+
+
+        document
+          .getElementById(
+            "successModal"
+          )
+          .classList.add(
+            "show"
+          );
+
 
       }catch(error){
 
@@ -3359,14 +3723,15 @@ document
           error
         );
 
+
         alert(
+          error.message ||
           "تعذّر الاتصال بالخادم. حاول مرة أخرى."
         );
 
       }finally{
 
-        button.disabled =
-          false;
+        button.disabled=false;
 
         button.textContent =
           "متابعة الحجز";
@@ -3382,20 +3747,24 @@ document
 ========================================================= */
 
 let shareUrl =
-  window.location.origin+
+  window.location.origin +
   window.location.pathname;
+
 
 function updateShareUrl(){
 
   const ids =
     getSelectedUnitIds();
 
-  if(ids.length){
+
+  if(
+    ids.length
+  ){
 
     shareUrl =
-      window.location.origin+
-      window.location.pathname+
-      "?wall="+
+      window.location.origin +
+      window.location.pathname +
+      "?wall=" +
       encodeURIComponent(
         ids[0]
       );
@@ -3404,15 +3773,49 @@ function updateShareUrl(){
 
 }
 
+
 document
   .getElementById(
     "shareBtn"
   )
   .addEventListener(
     "click",
-    async()=>{
+    async ()=>{
 
-      updateShareUrl();
+      /*
+       * After successful order,
+       * use the saved order units.
+       */
+
+      let ids =
+        getSelectedUnitIds();
+
+
+      if(
+        !ids.length &&
+        window.HITAN_LAST_ORDER
+      ){
+
+        ids =
+          window.HITAN_LAST_ORDER
+            .unitIds ||
+          [];
+
+      }
+
+
+      if(ids.length){
+
+        shareUrl =
+          window.location.origin +
+          window.location.pathname +
+          "?wall=" +
+          encodeURIComponent(
+            ids[0]
+          );
+
+      }
+
 
       const message =
 `حطّيت مشروعي على حيطان لبنان! 🧱🇱🇧
@@ -3421,6 +3824,7 @@ document
 
 إلك مطرح كمان؟
 ${shareUrl}`;
+
 
       if(
         navigator.share
@@ -3447,8 +3851,7 @@ ${shareUrl}`;
 
         try{
 
-          await navigator
-            .clipboard
+          await navigator.clipboard
             .writeText(
               message
             );
@@ -3459,8 +3862,9 @@ ${shareUrl}`;
 
         }catch(e){
 
-          alert(
-            "تعذّر نسخ الرسالة."
+          prompt(
+            "انسخ الرابط:",
+            shareUrl
           );
 
         }
@@ -3470,20 +3874,52 @@ ${shareUrl}`;
     }
   );
 
+
+/* =========================================================
+   COPY
+========================================================= */
+
 document
   .getElementById(
     "copyBtn"
   )
   .addEventListener(
     "click",
-    async()=>{
+    async ()=>{
 
-      updateShareUrl();
+      let ids =
+        getSelectedUnitIds();
+
+
+      if(
+        !ids.length &&
+        window.HITAN_LAST_ORDER
+      ){
+
+        ids =
+          window.HITAN_LAST_ORDER
+            .unitIds ||
+          [];
+
+      }
+
+
+      if(ids.length){
+
+        shareUrl =
+          window.location.origin +
+          window.location.pathname +
+          "?wall=" +
+          encodeURIComponent(
+            ids[0]
+          );
+
+      }
+
 
       try{
 
-        await navigator
-          .clipboard
+        await navigator.clipboard
           .writeText(
             shareUrl
           );
@@ -3506,7 +3942,7 @@ document
 
 
 /* =========================================================
-   OPEN SHARED WALL LOCATION
+   SHARED WALL
 ========================================================= */
 
 function focusSharedUnit(){
@@ -3516,21 +3952,24 @@ function focusSharedUnit(){
       window.location.search
     );
 
-  const unit =
-    params.get("wall");
 
-  if(!unit){
-    return;
-  }
+  const unit =
+    params.get(
+      "wall"
+    );
+
+
+  if(!unit) return;
+
 
   const match =
     unit.match(
       /A(\d+)/i
     );
 
-  if(!match){
-    return;
-  }
+
+  if(!match) return;
+
 
   const number =
     parseInt(
@@ -3538,51 +3977,61 @@ function focusSharedUnit(){
       10
     );
 
+
   if(
+
     number<1 ||
+
     number>10000
+
   ){
 
     return;
 
   }
 
+
   const index =
     number-1;
+
 
   const row =
     Math.floor(
       index/COLS
     );
 
+
   const col =
     index%COLS;
 
-  /*
-    Zoom into shared area.
-  */
 
   zoom=8;
 
+
   const worldX =
-    (col+.5)*
+    (col+.5) *
     cellSize;
 
+
   const worldY =
-    (row+.5)*
+    (row+.5) *
     cellSize;
+
 
   cameraX =
     W/2 -
     worldX*zoom;
 
+
   cameraY =
     H/2 -
     worldY*zoom;
 
+
   clampCamera();
 
   draw();
+
 
   showTemporaryHint(
     "هذا مطرح الإعلان على حيطان لبنان"
@@ -3595,24 +4044,28 @@ function focusSharedUnit(){
    INITIALIZE
 ========================================================= */
 
-async function initializeHitan(){
+async function initialize(){
 
   resizeCanvas();
 
   updateUI();
 
-  /*
-    Load actual wall data
-    from Google Sheets.
-  */
 
-  await loadWallData();
+  const data =
+    await loadWallData();
 
-  /*
-    Draw again after data arrives.
-  */
+
+  document
+    .getElementById(
+      "loading"
+    )
+    .classList.add(
+      "hidden"
+    );
+
 
   draw();
+
 
   setTimeout(
     ()=>{
@@ -3621,9 +4074,19 @@ async function initializeHitan(){
     100
   );
 
+
+  if(!data){
+
+    showTemporaryHint(
+      "تعذّر تحميل بيانات الحائط."
+    );
+
+  }
+
 }
 
-initializeHitan();
+
+initialize();
 
 </script>
 
