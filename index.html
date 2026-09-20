@@ -8,284 +8,733 @@
 *{
   box-sizing:border-box;
 }
-body{
+html,body{
   margin:0;
-  font-family:Arial,Tahoma,sans-serif;
+  width:100%;
+  min-height:100%;
+  font-family:Tahoma,Arial,sans-serif;
   background:#111;
-  color:white;
+  color:#fff;
+}
+body{
   overflow-x:hidden;
 }
+/* =========================
+   HEADER
+========================= */
 header{
   position:sticky;
   top:0;
-  z-index:20;
-  background:rgba(15,15,15,.95);
-  padding:14px 18px;
+  z-index:50;
+  padding:13px 16px;
   display:flex;
   align-items:center;
   justify-content:space-between;
+  gap:15px;
+  background:rgba(12,12,12,.94);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+.brand{
+  display:flex;
+  align-items:center;
   gap:10px;
-  border-bottom:1px solid #333;
 }
-.logoTitle{
-  font-size:22px;
-  font-weight:bold;
-}
-.slogan{
-  color:#aaa;
-  font-size:13px;
-  margin-top:3px;
-}
-button{
-  border:0;
+.brandIcon{
+  width:43px;
+  height:43px;
   border-radius:12px;
-  padding:12px 18px;
-  font-size:15px;
-  font-weight:bold;
-  cursor:pointer;
-}
-.mainBtn{
-  background:#fff;
-  color:#111;
-}
-.wallArea{
-  padding:18px;
-  overflow:hidden;
-}
-.wallViewport{
-  width:100%;
-  height:70vh;
-  min-height:430px;
-  overflow:hidden;
-  border-radius:18px;
-  border:1px solid #444;
-  background:#222;
-  cursor:grab;
-  position:relative;
-  touch-action:none;
-}
-.wallViewport:active{
-  cursor:grabbing;
-}
-.wall{
-  position:absolute;
-  width:1800px;
-  height:1200px;
-  background:
-    radial-gradient(circle at 20% 30%,rgba(255,255,255,.08),transparent 25%),
-    radial-gradient(circle at 70% 70%,rgba(255,255,255,.05),transparent 25%),
-    linear-gradient(135deg,#777,#4e4e4e 45%,#666);
-  transform-origin:0 0;
-}
-.graffiti{
-  position:absolute;
-  font-weight:900;
-  opacity:.16;
-  transform:rotate(-8deg);
-  user-select:none;
-}
-.g1{left:100px;top:100px;font-size:100px;}
-.g2{left:1100px;top:120px;font-size:90px;transform:rotate(7deg);}
-.g3{left:200px;top:850px;font-size:80px;transform:rotate(5deg);}
-.g4{left:1250px;top:850px;font-size:90px;transform:rotate(-5deg);}
-.centerZone{
-  position:absolute;
-  left:40%;
-  top:33.333%;
-  width:20%;
-  height:33.333%;
-  border:4px dashed rgba(255,215,0,.8);
-  background:rgba(255,215,0,.06);
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:42px;
-  font-weight:bold;
-  color:rgba(255,215,0,.7);
+  background:linear-gradient(135deg,#eee,#777);
+  color:#111;
+  font-size:22px;
 }
-.unitPreview{
-  position:absolute;
-  background:rgba(0,200,80,.65);
-  border:1px solid rgba(255,255,255,.8);
-  pointer-events:none;
+.brandName{
+  font-size:21px;
+  font-weight:900;
 }
-.hint{
-  text-align:center;
+.brandSlogan{
   color:#aaa;
-  font-size:13px;
-  margin:10px;
+  font-size:12px;
+  margin-top:2px;
 }
-/* MODAL */
+.headerBtn{
+  background:#fff;
+  color:#111;
+  border:0;
+  border-radius:12px;
+  padding:11px 15px;
+  font-weight:900;
+  cursor:pointer;
+}
+/* =========================
+   HERO
+========================= */
+.hero{
+  text-align:center;
+  padding:28px 18px 15px;
+}
+.hero h1{
+  margin:0;
+  font-size:clamp(28px,5vw,52px);
+  font-weight:900;
+}
+.hero p{
+  margin:9px auto 0;
+  color:#aaa;
+  max-width:650px;
+  line-height:1.7;
+}
+/* =========================
+   WALL
+========================= */
+.wallSection{
+  padding:12px;
+}
+.wallFrame{
+  position:relative;
+  width:100%;
+  height:min(68vh,720px);
+  min-height:430px;
+  overflow:hidden;
+  border-radius:22px;
+  border:1px solid rgba(255,255,255,.15);
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.5),
+    inset 0 0 80px rgba(0,0,0,.35);
+  background:#444;
+}
+#wallCanvas{
+  width:100%;
+  height:100%;
+  display:block;
+  touch-action:none;
+  cursor:grab;
+}
+#wallCanvas.dragging{
+  cursor:grabbing;
+}
+.wallControls{
+  position:absolute;
+  left:14px;
+  bottom:14px;
+  display:flex;
+  gap:7px;
+  direction:ltr;
+}
+.wallControls button{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.2);
+  background:rgba(0,0,0,.65);
+  color:white;
+  font-size:20px;
+  cursor:pointer;
+}
+.wallInfo{
+  position:absolute;
+  right:14px;
+  top:14px;
+  background:rgba(0,0,0,.62);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.12);
+  padding:9px 13px;
+  border-radius:12px;
+  font-size:12px;
+  color:#ddd;
+}
+/* =========================
+   BOTTOM CTA
+========================= */
+.cta{
+  text-align:center;
+  padding:20px 15px 35px;
+}
+.ctaButton{
+  border:0;
+  border-radius:15px;
+  padding:15px 27px;
+  background:#fff;
+  color:#111;
+  font-size:17px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 10px 35px rgba(0,0,0,.3);
+}
+.cta small{
+  display:block;
+  margin-top:9px;
+  color:#777;
+}
+/* =========================
+   MODAL
+========================= */
 .modal{
   display:none;
   position:fixed;
   inset:0;
   z-index:100;
-  background:rgba(0,0,0,.75);
+  background:rgba(0,0,0,.78);
   align-items:center;
   justify-content:center;
   padding:15px;
 }
-.modalBox{
-  width:min(520px,100%);
-  max-height:90vh;
-  overflow:auto;
-  background:#1d1d1d;
-  border:1px solid #444;
-  border-radius:20px;
-  padding:22px;
-}
-.modalHeader{
+.modal.show{
   display:flex;
-  justify-content:space-between;
+}
+.modalBox{
+  width:min(560px,100%);
+  max-height:92vh;
+  overflow-y:auto;
+  background:#1c1c1c;
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:22px;
+  padding:21px;
+  box-shadow:0 30px 90px rgba(0,0,0,.6);
+}
+.modalTop{
+  display:flex;
   align-items:center;
-  margin-bottom:20px;
+  justify-content:space-between;
+  margin-bottom:18px;
 }
-.close{
-  background:#333;
-  color:white;
-  width:42px;
-  height:42px;
-  padding:0;
+.modalTitle{
+  margin:0;
+  font-size:23px;
+}
+.closeBtn{
+  width:40px;
+  height:40px;
+  border:0;
   border-radius:50%;
+  background:#333;
+  color:#fff;
+  font-size:23px;
+  cursor:pointer;
 }
-.option{
-  border:1px solid #555;
-  border-radius:15px;
-  padding:16px;
-  margin:10px 0;
+/* =========================
+   TYPE OPTIONS
+========================= */
+.typeGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.typeCard{
+  border:1px solid #444;
+  background:#161616;
+  border-radius:16px;
+  padding:17px;
   cursor:pointer;
   transition:.2s;
 }
-.option:hover,
-.option.selected{
+.typeCard:hover{
+  border-color:#aaa;
+}
+.typeCard.selected{
   border-color:#fff;
   background:#292929;
+  box-shadow:0 0 0 2px rgba(255,255,255,.08);
 }
-.optionTitle{
+.typeName{
   font-size:18px;
-  font-weight:bold;
+  font-weight:900;
 }
-.optionPrice{
-  color:#bbb;
+.typePrice{
+  color:#aaa;
   margin-top:5px;
+  font-size:13px;
 }
-input{
+.typeDescription{
+  color:#777;
+  margin-top:8px;
+  font-size:11px;
+  line-height:1.5;
+}
+/* =========================
+   FORM
+========================= */
+.formSection{
+  display:none;
+  margin-top:20px;
+}
+.formSection.show{
+  display:block;
+}
+.field{
+  margin-bottom:13px;
+}
+.field label{
+  display:block;
+  color:#ccc;
+  font-size:13px;
+  margin-bottom:6px;
+}
+.field input,
+.field textarea{
   width:100%;
   padding:13px;
-  margin-top:7px;
-  margin-bottom:13px;
-  border-radius:10px;
-  border:1px solid #555;
-  background:#111;
-  color:white;
-  font-size:16px;
-}
-label{
-  font-size:14px;
-  color:#ccc;
-}
-.previewBtn{
-  width:100%;
-  background:white;
-  color:#111;
-  margin-top:8px;
-}
-.result{
-  margin-top:15px;
-  padding:14px;
-  border-radius:12px;
-  background:#111;
+  border-radius:11px;
   border:1px solid #444;
+  background:#101010;
+  color:#fff;
+  outline:none;
+  font-family:inherit;
+  font-size:15px;
+}
+.field textarea{
+  min-height:90px;
+  resize:vertical;
+}
+.field input:focus,
+.field textarea:focus{
+  border-color:#aaa;
+}
+.optional{
+  color:#777;
+  font-size:11px;
+  margin-right:5px;
+}
+/* =========================
+   PRICE
+========================= */
+.priceBox{
+  margin-top:15px;
+  background:#111;
+  border:1px solid #333;
+  border-radius:15px;
+  padding:14px;
+}
+.priceRow{
+  display:flex;
+  justify-content:space-between;
+  color:#aaa;
+  font-size:13px;
+  margin-bottom:8px;
+}
+.totalRow{
+  display:flex;
+  justify-content:space-between;
+  padding-top:9px;
+  border-top:1px solid #333;
+  font-size:21px;
+  font-weight:900;
+}
+/* =========================
+   BUTTONS
+========================= */
+.primaryBtn{
+  width:100%;
+  margin-top:13px;
+  padding:14px;
+  border:0;
+  border-radius:13px;
+  background:#fff;
+  color:#111;
+  font-size:16px;
+  font-weight:900;
+  cursor:pointer;
+}
+.secondaryBtn{
+  width:100%;
+  margin-top:9px;
+  padding:12px;
+  border:1px solid #444;
+  border-radius:13px;
+  background:#222;
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
+}
+/* =========================
+   RESULT
+========================= */
+.result{
   display:none;
+  margin-top:13px;
+  padding:13px;
+  border-radius:12px;
+  background:#101010;
+  border:1px solid #333;
+  line-height:1.7;
+  font-size:13px;
 }
-.success{
-  color:#7cffaa;
+.result.show{
+  display:block;
 }
-.error{
-  color:#ff7777;
+.result.success{
+  border-color:rgba(80,220,130,.5);
 }
-.total{
-  font-size:22px;
-  font-weight:bold;
-  margin-top:8px;
+.result.error{
+  border-color:rgba(255,80,80,.5);
+  color:#ff9696;
+}
+.successText{
+  color:#80f0a5;
+}
+/* =========================
+   AD PREVIEW
+========================= */
+.adPreview{
+  display:none;
+  margin-top:14px;
+  border-radius:15px;
+  background:#111;
+  border:1px solid #333;
+  padding:14px;
+}
+.adPreview.show{
+  display:block;
+}
+.adPreviewTitle{
+  color:#888;
+  font-size:11px;
+  margin-bottom:10px;
+}
+.adCard{
+  min-height:110px;
+  border-radius:13px;
+  background:
+    linear-gradient(
+      135deg,
+      #555,
+      #292929
+    );
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:18px;
+  position:relative;
+  overflow:hidden;
+}
+.adCard:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(255,255,255,.12),
+      transparent 35%
+    );
+  pointer-events:none;
+}
+.adContent{
+  position:relative;
+  z-index:2;
+}
+.adLogo{
+  max-width:130px;
+  max-height:55px;
+  object-fit:contain;
+  margin-bottom:7px;
+}
+.adName{
+  font-size:20px;
+  font-weight:900;
+}
+.adText{
+  margin-top:5px;
+  color:#ddd;
+  font-size:12px;
+}
+/* =========================
+   RESPONSIVE
+========================= */
+@media(max-width:600px){
+  header{
+    padding:11px;
+  }
+  .brandName{
+    font-size:18px;
+  }
+  .headerBtn{
+    padding:9px 11px;
+    font-size:13px;
+  }
+  .hero{
+    padding-top:22px;
+  }
+  .wallFrame{
+    height:58vh;
+    min-height:400px;
+  }
+  .typeGrid{
+    grid-template-columns:1fr;
+  }
 }
 </style>
 </head>
 <body>
 <header>
-  <div>
-    <div class="logoTitle">🧱 حيطان لبنان 🇱🇧</div>
-    <div class="slogan">كل اسم إلو مطرح</div>
+  <div class="brand">
+    <div class="brandIcon">🧱</div>
+    <div>
+      <div class="brandName">
+        حيطان لبنان 🇱🇧
+      </div>
+      <div class="brandSlogan">
+        كل اسم إلو مطرح
+      </div>
+    </div>
   </div>
-  <button class="mainBtn" onclick="openModal()">
+  <button
+    class="headerBtn"
+    onclick="openBooking()"
+  >
     + احجز مطرحك
   </button>
 </header>
-<div class="wallArea">
-  <div class="wallViewport" id="viewport">
-    <div class="wall" id="wall">
-      <div class="graffiti g1">LEBANON</div>
-      <div class="graffiti g2">BEIRUT</div>
-      <div class="graffiti g3">SAIDA</div>
-      <div class="graffiti g4">TYRE</div>
-      <div class="centerZone">
-        CENTER
-      </div>
+<section class="hero">
+  <h1>
+    كل اسم إلو مطرح
+  </h1>
+  <p>
+    حيطان لبنان هو حائط واحد يجمع أسماء الناس،
+    المشاريع، الشركات والذكريات.
+    اختار مساحتك واترك بصمتك.
+  </p>
+</section>
+<section class="wallSection">
+  <div class="wallFrame">
+    <canvas id="wallCanvas"></canvas>
+    <div class="wallInfo">
+      10,000 مطرح • STANDARD + CENTER
+    </div>
+    <div class="wallControls">
+      <button onclick="zoomWall(1.2)">
+        +
+      </button>
+      <button onclick="resetWall()">
+        ⟳
+      </button>
+      <button onclick="zoomWall(.8)">
+        −
+      </button>
     </div>
   </div>
-  <div class="hint">
-    اسحب الحائط لاستكشافه
-  </div>
-</div>
-<!-- MODAL -->
-<div class="modal" id="modal">
+</section>
+<section class="cta">
+  <button
+    class="ctaButton"
+    onclick="openBooking()"
+  >
+    🧱 احجز مطرحك
+  </button>
+  <small>
+    اختار قد ما بدك من الوحدات المتاحة
+  </small>
+</section>
+<!-- =========================
+     BOOKING MODAL
+========================= -->
+<div
+  class="modal"
+  id="bookingModal"
+>
   <div class="modalBox">
-    <div class="modalHeader">
-      <h2>احجز مطرحك</h2>
-      <button class="close" onclick="closeModal()">×</button>
-    </div>
-    <div
-      class="option"
-      id="standardOption"
-      onclick="selectType('Standard')"
-    >
-      <div class="optionTitle">
-        STANDARD
-      </div>
-      <div class="optionPrice">
-        $1 لكل وحدة
-      </div>
-    </div>
-    <div
-      class="option"
-      id="centerOption"
-      onclick="selectType('Center')"
-    >
-      <div class="optionTitle">
-        CENTER ⭐
-      </div>
-      <div class="optionPrice">
-        $5 لكل وحدة
-      </div>
-    </div>
-    <div id="formArea" style="display:none">
-      <label>
-        عدد الوحدات
-      </label>
-      <input
-        id="unitsCount"
-        type="number"
-        min="1"
-        placeholder="مثلاً 20"
-        oninput="calculatePrice()"
-      >
-      <div class="total">
-        المجموع:
-        $<span id="totalPrice">0</span>
-      </div>
+    <div class="modalTop">
+      <h2 class="modalTitle">
+        احجز مطرحك
+      </h2>
       <button
-        class="previewBtn"
+        class="closeBtn"
+        onclick="closeBooking()"
+      >
+        ×
+      </button>
+    </div>
+    <!-- TYPE -->
+    <div class="typeGrid">
+      <div
+        class="typeCard"
+        id="standardCard"
+        onclick="selectType('Standard')"
+      >
+        <div class="typeName">
+          STANDARD
+        </div>
+        <div class="typePrice">
+          $1 لكل وحدة
+        </div>
+        <div class="typeDescription">
+          مساحة على الحائط الرئيسي
+        </div>
+      </div>
+      <div
+        class="typeCard"
+        id="centerCard"
+        onclick="selectType('Center')"
+      >
+        <div class="typeName">
+          CENTER ⭐
+        </div>
+        <div class="typePrice">
+          $5 لكل وحدة
+        </div>
+        <div class="typeDescription">
+          المنطقة المركزية المميزة
+        </div>
+      </div>
+    </div>
+    <!-- FORM -->
+    <div
+      class="formSection"
+      id="formSection"
+    >
+      <div class="field">
+        <label>
+          عدد الوحدات
+        </label>
+        <input
+          id="unitsCount"
+          type="number"
+          min="1"
+          step="1"
+          placeholder="مثلاً 20"
+          oninput="updatePrice()"
+        >
+      </div>
+      <!-- AD DATA -->
+      <div
+        style="
+          margin:20px 0 13px;
+          padding-top:15px;
+          border-top:1px solid #333;
+        "
+      >
+        <div
+          style="
+            font-size:17px;
+            font-weight:900;
+            margin-bottom:5px;
+          "
+        >
+          بيانات إعلانك
+        </div>
+        <div
+          style="
+            color:#777;
+            font-size:12px;
+          "
+        >
+          كل البيانات التالية اختيارية.
+        </div>
+      </div>
+      <div class="field">
+        <label>
+          الشعار
+          <span class="optional">
+            اختياري
+          </span>
+        </label>
+        <input
+          id="logoUrl"
+          type="url"
+          placeholder="رابط الشعار"
+          oninput="updateAdPreview()"
+        >
+      </div>
+      <div class="field">
+        <label>
+          الاسم
+          <span class="optional">
+            اختياري
+          </span>
+        </label>
+        <input
+          id="adName"
+          type="text"
+          placeholder="اسمك أو اسم مشروعك"
+          oninput="updateAdPreview()"
+        >
+      </div>
+      <div class="field">
+        <label>
+          النص
+          <span class="optional">
+            اختياري
+          </span>
+        </label>
+        <textarea
+          id="adText"
+          placeholder="أي عبارة تريد ظهورها..."
+          oninput="updateAdPreview()"
+        ></textarea>
+      </div>
+      <div class="field">
+        <label>
+          الهاتف
+          <span class="optional">
+            اختياري
+          </span>
+        </label>
+        <input
+          id="phone"
+          type="tel"
+          placeholder="رقم الهاتف"
+        >
+      </div>
+      <div class="field">
+        <label>
+          WhatsApp
+          <span class="optional">
+            اختياري
+          </span>
+        </label>
+        <input
+          id="whatsapp"
+          type="tel"
+          placeholder="رقم WhatsApp"
+        >
+      </div>
+      <div class="field">
+        <label>
+          Instagram
+          <span class="optional">
+            اختياري
+          </span>
+        </label>
+        <input
+          id="instagram"
+          type="text"
+          placeholder="@username أو الرابط"
+        >
+      </div>
+      <!-- PRICE -->
+      <div class="priceBox">
+        <div class="priceRow">
+          <span>
+            نوع المساحة
+          </span>
+          <strong id="priceType">
+            —
+          </strong>
+        </div>
+        <div class="priceRow">
+          <span>
+            عدد الوحدات
+          </span>
+          <strong id="priceUnits">
+            0
+          </strong>
+        </div>
+        <div class="totalRow">
+          <span>
+            المجموع
+          </span>
+          <span>
+            $<span id="totalPrice">0</span>
+          </span>
+        </div>
+      </div>
+      <!-- PREVIEW -->
+      <button
+        class="primaryBtn"
         onclick="previewArea()"
       >
         🔍 معاينة المساحة
@@ -294,231 +743,633 @@ label{
         class="result"
         id="result"
       ></div>
+      <!-- AD PREVIEW -->
+      <div
+        class="adPreview"
+        id="adPreview"
+      >
+        <div class="adPreviewTitle">
+          معاينة شكل إعلانك
+        </div>
+        <div class="adCard">
+          <div
+            class="adContent"
+            id="adContent"
+          >
+          </div>
+        </div>
+      </div>
+      <button
+        class="secondaryBtn"
+        onclick="closeBooking()"
+      >
+        إلغاء
+      </button>
     </div>
   </div>
 </div>
 <script>
-/* =========================
+/* ==================================================
    SETTINGS
-========================= */
+================================================== */
 const APP_URL =
 "https://script.google.com/macros/s/AKfycbzyM_gJsIV-icWDh_sy95KhPqsQpeLlS6eyl__O2zVs1aZyQf-Bp5ja_FrhW9icSHuY/exec";
 let selectedType = null;
-/* =========================
+let selectedUnits = [];
+let currentZoom = 1;
+let offsetX = 0;
+let offsetY = 0;
+/* ==================================================
+   CANVAS
+================================================== */
+const canvas =
+  document.getElementById("wallCanvas");
+const ctx =
+  canvas.getContext("2d");
+const WALL_UNITS = 100;
+const CENTER_START = 40;
+const CENTER_END = 60;
+let baseCell = 20;
+function resizeCanvas(){
+  const rect =
+    canvas.getBoundingClientRect();
+  const dpr =
+    window.devicePixelRatio || 1;
+  canvas.width =
+    rect.width * dpr;
+  canvas.height =
+    rect.height * dpr;
+  ctx.setTransform(
+    dpr,0,0,dpr,0,0
+  );
+  drawWall();
+}
+window.addEventListener(
+  "resize",
+  resizeCanvas
+);
+/* ==================================================
+   WALL DRAWING
+================================================== */
+function drawWall(){
+  const w =
+    canvas.clientWidth;
+  const h =
+    canvas.clientHeight;
+  ctx.clearRect(0,0,w,h);
+  /* WALL BACKGROUND */
+  const gradient =
+    ctx.createLinearGradient(
+      0,0,w,h
+    );
+  gradient.addColorStop(0,"#747474");
+  gradient.addColorStop(.45,"#515151");
+  gradient.addColorStop(1,"#292929");
+  ctx.fillStyle =
+    gradient;
+  ctx.fillRect(0,0,w,h);
+  /* CONCRETE TEXTURE */
+  for(let i=0;i<500;i++){
+    const x =
+      Math.random()*w;
+    const y =
+      Math.random()*h;
+    const r =
+      Math.random()*2.5+.4;
+    ctx.fillStyle =
+      `rgba(255,255,255,${Math.random()*.035})`;
+    ctx.beginPath();
+    ctx.arc(
+      x,y,r,0,Math.PI*2
+    );
+    ctx.fill();
+  }
+  /* WALL CONTENT */
+  const cols = 100;
+  const rows = 100;
+  const availableW =
+    w * .88;
+  const availableH =
+    h * .82;
+  baseCell =
+    Math.min(
+      availableW / cols,
+      availableH / rows
+    );
+  const wallW =
+    baseCell * cols * currentZoom;
+  const wallH =
+    baseCell * rows * currentZoom;
+  const startX =
+    (w-wallW)/2 + offsetX;
+  const startY =
+    (h-wallH)/2 + offsetY;
+  /* CENTER AREA */
+  const centerX =
+    startX +
+    CENTER_START *
+    baseCell *
+    currentZoom;
+  const centerY =
+    startY +
+    CENTER_START *
+    baseCell *
+    currentZoom;
+  const centerSize =
+    20 *
+    baseCell *
+    currentZoom;
+  ctx.fillStyle =
+    "rgba(255,196,0,.08)";
+  ctx.fillRect(
+    centerX,
+    centerY,
+    centerSize,
+    centerSize
+  );
+  ctx.strokeStyle =
+    "rgba(255,215,0,.65)";
+  ctx.lineWidth=3;
+  ctx.setLineDash([8,7]);
+  ctx.strokeRect(
+    centerX,
+    centerY,
+    centerSize,
+    centerSize
+  );
+  ctx.setLineDash([]);
+  /* CENTER LABEL */
+  ctx.fillStyle =
+    "rgba(255,215,0,.65)";
+  ctx.font =
+    `900 ${Math.max(12,22*currentZoom)}px Arial`;
+  ctx.textAlign="center";
+  ctx.fillText(
+    "CENTER",
+    centerX+centerSize/2,
+    centerY+centerSize/2+8
+  );
+  /* SELECTED UNITS */
+  if(selectedUnits.length){
+    selectedUnits.forEach(id=>{
+      const n =
+        parseInt(
+          String(id).replace("A","")
+        );
+      const index =
+        n-1;
+      const row =
+        Math.floor(index/100);
+      const col =
+        index%100;
+      const x =
+        startX +
+        col *
+        baseCell *
+        currentZoom;
+      const y =
+        startY +
+        row *
+        baseCell *
+        currentZoom;
+      ctx.fillStyle =
+        "rgba(60,230,125,.72)";
+      ctx.fillRect(
+        x,
+        y,
+        baseCell*currentZoom,
+        baseCell*currentZoom
+      );
+      ctx.strokeStyle =
+        "rgba(255,255,255,.8)";
+      ctx.lineWidth=.5;
+      ctx.strokeRect(
+        x,
+        y,
+        baseCell*currentZoom,
+        baseCell*currentZoom
+      );
+    });
+  }
+  /* VERY LIGHT UNIT LINES */
+  if(currentZoom >= 1.7){
+    ctx.strokeStyle =
+      "rgba(255,255,255,.08)";
+    ctx.lineWidth=.4;
+    for(let i=0;i<=100;i++){
+      const x =
+        startX +
+        i *
+        baseCell *
+        currentZoom;
+      ctx.beginPath();
+      ctx.moveTo(x,startY);
+      ctx.lineTo(
+        x,
+        startY+wallH
+      );
+      ctx.stroke();
+    }
+    for(let i=0;i<=100;i++){
+      const y =
+        startY +
+        i *
+        baseCell *
+        currentZoom;
+      ctx.beginPath();
+      ctx.moveTo(startX,y);
+      ctx.lineTo(
+        startX+wallW,
+        y
+      );
+      ctx.stroke();
+    }
+  }
+  /* GRAFFITI */
+  drawGraffiti(
+    "LEBANON",
+    w*.12,
+    h*.25,
+    46,
+    -0.08
+  );
+  drawGraffiti(
+    "BEIRUT",
+    w*.67,
+    h*.22,
+    40,
+    .07
+  );
+  drawGraffiti(
+    "SAIDA",
+    w*.18,
+    h*.78,
+    38,
+    .05
+  );
+  drawGraffiti(
+    "TYRE",
+    w*.73,
+    h*.78,
+    40,
+    -.06
+  );
+}
+function drawGraffiti(
+  text,
+  x,
+  y,
+  size,
+  rotation
+){
+  ctx.save();
+  ctx.translate(x,y);
+  ctx.rotate(rotation);
+  ctx.font =
+    `900 ${size}px Arial`;
+  ctx.textAlign="center";
+  ctx.fillStyle =
+    "rgba(0,0,0,.18)";
+  ctx.fillText(
+    text,
+    0,
+    0
+  );
+  ctx.restore();
+}
+/* ==================================================
+   WALL CONTROLS
+================================================== */
+function zoomWall(factor){
+  currentZoom *= factor;
+  currentZoom =
+    Math.max(
+      .65,
+      Math.min(3.5,currentZoom)
+    );
+  drawWall();
+}
+function resetWall(){
+  currentZoom=1;
+  offsetX=0;
+  offsetY=0;
+  drawWall();
+}
+/* ==================================================
+   DRAG
+================================================== */
+let dragging=false;
+let lastX=0;
+let lastY=0;
+canvas.addEventListener(
+  "pointerdown",
+  e=>{
+    dragging=true;
+    lastX=e.clientX;
+    lastY=e.clientY;
+    canvas.classList.add("dragging");
+    canvas.setPointerCapture(
+      e.pointerId
+    );
+  }
+);
+canvas.addEventListener(
+  "pointermove",
+  e=>{
+    if(!dragging) return;
+    offsetX +=
+      e.clientX-lastX;
+    offsetY +=
+      e.clientY-lastY;
+    lastX=e.clientX;
+    lastY=e.clientY;
+    drawWall();
+  }
+);
+canvas.addEventListener(
+  "pointerup",
+  ()=>{
+    dragging=false;
+    canvas.classList.remove("dragging");
+  }
+);
+canvas.addEventListener(
+  "pointercancel",
+  ()=>{
+    dragging=false;
+    canvas.classList.remove("dragging");
+  }
+);
+/* ==================================================
+   WHEEL ZOOM
+================================================== */
+canvas.addEventListener(
+  "wheel",
+  e=>{
+    e.preventDefault();
+    if(e.deltaY<0){
+      zoomWall(1.12);
+    }else{
+      zoomWall(.89);
+    }
+  },
+  {passive:false}
+);
+/* ==================================================
    MODAL
-========================= */
-function openModal(){
-  document.getElementById("modal").style.display="flex";
-}
-function closeModal(){
-  document.getElementById("modal").style.display="none";
-}
-/* =========================
-   SELECT TYPE
-========================= */
-function selectType(type){
-  selectedType = type;
+================================================== */
+function openBooking(){
   document
-    .getElementById("standardOption")
+    .getElementById("bookingModal")
+    .classList.add("show");
+}
+function closeBooking(){
+  document
+    .getElementById("bookingModal")
+    .classList.remove("show");
+}
+document
+  .getElementById("bookingModal")
+  .addEventListener(
+    "click",
+    e=>{
+      if(
+        e.target ===
+        document.getElementById("bookingModal")
+      ){
+        closeBooking();
+      }
+    }
+  );
+/* ==================================================
+   TYPE
+================================================== */
+function selectType(type){
+  selectedType=type;
+  selectedUnits=[];
+  document
+    .getElementById("standardCard")
     .classList.remove("selected");
   document
-    .getElementById("centerOption")
+    .getElementById("centerCard")
     .classList.remove("selected");
   if(type==="Standard"){
     document
-      .getElementById("standardOption")
+      .getElementById("standardCard")
       .classList.add("selected");
   }else{
     document
-      .getElementById("centerOption")
+      .getElementById("centerCard")
       .classList.add("selected");
   }
-  document.getElementById("formArea").style.display="block";
-  calculatePrice();
+  document
+    .getElementById("formSection")
+    .classList.add("show");
+  document
+    .getElementById("priceType")
+    .textContent =
+      type==="Center"
+      ? "CENTER"
+      : "STANDARD";
+  updatePrice();
+  drawWall();
 }
-/* =========================
+/* ==================================================
    PRICE
-========================= */
-function calculatePrice(){
+================================================== */
+function updatePrice(){
   const count =
-    Number(document.getElementById("unitsCount").value || 0);
+    Number(
+      document.getElementById("unitsCount").value
+      || 0
+    );
   const price =
-    selectedType==="Center" ? 5 : 1;
-  document.getElementById("totalPrice").textContent =
-    count * price;
+    selectedType==="Center"
+    ? 5
+    : 1;
+  document
+    .getElementById("priceUnits")
+    .textContent =
+      count;
+  document
+    .getElementById("totalPrice")
+    .textContent =
+      count*price;
 }
-/* =========================
-   PREVIEW
-========================= */
+/* ==================================================
+   PREVIEW API
+================================================== */
 async function previewArea(){
   const count =
-    Number(document.getElementById("unitsCount").value);
-  const result =
-    document.getElementById("result");
+    Number(
+      document.getElementById("unitsCount").value
+    );
   if(!selectedType){
     showResult(
       "error",
-      "اختر نوع المساحة أولاً."
+      "اختر Standard أو Center أولاً."
     );
     return;
   }
-  if(!count || count < 1){
+  if(
+    !Number.isInteger(count) ||
+    count<1
+  ){
     showResult(
       "error",
-      "أدخل عدد الوحدات."
+      "أدخل عدد وحدات صحيح."
     );
     return;
   }
   showResult(
     "",
-    "⏳ عم نبحث عن مساحة متصلة..."
+    "⏳ عم نفتش على مساحة متصلة..."
   );
   try{
     const response =
-      await fetch(APP_URL,{
-        method:"POST",
-        headers:{
-          "Content-Type":"text/plain;charset=utf-8"
-        },
-        body:JSON.stringify({
-          action:"preview",
-          unitType:selectedType,
-          unitsCount:count
-        })
-      });
+      await fetch(
+        APP_URL,
+        {
+          method:"POST",
+          headers:{
+            "Content-Type":
+              "text/plain;charset=utf-8"
+          },
+          body:JSON.stringify({
+            action:"preview",
+            unitType:selectedType,
+            unitsCount:count
+          })
+        }
+      );
     const data =
       await response.json();
-    if(data.success){
+    if(
+      data &&
+      data.success
+    ){
+      selectedUnits =
+        data.unitIds || [];
+      drawWall();
       showResult(
         "success",
         `
-        ✅ وجدنا مساحة متصلة.
-        <div class="total">
-        ${data.count} وحدة
+        <div class="successText">
+        ✓ وجدنا مساحة متصلة
         </div>
-        <div style="margin-top:8px;color:#aaa">
-        السعر: $${data.count * (selectedType==="Center" ? 5 : 1)}
+        <div style="margin-top:7px">
+        عدد الوحدات: <strong>${data.count}</strong>
+        </div>
+        <div>
+        السعر: <strong>$${
+          data.count *
+          (selectedType==="Center" ? 5 : 1)
+        }</strong>
+        </div>
+        <div style="
+          margin-top:7px;
+          color:#777;
+          font-size:11px;
+        ">
+        المساحة الخضراء على الحائط هي المساحة
+        المخصصة لك في المعاينة.
         </div>
         `
       );
-      drawPreview(data.unitIds);
+      updateAdPreview();
     }else{
+      selectedUnits=[];
+      drawWall();
       showResult(
         "error",
-        data.error || "لم نجد مساحة مناسبة."
+        data.error ||
+        "لم نجد مساحة متصلة بهذا الحجم."
       );
     }
   }catch(error){
     console.error(error);
+    selectedUnits=[];
+    drawWall();
     showResult(
       "error",
-      "تعذر الاتصال بالخادم. تأكد أن Web App منشور ويعمل."
+      "تعذر الاتصال بالخادم. تأكد من نشر Web App بشكل صحيح."
     );
   }
 }
-/* =========================
+/* ==================================================
    RESULT
-========================= */
-function showResult(type,message){
-  const result =
+================================================== */
+function showResult(
+  type,
+  message
+){
+  const box =
     document.getElementById("result");
-  result.style.display="block";
-  result.className =
-    "result " + type;
-  result.innerHTML=message;
+  box.className =
+    "result show " + type;
+  box.innerHTML =
+    message;
 }
-/* =========================
-   DRAW PREVIEW
-========================= */
-function drawPreview(unitIds){
-  /*
-    كل وحدة = 18 × 12 بكسل تقريباً
-    لأن الحائط 100 × 100 وحدة
-  */
-  const wall =
-    document.getElementById("wall");
-  document
-    .querySelectorAll(".unitPreview")
-    .forEach(el=>el.remove());
-  if(!unitIds || !unitIds.length) return;
-  unitIds.forEach(id=>{
-    const number =
-      parseInt(id.substring(1));
-    const index =
-      number - 1;
-    const row =
-      Math.floor(index / 100);
-    const col =
-      index % 100;
-    const unit =
-      document.createElement("div");
-    unit.className="unitPreview";
-    unit.style.left =
-      (col * 18) + "px";
-    unit.style.top =
-      (row * 12) + "px";
-    unit.style.width="18px";
-    unit.style.height="12px";
-    wall.appendChild(unit);
-  });
+/* ==================================================
+   AD PREVIEW
+================================================== */
+function updateAdPreview(){
+  const logo =
+    document.getElementById("logoUrl").value.trim();
+  const name =
+    document.getElementById("adName").value.trim();
+  const text =
+    document.getElementById("adText").value.trim();
+  const preview =
+    document.getElementById("adPreview");
+  const content =
+    document.getElementById("adContent");
+  if(
+    !logo &&
+    !name &&
+    !text
+  ){
+    preview.classList.remove("show");
+    content.innerHTML="";
+    return;
+  }
+  let html="";
+  if(logo){
+    html +=
+      `<img
+        class="adLogo"
+        src="${escapeHtml(logo)}"
+        onerror="this.style.display='none'"
+      >`;
+  }
+  if(name){
+    html +=
+      `<div class="adName">
+        ${escapeHtml(name)}
+      </div>`;
+  }
+  if(text){
+    html +=
+      `<div class="adText">
+        ${escapeHtml(text)}
+      </div>`;
+  }
+  content.innerHTML =
+    html;
+  preview.classList.add("show");
 }
-/* =========================
-   CLOSE MODAL ON BACKGROUND
-========================= */
-document
-  .getElementById("modal")
-  .addEventListener("click",function(e){
-    if(e.target===this){
-      closeModal();
-    }
-  });
-/* =========================
-   DRAG WALL
-========================= */
-const viewport =
-  document.getElementById("viewport");
-const wall =
-  document.getElementById("wall");
-let dragging=false;
-let startX=0;
-let startY=0;
-let wallX=0;
-let wallY=0;
-viewport.addEventListener(
-  "pointerdown",
-  e=>{
-    dragging=true;
-    startX=e.clientX;
-    startY=e.clientY;
-    viewport.setPointerCapture(e.pointerId);
-  }
-);
-viewport.addEventListener(
-  "pointermove",
-  e=>{
-    if(!dragging) return;
-    wallX +=
-      e.clientX-startX;
-    wallY +=
-      e.clientY-startY;
-    startX=e.clientX;
-    startY=e.clientY;
-    wall.style.transform=
-      `translate(${wallX}px,${wallY}px)`;
-  }
-);
-viewport.addEventListener(
-  "pointerup",
-  ()=>{
-    dragging=false;
-  }
-);
-viewport.addEventListener(
-  "pointercancel",
-  ()=>{
-    dragging=false;
-  }
-);
+function escapeHtml(value){
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+/* ==================================================
+   INIT
+================================================== */
+resizeCanvas();
 </script>
 </body>
 </html>
