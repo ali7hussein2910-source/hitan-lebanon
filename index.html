@@ -2,1374 +2,1915 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 <title>حيطان لبنان — كل اسم إلو مطرح</title>
+
 <style>
 *{
   box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
+
 html,body{
   margin:0;
+  padding:0;
   width:100%;
   min-height:100%;
   font-family:Tahoma,Arial,sans-serif;
-  background:#111;
+  background:#151515;
   color:#fff;
-}
-body{
   overflow-x:hidden;
 }
-/* =========================
-   HEADER
-========================= */
+
+body{
+  background:
+    radial-gradient(circle at 20% 10%,rgba(255,255,255,.05),transparent 30%),
+    #151515;
+}
+
+/* ================= HEADER ================= */
+
 header{
   position:sticky;
   top:0;
-  z-index:50;
-  padding:13px 16px;
+  z-index:20;
+  padding:14px 18px;
+  background:rgba(20,20,20,.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.header-inner{
+  max-width:1200px;
+  margin:auto;
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:15px;
-  background:rgba(12,12,12,.94);
-  backdrop-filter:blur(12px);
-  border-bottom:1px solid rgba(255,255,255,.12);
 }
-.brand{
+
+.logo-title{
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:12px;
 }
-.brandIcon{
-  width:43px;
-  height:43px;
+
+.logo-mark{
+  width:45px;
+  height:45px;
   border-radius:12px;
   display:flex;
   align-items:center;
   justify-content:center;
-  background:linear-gradient(135deg,#eee,#777);
-  color:#111;
-  font-size:22px;
+  font-size:24px;
+  background:
+    linear-gradient(135deg,#f4d35e,#c99728);
+  color:#171717;
+  box-shadow:0 5px 20px rgba(0,0,0,.35);
 }
-.brandName{
+
+.project-name{
   font-size:21px;
-  font-weight:900;
+  font-weight:800;
 }
-.brandSlogan{
-  color:#aaa;
+
+.slogan{
   font-size:12px;
-  margin-top:2px;
+  color:#aaa;
+  margin-top:3px;
 }
-.headerBtn{
-  background:#fff;
-  color:#111;
-  border:0;
-  border-radius:12px;
-  padding:11px 15px;
-  font-weight:900;
-  cursor:pointer;
-}
-/* =========================
-   HERO
-========================= */
+
+/* ================= HERO ================= */
+
 .hero{
+  max-width:1200px;
+  margin:auto;
+  padding:35px 18px 20px;
   text-align:center;
-  padding:28px 18px 15px;
 }
+
 .hero h1{
   margin:0;
-  font-size:clamp(28px,5vw,52px);
+  font-size:clamp(28px,5vw,50px);
   font-weight:900;
+  letter-spacing:-1px;
 }
+
+.hero h1 span{
+  color:#f4d35e;
+}
+
 .hero p{
-  margin:9px auto 0;
   color:#aaa;
   max-width:650px;
-  line-height:1.7;
+  margin:12px auto 0;
+  line-height:1.8;
+  font-size:15px;
 }
-/* =========================
-   WALL
-========================= */
-.wallSection{
-  padding:12px;
-}
-.wallFrame{
-  position:relative;
+
+/* ================= WALL ================= */
+
+.wall-wrapper{
   width:100%;
-  height:min(68vh,720px);
-  min-height:430px;
-  overflow:hidden;
-  border-radius:22px;
-  border:1px solid rgba(255,255,255,.15);
-  box-shadow:
-    0 25px 70px rgba(0,0,0,.5),
-    inset 0 0 80px rgba(0,0,0,.35);
-  background:#444;
+  padding:10px 12px 30px;
 }
-#wallCanvas{
+
+.wall-container{
+  position:relative;
+  width:min(1200px,100%);
+  height:min(72vh,760px);
+  min-height:440px;
+  margin:auto;
+  overflow:hidden;
+  border-radius:20px;
+  background:#777;
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.6),
+    inset 0 0 80px rgba(0,0,0,.35);
+  touch-action:none;
+}
+
+canvas{
+  display:block;
   width:100%;
   height:100%;
-  display:block;
   touch-action:none;
-  cursor:grab;
 }
-#wallCanvas.dragging{
-  cursor:grabbing;
-}
-.wallControls{
+
+/* ================= ZOOM ================= */
+
+.zoom-controls{
   position:absolute;
   left:14px;
   bottom:14px;
+  z-index:5;
   display:flex;
-  gap:7px;
-  direction:ltr;
+  flex-direction:column;
+  gap:8px;
 }
-.wallControls button{
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  border:1px solid rgba(255,255,255,.2);
-  background:rgba(0,0,0,.65);
-  color:white;
-  font-size:20px;
-  cursor:pointer;
-}
-.wallInfo{
-  position:absolute;
-  right:14px;
-  top:14px;
-  background:rgba(0,0,0,.62);
-  backdrop-filter:blur(8px);
-  border:1px solid rgba(255,255,255,.12);
-  padding:9px 13px;
-  border-radius:12px;
-  font-size:12px;
-  color:#ddd;
-}
-/* =========================
-   BOTTOM CTA
-========================= */
-.cta{
-  text-align:center;
-  padding:20px 15px 35px;
-}
-.ctaButton{
-  border:0;
-  border-radius:15px;
-  padding:15px 27px;
-  background:#fff;
-  color:#111;
-  font-size:17px;
-  font-weight:900;
-  cursor:pointer;
-  box-shadow:0 10px 35px rgba(0,0,0,.3);
-}
-.cta small{
-  display:block;
-  margin-top:9px;
-  color:#777;
-}
-/* =========================
-   MODAL
-========================= */
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:100;
-  background:rgba(0,0,0,.78);
-  align-items:center;
-  justify-content:center;
-  padding:15px;
-}
-.modal.show{
-  display:flex;
-}
-.modalBox{
-  width:min(560px,100%);
-  max-height:92vh;
-  overflow-y:auto;
-  background:#1c1c1c;
-  border:1px solid rgba(255,255,255,.15);
-  border-radius:22px;
-  padding:21px;
-  box-shadow:0 30px 90px rgba(0,0,0,.6);
-}
-.modalTop{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:18px;
-}
-.modalTitle{
-  margin:0;
-  font-size:23px;
-}
-.closeBtn{
-  width:40px;
-  height:40px;
-  border:0;
-  border-radius:50%;
-  background:#333;
+
+.zoom-btn{
+  width:46px;
+  height:46px;
+  border:none;
+  border-radius:14px;
+  background:rgba(20,20,20,.82);
   color:#fff;
   font-size:23px;
+  font-weight:bold;
   cursor:pointer;
+  box-shadow:0 5px 15px rgba(0,0,0,.3);
 }
-/* =========================
-   TYPE OPTIONS
-========================= */
-.typeGrid{
+
+.zoom-btn:active{
+  transform:scale(.94);
+}
+
+/* ================= WALL INFO ================= */
+
+.wall-info{
+  position:absolute;
+  right:14px;
+  bottom:14px;
+  padding:9px 13px;
+  border-radius:12px;
+  background:rgba(15,15,15,.78);
+  backdrop-filter:blur(8px);
+  color:#ddd;
+  font-size:12px;
+}
+
+/* ================= BOOKING ================= */
+
+.booking{
+  width:min(700px,calc(100% - 24px));
+  margin:15px auto 50px;
+  background:#202020;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:22px;
+  padding:22px;
+  box-shadow:0 20px 50px rgba(0,0,0,.35);
+}
+
+.booking h2{
+  margin:0 0 18px;
+  font-size:22px;
+}
+
+.field{
+  margin-bottom:14px;
+}
+
+.field label{
+  display:block;
+  color:#bbb;
+  font-size:13px;
+  margin-bottom:7px;
+}
+
+input,textarea,select{
+  width:100%;
+  border:1px solid #3a3a3a;
+  background:#151515;
+  color:#fff;
+  border-radius:12px;
+  padding:13px;
+  font-family:inherit;
+  font-size:15px;
+  outline:none;
+}
+
+textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+  border-color:#f4d35e;
+}
+
+/* ================= TYPE ================= */
+
+.type-buttons{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:10px;
 }
-.typeCard{
+
+.type-btn{
+  padding:14px;
+  border-radius:13px;
   border:1px solid #444;
-  background:#161616;
-  border-radius:16px;
-  padding:17px;
+  background:#171717;
+  color:#ddd;
   cursor:pointer;
-  transition:.2s;
-}
-.typeCard:hover{
-  border-color:#aaa;
-}
-.typeCard.selected{
-  border-color:#fff;
-  background:#292929;
-  box-shadow:0 0 0 2px rgba(255,255,255,.08);
-}
-.typeName{
-  font-size:18px;
-  font-weight:900;
-}
-.typePrice{
-  color:#aaa;
-  margin-top:5px;
-  font-size:13px;
-}
-.typeDescription{
-  color:#777;
-  margin-top:8px;
-  font-size:11px;
-  line-height:1.5;
-}
-/* =========================
-   FORM
-========================= */
-.formSection{
-  display:none;
-  margin-top:20px;
-}
-.formSection.show{
-  display:block;
-}
-.field{
-  margin-bottom:13px;
-}
-.field label{
-  display:block;
-  color:#ccc;
-  font-size:13px;
-  margin-bottom:6px;
-}
-.field input,
-.field textarea{
-  width:100%;
-  padding:13px;
-  border-radius:11px;
-  border:1px solid #444;
-  background:#101010;
-  color:#fff;
-  outline:none;
   font-family:inherit;
-  font-size:15px;
 }
-.field textarea{
-  min-height:90px;
-  resize:vertical;
-}
-.field input:focus,
-.field textarea:focus{
-  border-color:#aaa;
-}
-.optional{
-  color:#777;
-  font-size:11px;
-  margin-right:5px;
-}
-/* =========================
-   PRICE
-========================= */
-.priceBox{
-  margin-top:15px;
-  background:#111;
-  border:1px solid #333;
-  border-radius:15px;
-  padding:14px;
-}
-.priceRow{
-  display:flex;
-  justify-content:space-between;
-  color:#aaa;
-  font-size:13px;
-  margin-bottom:8px;
-}
-.totalRow{
-  display:flex;
-  justify-content:space-between;
-  padding-top:9px;
-  border-top:1px solid #333;
-  font-size:21px;
-  font-weight:900;
-}
-/* =========================
-   BUTTONS
-========================= */
-.primaryBtn{
-  width:100%;
-  margin-top:13px;
-  padding:14px;
-  border:0;
-  border-radius:13px;
-  background:#fff;
+
+.type-btn.active{
+  background:#f4d35e;
+  border-color:#f4d35e;
   color:#111;
-  font-size:16px;
-  font-weight:900;
-  cursor:pointer;
+  font-weight:bold;
 }
-.secondaryBtn{
-  width:100%;
-  margin-top:9px;
-  padding:12px;
-  border:1px solid #444;
-  border-radius:13px;
-  background:#222;
-  color:#fff;
-  font-weight:700;
-  cursor:pointer;
-}
-/* =========================
-   RESULT
-========================= */
-.result{
-  display:none;
-  margin-top:13px;
-  padding:13px;
-  border-radius:12px;
-  background:#101010;
-  border:1px solid #333;
-  line-height:1.7;
-  font-size:13px;
-}
-.result.show{
-  display:block;
-}
-.result.success{
-  border-color:rgba(80,220,130,.5);
-}
-.result.error{
-  border-color:rgba(255,80,80,.5);
-  color:#ff9696;
-}
-.successText{
-  color:#80f0a5;
-}
-/* =========================
-   AD PREVIEW
-========================= */
-.adPreview{
-  display:none;
-  margin-top:14px;
+
+/* ================= PRICE ================= */
+
+.price-box{
+  margin:18px 0;
+  padding:16px;
   border-radius:15px;
-  background:#111;
-  border:1px solid #333;
-  padding:14px;
-}
-.adPreview.show{
-  display:block;
-}
-.adPreviewTitle{
-  color:#888;
-  font-size:11px;
-  margin-bottom:10px;
-}
-.adCard{
-  min-height:110px;
-  border-radius:13px;
-  background:
-    linear-gradient(
-      135deg,
-      #555,
-      #292929
-    );
+  background:#171717;
+  border:1px solid rgba(255,255,255,.07);
   display:flex;
   align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:18px;
-  position:relative;
-  overflow:hidden;
+  justify-content:space-between;
 }
-.adCard:after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(
-      circle at 20% 20%,
-      rgba(255,255,255,.12),
-      transparent 35%
-    );
-  pointer-events:none;
+
+.price-label{
+  color:#aaa;
 }
-.adContent{
-  position:relative;
-  z-index:2;
-}
-.adLogo{
-  max-width:130px;
-  max-height:55px;
-  object-fit:contain;
-  margin-bottom:7px;
-}
-.adName{
-  font-size:20px;
+
+.price{
+  color:#f4d35e;
+  font-size:25px;
   font-weight:900;
 }
-.adText{
-  margin-top:5px;
-  color:#ddd;
-  font-size:12px;
+
+/* ================= BUTTON ================= */
+
+.main-btn{
+  width:100%;
+  border:0;
+  border-radius:14px;
+  padding:16px;
+  background:linear-gradient(135deg,#f4d35e,#d7a92d);
+  color:#111;
+  font-size:17px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 10px 25px rgba(0,0,0,.25);
 }
-/* =========================
-   RESPONSIVE
-========================= */
-@media(max-width:600px){
+
+.main-btn:active{
+  transform:scale(.98);
+}
+
+/* ================= MODAL ================= */
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,.75);
+  backdrop-filter:blur(7px);
+  padding:15px;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-card{
+  width:min(600px,100%);
+  max-height:92vh;
+  overflow:auto;
+  background:#202020;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:22px;
+  padding:22px;
+}
+
+.modal-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.close{
+  width:40px;
+  height:40px;
+  border:0;
+  border-radius:12px;
+  background:#303030;
+  color:#fff;
+  font-size:22px;
+  cursor:pointer;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:700px){
+
   header{
-    padding:11px;
+    padding:11px 13px;
   }
-  .brandName{
-    font-size:18px;
+
+  .logo-mark{
+    width:39px;
+    height:39px;
+    font-size:20px;
   }
-  .headerBtn{
-    padding:9px 11px;
+
+  .project-name{
+    font-size:17px;
+  }
+
+  .hero{
+    padding:25px 15px 15px;
+  }
+
+  .hero h1{
+    font-size:31px;
+  }
+
+  .hero p{
     font-size:13px;
   }
-  .hero{
-    padding-top:22px;
+
+  .wall-wrapper{
+    padding:5px 7px 20px;
   }
-  .wallFrame{
-    height:58vh;
-    min-height:400px;
+
+  .wall-container{
+    height:62vh;
+    min-height:390px;
+    border-radius:16px;
   }
-  .typeGrid{
-    grid-template-columns:1fr;
+
+  .wall-info{
+    right:9px;
+    bottom:9px;
+    font-size:10px;
+  }
+
+  .zoom-controls{
+    left:9px;
+    bottom:9px;
+  }
+
+  .zoom-btn{
+    width:44px;
+    height:44px;
+  }
+
+  .booking{
+    padding:17px;
+    border-radius:18px;
+  }
+
+  .modal{
+    padding:0;
+    align-items:stretch;
+  }
+
+  .modal-card{
+    width:100%;
+    height:100%;
+    max-height:none;
+    border-radius:0;
+    padding:18px;
   }
 }
 </style>
 </head>
+
 <body>
+
 <header>
-  <div class="brand">
-    <div class="brandIcon">🧱</div>
-    <div>
-      <div class="brandName">
-        حيطان لبنان 🇱🇧
-      </div>
-      <div class="brandSlogan">
-        كل اسم إلو مطرح
+  <div class="header-inner">
+    <div class="logo-title">
+      <div class="logo-mark">ح</div>
+
+      <div>
+        <div class="project-name">حيطان لبنان</div>
+        <div class="slogan">كل اسم إلو مطرح</div>
       </div>
     </div>
   </div>
-  <button
-    class="headerBtn"
-    onclick="openBooking()"
-  >
-    + احجز مطرحك
-  </button>
 </header>
+
 <section class="hero">
-  <h1>
-    كل اسم إلو مطرح
-  </h1>
+  <h1>اترك <span>بصمتك</span> على حيطان لبنان</h1>
+
   <p>
-    حيطان لبنان هو حائط واحد يجمع أسماء الناس،
-    المشاريع، الشركات والذكريات.
-    اختار مساحتك واترك بصمتك.
+    اختار مساحتك، اكتب اسمك أو اعرض شعارك،
+    وخلي إلك مطرح على الحيط.
   </p>
 </section>
-<section class="wallSection">
-  <div class="wallFrame">
+
+<div class="wall-wrapper">
+
+  <div class="wall-container" id="wallContainer">
+
     <canvas id="wallCanvas"></canvas>
-    <div class="wallInfo">
-      10,000 مطرح • STANDARD + CENTER
+
+    <div class="zoom-controls">
+      <button class="zoom-btn" id="zoomIn">+</button>
+      <button class="zoom-btn" id="zoomOut">−</button>
+      <button class="zoom-btn" id="resetZoom">↻</button>
     </div>
-    <div class="wallControls">
-      <button onclick="zoomWall(1.2)">
-        +
+
+    <div class="wall-info">
+      حرك الحائط واسحب للتصفح
+    </div>
+
+  </div>
+
+</div>
+
+<section class="booking">
+
+  <h2>احجز مساحتك</h2>
+
+  <div class="field">
+    <label>نوع المساحة</label>
+
+    <div class="type-buttons">
+
+      <button
+        class="type-btn active"
+        data-type="Standard"
+        id="standardBtn">
+        Standard — $1
       </button>
-      <button onclick="resetWall()">
-        ⟳
+
+      <button
+        class="type-btn"
+        data-type="Center"
+        id="centerBtn">
+        Center — $5
       </button>
-      <button onclick="zoomWall(.8)">
-        −
-      </button>
+
     </div>
   </div>
-</section>
-<section class="cta">
-  <button
-    class="ctaButton"
-    onclick="openBooking()"
-  >
-    🧱 احجز مطرحك
+
+  <div class="field">
+    <label>عدد الوحدات</label>
+
+    <input
+      type="number"
+      id="unitsCount"
+      min="1"
+      value="20"
+    >
+  </div>
+
+  <div class="price-box">
+
+    <div class="price-label">
+      السعر الإجمالي
+    </div>
+
+    <div class="price" id="totalPrice">
+      $20
+    </div>
+
+  </div>
+
+  <button class="main-btn" id="previewBtn">
+    معاينة المساحة
   </button>
-  <small>
-    اختار قد ما بدك من الوحدات المتاحة
-  </small>
+
 </section>
-<!-- =========================
-     BOOKING MODAL
-========================= -->
-<div
-  class="modal"
-  id="bookingModal"
->
-  <div class="modalBox">
-    <div class="modalTop">
-      <h2 class="modalTitle">
-        احجز مطرحك
-      </h2>
+
+
+<div class="modal" id="adModal">
+
+  <div class="modal-card">
+
+    <div class="modal-head">
+
+      <h2>تفاصيل إعلانك</h2>
+
       <button
-        class="closeBtn"
-        onclick="closeBooking()"
-      >
+        class="close"
+        id="closeModal">
         ×
       </button>
+
     </div>
-    <!-- TYPE -->
-    <div class="typeGrid">
-      <div
-        class="typeCard"
-        id="standardCard"
-        onclick="selectType('Standard')"
-      >
-        <div class="typeName">
-          STANDARD
-        </div>
-        <div class="typePrice">
-          $1 لكل وحدة
-        </div>
-        <div class="typeDescription">
-          مساحة على الحائط الرئيسي
-        </div>
-      </div>
-      <div
-        class="typeCard"
-        id="centerCard"
-        onclick="selectType('Center')"
-      >
-        <div class="typeName">
-          CENTER ⭐
-        </div>
-        <div class="typePrice">
-          $5 لكل وحدة
-        </div>
-        <div class="typeDescription">
-          المنطقة المركزية المميزة
-        </div>
-      </div>
+
+    <div class="field">
+      <label>رابط الشعار — اختياري</label>
+      <input id="logoUrl" placeholder="https://...">
     </div>
-    <!-- FORM -->
-    <div
-      class="formSection"
-      id="formSection"
-    >
-      <div class="field">
-        <label>
-          عدد الوحدات
-        </label>
-        <input
-          id="unitsCount"
-          type="number"
-          min="1"
-          step="1"
-          placeholder="مثلاً 20"
-          oninput="updatePrice()"
-        >
-      </div>
-      <!-- AD DATA -->
-      <div
-        style="
-          margin:20px 0 13px;
-          padding-top:15px;
-          border-top:1px solid #333;
-        "
-      >
-        <div
-          style="
-            font-size:17px;
-            font-weight:900;
-            margin-bottom:5px;
-          "
-        >
-          بيانات إعلانك
-        </div>
-        <div
-          style="
-            color:#777;
-            font-size:12px;
-          "
-        >
-          كل البيانات التالية اختيارية.
-        </div>
-      </div>
-      <div class="field">
-        <label>
-          الشعار
-          <span class="optional">
-            اختياري
-          </span>
-        </label>
-        <input
-          id="logoUrl"
-          type="url"
-          placeholder="رابط الشعار"
-          oninput="updateAdPreview()"
-        >
-      </div>
-      <div class="field">
-        <label>
-          الاسم
-          <span class="optional">
-            اختياري
-          </span>
-        </label>
-        <input
-          id="adName"
-          type="text"
-          placeholder="اسمك أو اسم مشروعك"
-          oninput="updateAdPreview()"
-        >
-      </div>
-      <div class="field">
-        <label>
-          النص
-          <span class="optional">
-            اختياري
-          </span>
-        </label>
-        <textarea
-          id="adText"
-          placeholder="أي عبارة تريد ظهورها..."
-          oninput="updateAdPreview()"
-        ></textarea>
-      </div>
-      <div class="field">
-        <label>
-          الهاتف
-          <span class="optional">
-            اختياري
-          </span>
-        </label>
-        <input
-          id="phone"
-          type="tel"
-          placeholder="رقم الهاتف"
-        >
-      </div>
-      <div class="field">
-        <label>
-          WhatsApp
-          <span class="optional">
-            اختياري
-          </span>
-        </label>
-        <input
-          id="whatsapp"
-          type="tel"
-          placeholder="رقم WhatsApp"
-        >
-      </div>
-      <div class="field">
-        <label>
-          Instagram
-          <span class="optional">
-            اختياري
-          </span>
-        </label>
-        <input
-          id="instagram"
-          type="text"
-          placeholder="@username أو الرابط"
-        >
-      </div>
-      <!-- PRICE -->
-      <div class="priceBox">
-        <div class="priceRow">
-          <span>
-            نوع المساحة
-          </span>
-          <strong id="priceType">
-            —
-          </strong>
-        </div>
-        <div class="priceRow">
-          <span>
-            عدد الوحدات
-          </span>
-          <strong id="priceUnits">
-            0
-          </strong>
-        </div>
-        <div class="totalRow">
-          <span>
-            المجموع
-          </span>
-          <span>
-            $<span id="totalPrice">0</span>
-          </span>
-        </div>
-      </div>
-      <!-- PREVIEW -->
-      <button
-        class="primaryBtn"
-        onclick="previewArea()"
-      >
-        🔍 معاينة المساحة
-      </button>
-      <div
-        class="result"
-        id="result"
-      ></div>
-      <!-- AD PREVIEW -->
-      <div
-        class="adPreview"
-        id="adPreview"
-      >
-        <div class="adPreviewTitle">
-          معاينة شكل إعلانك
-        </div>
-        <div class="adCard">
-          <div
-            class="adContent"
-            id="adContent"
-          >
-          </div>
-        </div>
-      </div>
-      <button
-        class="secondaryBtn"
-        onclick="closeBooking()"
-      >
-        إلغاء
-      </button>
+
+    <div class="field">
+      <label>الاسم — اختياري</label>
+      <input id="adName" placeholder="اسمك أو اسم المؤسسة">
     </div>
+
+    <div class="field">
+      <label>النص الإضافي — اختياري</label>
+      <textarea id="adText" placeholder="اكتب رسالتك..."></textarea>
+    </div>
+
+    <div class="field">
+      <label>رقم الهاتف — اختياري</label>
+      <input id="adPhone">
+    </div>
+
+    <div class="field">
+      <label>WhatsApp — اختياري</label>
+      <input id="adWhatsapp">
+    </div>
+
+    <div class="field">
+      <label>Instagram — اختياري</label>
+      <input id="adInstagram">
+    </div>
+
+    <button class="main-btn" id="confirmPreview">
+      تأكيد ومتابعة
+    </button>
+
   </div>
+
 </div>
+
+
 <script>
-/* ==================================================
-   SETTINGS
-================================================== */
+
+/* =====================================================
+   APPS SCRIPT
+===================================================== */
+
 const APP_URL =
 "https://script.google.com/macros/s/AKfycbzyM_gJsIV-icWDh_sy95KhPqsQpeLlS6eyl__O2zVs1aZyQf-Bp5ja_FrhW9icSHuY/exec";
-let selectedType = null;
+
+
+/* =====================================================
+   CANVAS
+===================================================== */
+
+const canvas =
+document.getElementById("wallCanvas");
+
+const ctx =
+canvas.getContext("2d");
+
+const container =
+document.getElementById("wallContainer");
+
+
+let selectedType = "Standard";
+
 let selectedUnits = [];
-let currentZoom = 1;
+
+let zoom = 1;
+
 let offsetX = 0;
 let offsetY = 0;
-/* ==================================================
-   CANVAS
-================================================== */
-const canvas =
-  document.getElementById("wallCanvas");
-const ctx =
-  canvas.getContext("2d");
-const WALL_UNITS = 100;
-const CENTER_START = 40;
-const CENTER_END = 60;
-let baseCell = 20;
+
+let dragging = false;
+
+let lastX = 0;
+let lastY = 0;
+
+let pinchStart = null;
+
+
+/* =====================================================
+   WALL SIZE
+===================================================== */
+
+const GRID = 100;
+
+
+/* =====================================================
+   RESIZE
+===================================================== */
+
 function resizeCanvas(){
+
   const rect =
-    canvas.getBoundingClientRect();
+    container.getBoundingClientRect();
+
   const dpr =
     window.devicePixelRatio || 1;
+
   canvas.width =
     rect.width * dpr;
+
   canvas.height =
     rect.height * dpr;
+
+  canvas.style.width =
+    rect.width + "px";
+
+  canvas.style.height =
+    rect.height + "px";
+
   ctx.setTransform(
     dpr,0,0,dpr,0,0
   );
+
   drawWall();
 }
+
 window.addEventListener(
   "resize",
   resizeCanvas
 );
-/* ==================================================
-   WALL DRAWING
-================================================== */
-function drawWall(){
+
+
+/* =====================================================
+   TEXTURE HELPERS
+===================================================== */
+
+function noise(x,y){
+
+  const n =
+    Math.sin(x * 12.9898 + y * 78.233) *
+    43758.5453;
+
+  return n - Math.floor(n);
+}
+
+
+/* =====================================================
+   DRAW WALL BACKGROUND
+===================================================== */
+
+function drawConcrete(){
+
   const w =
     canvas.clientWidth;
+
   const h =
     canvas.clientHeight;
-  ctx.clearRect(0,0,w,h);
-  /* WALL BACKGROUND */
+
   const gradient =
     ctx.createLinearGradient(
       0,0,w,h
     );
-  gradient.addColorStop(0,"#747474");
-  gradient.addColorStop(.45,"#515151");
-  gradient.addColorStop(1,"#292929");
+
+  gradient.addColorStop(
+    0,
+    "#96928b"
+  );
+
+  gradient.addColorStop(
+    .35,
+    "#77746e"
+  );
+
+  gradient.addColorStop(
+    .7,
+    "#85817a"
+  );
+
+  gradient.addColorStop(
+    1,
+    "#5f5c57"
+  );
+
   ctx.fillStyle =
     gradient;
-  ctx.fillRect(0,0,w,h);
-  /* CONCRETE TEXTURE */
-  for(let i=0;i<500;i++){
+
+  ctx.fillRect(
+    0,0,w,h
+  );
+
+
+  /* Concrete noise */
+
+  for(let i=0;i<9000;i++){
+
     const x =
       Math.random()*w;
+
     const y =
       Math.random()*h;
+
     const r =
-      Math.random()*2.5+.4;
+      Math.random()*1.8;
+
+    const alpha =
+      Math.random()*.10;
+
     ctx.fillStyle =
-      `rgba(255,255,255,${Math.random()*.035})`;
+      `rgba(20,20,20,${alpha})`;
+
     ctx.beginPath();
+
     ctx.arc(
-      x,y,r,0,Math.PI*2
+      x,
+      y,
+      r,
+      0,
+      Math.PI*2
     );
+
     ctx.fill();
   }
-  /* WALL CONTENT */
-  const cols = 100;
-  const rows = 100;
-  const availableW =
-    w * .88;
-  const availableH =
-    h * .82;
-  baseCell =
-    Math.min(
-      availableW / cols,
-      availableH / rows
+
+
+  /* Vertical concrete stains */
+
+  for(let i=0;i<18;i++){
+
+    const x =
+      Math.random()*w;
+
+    const width =
+      10 + Math.random()*45;
+
+    const g =
+      ctx.createLinearGradient(
+        x,0,
+        x+width,0
+      );
+
+    g.addColorStop(
+      0,
+      "rgba(0,0,0,0)"
     );
-  const wallW =
-    baseCell * cols * currentZoom;
-  const wallH =
-    baseCell * rows * currentZoom;
-  const startX =
-    (w-wallW)/2 + offsetX;
-  const startY =
-    (h-wallH)/2 + offsetY;
-  /* CENTER AREA */
-  const centerX =
-    startX +
-    CENTER_START *
-    baseCell *
-    currentZoom;
-  const centerY =
-    startY +
-    CENTER_START *
-    baseCell *
-    currentZoom;
-  const centerSize =
-    20 *
-    baseCell *
-    currentZoom;
-  ctx.fillStyle =
-    "rgba(255,196,0,.08)";
-  ctx.fillRect(
-    centerX,
-    centerY,
-    centerSize,
-    centerSize
-  );
-  ctx.strokeStyle =
-    "rgba(255,215,0,.65)";
-  ctx.lineWidth=3;
-  ctx.setLineDash([8,7]);
-  ctx.strokeRect(
-    centerX,
-    centerY,
-    centerSize,
-    centerSize
-  );
-  ctx.setLineDash([]);
-  /* CENTER LABEL */
-  ctx.fillStyle =
-    "rgba(255,215,0,.65)";
-  ctx.font =
-    `900 ${Math.max(12,22*currentZoom)}px Arial`;
-  ctx.textAlign="center";
-  ctx.fillText(
-    "CENTER",
-    centerX+centerSize/2,
-    centerY+centerSize/2+8
-  );
-  /* SELECTED UNITS */
-  if(selectedUnits.length){
-    selectedUnits.forEach(id=>{
-      const n =
-        parseInt(
-          String(id).replace("A","")
-        );
-      const index =
-        n-1;
-      const row =
-        Math.floor(index/100);
-      const col =
-        index%100;
-      const x =
-        startX +
-        col *
-        baseCell *
-        currentZoom;
-      const y =
-        startY +
-        row *
-        baseCell *
-        currentZoom;
-      ctx.fillStyle =
-        "rgba(60,230,125,.72)";
-      ctx.fillRect(
-        x,
-        y,
-        baseCell*currentZoom,
-        baseCell*currentZoom
-      );
-      ctx.strokeStyle =
-        "rgba(255,255,255,.8)";
-      ctx.lineWidth=.5;
-      ctx.strokeRect(
-        x,
-        y,
-        baseCell*currentZoom,
-        baseCell*currentZoom
-      );
-    });
+
+    g.addColorStop(
+      .5,
+      "rgba(20,20,20,.08)"
+    );
+
+    g.addColorStop(
+      1,
+      "rgba(0,0,0,0)"
+    );
+
+    ctx.fillStyle = g;
+
+    ctx.fillRect(
+      x,
+      0,
+      width,
+      h
+    );
   }
-  /* VERY LIGHT UNIT LINES */
-  if(currentZoom >= 1.7){
-    ctx.strokeStyle =
-      "rgba(255,255,255,.08)";
-    ctx.lineWidth=.4;
-    for(let i=0;i<=100;i++){
-      const x =
-        startX +
-        i *
-        baseCell *
-        currentZoom;
-      ctx.beginPath();
-      ctx.moveTo(x,startY);
-      ctx.lineTo(
+}
+
+
+/* =====================================================
+   CRACKS
+===================================================== */
+
+function drawCrack(
+  startX,
+  startY,
+  length,
+  angle
+){
+
+  ctx.save();
+
+  ctx.translate(
+    startX,
+    startY
+  );
+
+  ctx.rotate(angle);
+
+  ctx.strokeStyle =
+    "rgba(25,25,25,.38)";
+
+  ctx.lineWidth = 1.3;
+
+  ctx.beginPath();
+
+  ctx.moveTo(0,0);
+
+  let x=0;
+  let y=0;
+
+  for(let i=0;i<length;i+=10){
+
+    x += 10;
+
+    y +=
+      (Math.random()-.5)*8;
+
+    ctx.lineTo(
+      x,
+      y
+    );
+
+    if(Math.random()<.22){
+
+      ctx.moveTo(
         x,
-        startY+wallH
-      );
-      ctx.stroke();
-    }
-    for(let i=0;i<=100;i++){
-      const y =
-        startY +
-        i *
-        baseCell *
-        currentZoom;
-      ctx.beginPath();
-      ctx.moveTo(startX,y);
-      ctx.lineTo(
-        startX+wallW,
         y
       );
-      ctx.stroke();
+
+      ctx.lineTo(
+        x+Math.random()*25,
+        y+(Math.random()-.5)*20
+      );
+
+      ctx.moveTo(
+        x,
+        y
+      );
     }
+
   }
-  /* GRAFFITI */
-  drawGraffiti(
-    "LEBANON",
-    w*.12,
-    h*.25,
-    46,
-    -0.08
-  );
-  drawGraffiti(
-    "BEIRUT",
-    w*.67,
-    h*.22,
-    40,
-    .07
-  );
-  drawGraffiti(
-    "SAIDA",
-    w*.18,
-    h*.78,
-    38,
-    .05
-  );
-  drawGraffiti(
-    "TYRE",
-    w*.73,
-    h*.78,
-    40,
-    -.06
-  );
-}
-function drawGraffiti(
-  text,
-  x,
-  y,
-  size,
-  rotation
-){
-  ctx.save();
-  ctx.translate(x,y);
-  ctx.rotate(rotation);
-  ctx.font =
-    `900 ${size}px Arial`;
-  ctx.textAlign="center";
-  ctx.fillStyle =
-    "rgba(0,0,0,.18)";
-  ctx.fillText(
-    text,
-    0,
-    0
-  );
+
+  ctx.stroke();
+
   ctx.restore();
 }
-/* ==================================================
-   WALL CONTROLS
-================================================== */
-function zoomWall(factor){
-  currentZoom *= factor;
-  currentZoom =
-    Math.max(
-      .65,
-      Math.min(3.5,currentZoom)
-    );
-  drawWall();
+
+
+/* =====================================================
+   GRAFFITI
+===================================================== */
+
+function drawGraffiti(){
+
+  const w =
+    canvas.clientWidth;
+
+  const h =
+    canvas.clientHeight;
+
+  ctx.save();
+
+  ctx.globalAlpha=.22;
+
+  ctx.font =
+    "900 48px Arial";
+
+  ctx.rotate(-.08);
+
+  ctx.fillStyle =
+    "#202020";
+
+  ctx.fillText(
+    "LEBANON",
+    w*.07,
+    h*.25
+  );
+
+  ctx.globalAlpha=.14;
+
+  ctx.font =
+    "900 38px Arial";
+
+  ctx.fillStyle =
+    "#7c2525";
+
+  ctx.fillText(
+    "بيروت",
+    w*.72,
+    h*.78
+  );
+
+  ctx.restore();
 }
-function resetWall(){
-  currentZoom=1;
-  offsetX=0;
-  offsetY=0;
-  drawWall();
-}
-/* ==================================================
-   DRAG
-================================================== */
-let dragging=false;
-let lastX=0;
-let lastY=0;
-canvas.addEventListener(
-  "pointerdown",
-  e=>{
-    dragging=true;
-    lastX=e.clientX;
-    lastY=e.clientY;
-    canvas.classList.add("dragging");
-    canvas.setPointerCapture(
-      e.pointerId
+
+
+/* =====================================================
+   POSTERS
+===================================================== */
+
+function drawPoster(
+  x,
+  y,
+  width,
+  height,
+  rotation,
+  title
+){
+
+  ctx.save();
+
+  ctx.translate(
+    x,
+    y
+  );
+
+  ctx.rotate(rotation);
+
+  /* shadow */
+
+  ctx.fillStyle =
+    "rgba(0,0,0,.25)";
+
+  ctx.fillRect(
+    5,
+    6,
+    width,
+    height
+  );
+
+  /* paper */
+
+  const paper =
+    ctx.createLinearGradient(
+      0,0,
+      width,height
     );
-  }
-);
-canvas.addEventListener(
-  "pointermove",
-  e=>{
-    if(!dragging) return;
-    offsetX +=
-      e.clientX-lastX;
-    offsetY +=
-      e.clientY-lastY;
-    lastX=e.clientX;
-    lastY=e.clientY;
-    drawWall();
-  }
-);
-canvas.addEventListener(
-  "pointerup",
-  ()=>{
-    dragging=false;
-    canvas.classList.remove("dragging");
-  }
-);
-canvas.addEventListener(
-  "pointercancel",
-  ()=>{
-    dragging=false;
-    canvas.classList.remove("dragging");
-  }
-);
-/* ==================================================
-   WHEEL ZOOM
-================================================== */
-canvas.addEventListener(
-  "wheel",
-  e=>{
-    e.preventDefault();
-    if(e.deltaY<0){
-      zoomWall(1.12);
-    }else{
-      zoomWall(.89);
+
+  paper.addColorStop(
+    0,
+    "#e8e0cf"
+  );
+
+  paper.addColorStop(
+    1,
+    "#bdb5a4"
+  );
+
+  ctx.fillStyle =
+    paper;
+
+  ctx.fillRect(
+    0,
+    0,
+    width,
+    height
+  );
+
+  ctx.strokeStyle =
+    "rgba(30,30,30,.3)";
+
+  ctx.strokeRect(
+    0,
+    0,
+    width,
+    height
+  );
+
+  ctx.fillStyle =
+    "#333";
+
+  ctx.font =
+    "bold 13px Arial";
+
+  ctx.fillText(
+    title,
+    7,
+    20
+  );
+
+  ctx.fillStyle =
+    "#777";
+
+  ctx.font =
+    "10px Arial";
+
+  ctx.fillText(
+    "كل اسم إلو مطرح",
+    7,
+    38
+  );
+
+  ctx.restore();
+}
+
+
+/* =====================================================
+   CENTER REGION
+===================================================== */
+
+function drawCenterRegion(){
+
+  const w =
+    canvas.clientWidth;
+
+  const h =
+    canvas.clientHeight;
+
+  const size =
+    Math.min(w,h)*.42;
+
+  const x =
+    w/2-size/2;
+
+  const y =
+    h/2-size/2;
+
+
+  /* soft gold glow */
+
+  const glow =
+    ctx.createRadialGradient(
+      w/2,
+      h/2,
+      size*.2,
+      w/2,
+      h/2,
+      size*.8
+    );
+
+  glow.addColorStop(
+    0,
+    "rgba(244,211,94,.10)"
+  );
+
+  glow.addColorStop(
+    1,
+    "rgba(244,211,94,0)"
+  );
+
+  ctx.fillStyle =
+    glow;
+
+  ctx.fillRect(
+    x-size*.35,
+    y-size*.35,
+    size*1.7,
+    size*1.7
+  );
+
+
+  /* subtle border */
+
+  ctx.strokeStyle =
+    "rgba(244,211,94,.32)";
+
+  ctx.lineWidth=2;
+
+  ctx.setLineDash([
+    7,
+    9
+  ]);
+
+  ctx.strokeRect(
+    x,
+    y,
+    size,
+    size
+  );
+
+  ctx.setLineDash([]);
+
+
+  /* small corner marks */
+
+  const mark=16;
+
+  ctx.strokeStyle =
+    "rgba(244,211,94,.65)";
+
+  ctx.lineWidth=2;
+
+  const corners=[
+    [x,y,1,1],
+    [x+size,y,-1,1],
+    [x,y+size,1,-1],
+    [x+size,y+size,-1,-1]
+  ];
+
+  corners.forEach(c=>{
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+      c[0],
+      c[1]
+    );
+
+    ctx.lineTo(
+      c[0]+c[2]*mark,
+      c[1]
+    );
+
+    ctx.moveTo(
+      c[0],
+      c[1]
+    );
+
+    ctx.lineTo(
+      c[0],
+      c[1]+c[3]*mark
+    );
+
+    ctx.stroke();
+
+  });
+}
+
+
+/* =====================================================
+   SELECTED UNITS
+===================================================== */
+
+function drawSelectedUnits(){
+
+  if(!selectedUnits.length)
+    return;
+
+  const w =
+    canvas.clientWidth;
+
+  const h =
+    canvas.clientHeight;
+
+  const base =
+    Math.min(w,h);
+
+  const cell =
+    base / 100;
+
+  /*
+    Selected area is intentionally
+    highlighted only while previewing.
+  */
+
+  ctx.save();
+
+  selectedUnits.forEach((id,index)=>{
+
+    const num =
+      parseInt(
+        id.replace(/\D/g,""),
+        10
+      )-1;
+
+    const row =
+      Math.floor(num/100);
+
+    const col =
+      num%100;
+
+    const x =
+      col*cell;
+
+    const y =
+      row*cell;
+
+    ctx.fillStyle =
+      "rgba(92,214,126,.72)";
+
+    ctx.fillRect(
+      x,
+      y,
+      cell+.5,
+      cell+.5
+    );
+
+  });
+
+  ctx.restore();
+}
+
+
+/* =====================================================
+   MAIN DRAW
+===================================================== */
+
+function drawWall(){
+
+  const w =
+    canvas.clientWidth;
+
+  const h =
+    canvas.clientHeight;
+
+  if(!w || !h)
+    return;
+
+
+  ctx.clearRect(
+    0,
+    0,
+    w,
+    h
+  );
+
+
+  ctx.save();
+
+
+  /*
+    The wall itself is larger than
+    the visible area when zoomed.
+  */
+
+  ctx.translate(
+    w/2 + offsetX,
+    h/2 + offsetY
+  );
+
+  ctx.scale(
+    zoom,
+    zoom
+  );
+
+  ctx.translate(
+    -w/2,
+    -h/2
+  );
+
+
+  drawConcrete();
+
+
+  /* cracks */
+
+  drawCrack(
+    w*.18,
+    h*.10,
+    150,
+    .35
+  );
+
+  drawCrack(
+    w*.74,
+    h*.18,
+    120,
+    2.7
+  );
+
+  drawCrack(
+    w*.63,
+    h*.70,
+    160,
+    -.3
+  );
+
+  drawCrack(
+    w*.22,
+    h*.76,
+    100,
+    2.5
+  );
+
+
+  /* posters */
+
+  drawPoster(
+    w*.08,
+    h*.53,
+    85,
+    105,
+    -.08,
+    "BEIRUT"
+  );
+
+  drawPoster(
+    w*.78,
+    h*.31,
+    95,
+    120,
+    .06,
+    "LEBANON"
+  );
+
+  drawPoster(
+    w*.52,
+    h*.08,
+    75,
+    95,
+    -.04,
+    "2026"
+  );
+
+
+  drawGraffiti();
+
+
+  drawCenterRegion();
+
+
+  /*
+    IMPORTANT:
+    No permanent visible grid.
+    Grid only appears while zooming deeply.
+  */
+
+  if(zoom >= 2.5){
+
+    const cell =
+      Math.min(w,h)/100;
+
+    ctx.strokeStyle =
+      "rgba(255,255,255,.08)";
+
+    ctx.lineWidth=.5;
+
+    for(let i=0;i<=100;i++){
+
+      ctx.beginPath();
+
+      ctx.moveTo(
+        i*cell,
+        0
+      );
+
+      ctx.lineTo(
+        i*cell,
+        h
+      );
+
+      ctx.stroke();
+
+      ctx.beginPath();
+
+      ctx.moveTo(
+        0,
+        i*cell
+      );
+
+      ctx.lineTo(
+        w,
+        i*cell
+      );
+
+      ctx.stroke();
     }
-  },
-  {passive:false}
-);
-/* ==================================================
-   MODAL
-================================================== */
-function openBooking(){
-  document
-    .getElementById("bookingModal")
-    .classList.add("show");
+
+  }
+
+
+  drawSelectedUnits();
+
+
+  ctx.restore();
 }
-function closeBooking(){
-  document
-    .getElementById("bookingModal")
-    .classList.remove("show");
-}
-document
-  .getElementById("bookingModal")
-  .addEventListener(
+
+
+/* =====================================================
+   TYPE SELECTION
+===================================================== */
+
+document.querySelectorAll(".type-btn")
+.forEach(btn=>{
+
+  btn.addEventListener(
     "click",
-    e=>{
-      if(
-        e.target ===
-        document.getElementById("bookingModal")
-      ){
-        closeBooking();
-      }
+    ()=>{
+
+      document.querySelectorAll(".type-btn")
+      .forEach(b=>
+        b.classList.remove("active")
+      );
+
+      btn.classList.add("active");
+
+      selectedType =
+        btn.dataset.type;
+
+      updatePrice();
+
+      selectedUnits=[];
+
+      drawWall();
+
     }
   );
-/* ==================================================
-   TYPE
-================================================== */
-function selectType(type){
-  selectedType=type;
-  selectedUnits=[];
-  document
-    .getElementById("standardCard")
-    .classList.remove("selected");
-  document
-    .getElementById("centerCard")
-    .classList.remove("selected");
-  if(type==="Standard"){
-    document
-      .getElementById("standardCard")
-      .classList.add("selected");
-  }else{
-    document
-      .getElementById("centerCard")
-      .classList.add("selected");
-  }
-  document
-    .getElementById("formSection")
-    .classList.add("show");
-  document
-    .getElementById("priceType")
-    .textContent =
-      type==="Center"
-      ? "CENTER"
-      : "STANDARD";
-  updatePrice();
-  drawWall();
-}
-/* ==================================================
+
+});
+
+
+/* =====================================================
    PRICE
-================================================== */
+===================================================== */
+
 function updatePrice(){
+
   const count =
     Number(
-      document.getElementById("unitsCount").value
-      || 0
-    );
+      document.getElementById(
+        "unitsCount"
+      ).value
+    ) || 0;
+
   const price =
-    selectedType==="Center"
-    ? 5
-    : 1;
-  document
-    .getElementById("priceUnits")
-    .textContent =
-      count;
-  document
-    .getElementById("totalPrice")
-    .textContent =
-      count*price;
+    selectedType === "Center"
+      ? count*5
+      : count;
+
+  document.getElementById(
+    "totalPrice"
+  ).textContent =
+    "$"+price;
 }
-/* ==================================================
-   PREVIEW API
-================================================== */
+
+document.getElementById(
+  "unitsCount"
+).addEventListener(
+  "input",
+  updatePrice
+);
+
+
+/* =====================================================
+   PREVIEW
+===================================================== */
+
+document.getElementById(
+  "previewBtn"
+).addEventListener(
+  "click",
+  previewArea
+);
+
+
 async function previewArea(){
+
   const count =
     Number(
-      document.getElementById("unitsCount").value
+      document.getElementById(
+        "unitsCount"
+      ).value
     );
-  if(!selectedType){
-    showResult(
-      "error",
-      "اختر Standard أو Center أولاً."
+
+
+  if(!count || count<1){
+
+    alert(
+      "أدخل عدد الوحدات."
     );
+
     return;
   }
-  if(
-    !Number.isInteger(count) ||
-    count<1
-  ){
-    showResult(
-      "error",
-      "أدخل عدد وحدات صحيح."
+
+
+  const button =
+    document.getElementById(
+      "previewBtn"
     );
-    return;
-  }
-  showResult(
-    "",
-    "⏳ عم نفتش على مساحة متصلة..."
-  );
+
+  button.disabled=true;
+
+  button.textContent=
+    "جاري البحث عن مساحة...";
+
+
   try{
+
     const response =
       await fetch(
         APP_URL,
         {
           method:"POST",
+
           headers:{
             "Content-Type":
               "text/plain;charset=utf-8"
           },
+
           body:JSON.stringify({
+
             action:"preview",
-            unitType:selectedType,
-            unitsCount:count
+
+            unitType:
+              selectedType,
+
+            unitsCount:
+              count
+
           })
         }
       );
+
+
     const data =
       await response.json();
-    if(
-      data &&
-      data.success
-    ){
-      selectedUnits =
-        data.unitIds || [];
-      drawWall();
-      showResult(
-        "success",
-        `
-        <div class="successText">
-        ✓ وجدنا مساحة متصلة
-        </div>
-        <div style="margin-top:7px">
-        عدد الوحدات: <strong>${data.count}</strong>
-        </div>
-        <div>
-        السعر: <strong>$${
-          data.count *
-          (selectedType==="Center" ? 5 : 1)
-        }</strong>
-        </div>
-        <div style="
-          margin-top:7px;
-          color:#777;
-          font-size:11px;
-        ">
-        المساحة الخضراء على الحائط هي المساحة
-        المخصصة لك في المعاينة.
-        </div>
-        `
+
+
+    if(!data.success){
+
+      alert(
+        data.message ||
+        "لم نتمكن من إيجاد مساحة."
       );
-      updateAdPreview();
-    }else{
-      selectedUnits=[];
-      drawWall();
-      showResult(
-        "error",
-        data.error ||
-        "لم نجد مساحة متصلة بهذا الحجم."
-      );
+
+      return;
     }
-  }catch(error){
-    console.error(error);
-    selectedUnits=[];
+
+
+    selectedUnits =
+      data.unitIds || [];
+
+
     drawWall();
-    showResult(
-      "error",
-      "تعذر الاتصال بالخادم. تأكد من نشر Web App بشكل صحيح."
+
+
+    document.getElementById(
+      "adModal"
+    ).classList.add("show");
+
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "حدث خطأ في الاتصال."
     );
+
+  }finally{
+
+    button.disabled=false;
+
+    button.textContent=
+      "معاينة المساحة";
+
   }
+
 }
-/* ==================================================
-   RESULT
-================================================== */
-function showResult(
-  type,
-  message
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+document.getElementById(
+  "closeModal"
+).addEventListener(
+  "click",
+  ()=>{
+    document.getElementById(
+      "adModal"
+    ).classList.remove("show");
+  }
+);
+
+
+/*
+  This button is intentionally kept
+  as a placeholder for the next step.
+  We will connect it to createOrder
+  without changing the wall.
+*/
+
+document.getElementById(
+  "confirmPreview"
+).addEventListener(
+  "click",
+  ()=>{
+
+    alert(
+      "تم تجهيز المساحة. سنكمل ربط بيانات الإعلان والدفع في الخطوة التالية."
+    );
+
+  }
+);
+
+
+/* =====================================================
+   ZOOM
+===================================================== */
+
+function zoomAt(
+  newZoom,
+  centerX,
+  centerY
 ){
-  const box =
-    document.getElementById("result");
-  box.className =
-    "result show " + type;
-  box.innerHTML =
-    message;
+
+  newZoom =
+    Math.max(
+      .7,
+      Math.min(
+        5,
+        newZoom
+      )
+    );
+
+
+  const rect =
+    canvas.getBoundingClientRect();
+
+  const x =
+    centerX -
+    rect.width/2;
+
+  const y =
+    centerY -
+    rect.height/2;
+
+
+  const scale =
+    newZoom/zoom;
+
+
+  offsetX =
+    x -
+    (x-offsetX)*scale;
+
+  offsetY =
+    y -
+    (y-offsetY)*scale;
+
+  zoom =
+    newZoom;
+
+  drawWall();
 }
-/* ==================================================
-   AD PREVIEW
-================================================== */
-function updateAdPreview(){
-  const logo =
-    document.getElementById("logoUrl").value.trim();
-  const name =
-    document.getElementById("adName").value.trim();
-  const text =
-    document.getElementById("adText").value.trim();
-  const preview =
-    document.getElementById("adPreview");
-  const content =
-    document.getElementById("adContent");
-  if(
-    !logo &&
-    !name &&
-    !text
-  ){
-    preview.classList.remove("show");
-    content.innerHTML="";
-    return;
+
+
+document.getElementById(
+  "zoomIn"
+).addEventListener(
+  "click",
+  ()=>{
+
+    zoomAt(
+      zoom*1.25,
+      canvas.clientWidth/2,
+      canvas.clientHeight/2
+    );
+
   }
-  let html="";
-  if(logo){
-    html +=
-      `<img
-        class="adLogo"
-        src="${escapeHtml(logo)}"
-        onerror="this.style.display='none'"
-      >`;
+);
+
+
+document.getElementById(
+  "zoomOut"
+).addEventListener(
+  "click",
+  ()=>{
+
+    zoomAt(
+      zoom/1.25,
+      canvas.clientWidth/2,
+      canvas.clientHeight/2
+    );
+
   }
-  if(name){
-    html +=
-      `<div class="adName">
-        ${escapeHtml(name)}
-      </div>`;
+);
+
+
+document.getElementById(
+  "resetZoom"
+).addEventListener(
+  "click",
+  ()=>{
+
+    zoom=1;
+
+    offsetX=0;
+    offsetY=0;
+
+    drawWall();
+
   }
-  if(text){
-    html +=
-      `<div class="adText">
-        ${escapeHtml(text)}
-      </div>`;
+);
+
+
+/* =====================================================
+   MOUSE DRAG
+===================================================== */
+
+canvas.addEventListener(
+  "mousedown",
+  e=>{
+
+    dragging=true;
+
+    lastX=e.clientX;
+    lastY=e.clientY;
+
   }
-  content.innerHTML =
-    html;
-  preview.classList.add("show");
-}
-function escapeHtml(value){
-  return String(value)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
-/* ==================================================
-   INIT
-================================================== */
+);
+
+window.addEventListener(
+  "mouseup",
+  ()=>{
+    dragging=false;
+  }
+);
+
+window.addEventListener(
+  "mousemove",
+  e=>{
+
+    if(!dragging)
+      return;
+
+    offsetX +=
+      e.clientX-lastX;
+
+    offsetY +=
+      e.clientY-lastY;
+
+    lastX=e.clientX;
+    lastY=e.clientY;
+
+    drawWall();
+
+  }
+);
+
+
+/* =====================================================
+   MOUSE WHEEL
+===================================================== */
+
+canvas.addEventListener(
+  "wheel",
+  e=>{
+
+    e.preventDefault();
+
+    const factor =
+      e.deltaY<0
+        ? 1.12
+        : .89;
+
+    zoomAt(
+      zoom*factor,
+      e.clientX-
+        canvas.getBoundingClientRect().left,
+      e.clientY-
+        canvas.getBoundingClientRect().top
+    );
+
+  },
+  {passive:false}
+);
+
+
+/* =====================================================
+   TOUCH
+===================================================== */
+
+canvas.addEventListener(
+  "touchstart",
+  e=>{
+
+    if(e.touches.length===1){
+
+      dragging=true;
+
+      lastX=
+        e.touches[0].clientX;
+
+      lastY=
+        e.touches[0].clientY;
+
+    }
+
+    if(e.touches.length===2){
+
+      dragging=false;
+
+      pinchStart =
+        Math.hypot(
+          e.touches[0].clientX -
+          e.touches[1].clientX,
+
+          e.touches[0].clientY -
+          e.touches[1].clientY
+        );
+
+    }
+
+  },
+  {passive:false}
+);
+
+
+canvas.addEventListener(
+  "touchmove",
+  e=>{
+
+    e.preventDefault();
+
+
+    if(
+      e.touches.length===1 &&
+      dragging
+    ){
+
+      const x =
+        e.touches[0].clientX;
+
+      const y =
+        e.touches[0].clientY;
+
+
+      offsetX +=
+        x-lastX;
+
+      offsetY +=
+        y-lastY;
+
+
+      lastX=x;
+      lastY=y;
+
+
+      drawWall();
+
+    }
+
+
+    if(
+      e.touches.length===2 &&
+      pinchStart
+    ){
+
+      const distance =
+        Math.hypot(
+          e.touches[0].clientX -
+          e.touches[1].clientX,
+
+          e.touches[0].clientY -
+          e.touches[1].clientY
+        );
+
+
+      const factor =
+        distance/pinchStart;
+
+
+      zoom =
+        Math.max(
+          .7,
+          Math.min(
+            5,
+            zoom*factor
+          )
+        );
+
+
+      pinchStart=distance;
+
+      drawWall();
+
+    }
+
+  },
+  {passive:false}
+);
+
+
+canvas.addEventListener(
+  "touchend",
+  e=>{
+
+    if(e.touches.length===0){
+
+      dragging=false;
+
+      pinchStart=null;
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   START
+===================================================== */
+
 resizeCanvas();
+
+updatePrice();
+
 </script>
+
 </body>
 </html>
