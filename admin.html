@@ -1,691 +1,158 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
-<title>حيطان لبنان - لوحة التحكم</title>
-
-<style>
-
-*{
-  box-sizing:border-box;
-}
-
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f3f4f6;
-  color:#111827;
-}
-
-.container{
-  max-width:1400px;
-  margin:auto;
-  padding:20px;
-}
-
-h1{
-  margin-bottom:20px;
-}
-
-.login{
-  max-width:400px;
-  margin:100px auto;
-  background:white;
-  padding:30px;
-  border-radius:16px;
-  box-shadow:0 5px 25px rgba(0,0,0,.08);
-}
-
-input{
-  width:100%;
-  padding:13px;
-  margin:8px 0 15px;
-  border:1px solid #ddd;
-  border-radius:10px;
-  font-size:16px;
-}
-
-button{
-  border:0;
-  border-radius:10px;
-  padding:11px 16px;
-  cursor:pointer;
-  font-size:14px;
-}
-
-.login button{
-  width:100%;
-  background:#111827;
-  color:white;
-}
-
-.hidden{
-  display:none;
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:
-  repeat(auto-fit,minmax(160px,1fr));
-  gap:15px;
-  margin-bottom:25px;
-}
-
-.stat{
-  background:white;
-  padding:20px;
-  border-radius:15px;
-  box-shadow:0 3px 15px rgba(0,0,0,.05);
-}
-
-.stat-number{
-  font-size:28px;
-  font-weight:bold;
-  margin-top:8px;
-}
-
-.orders{
-  display:grid;
-  gap:15px;
-}
-
-.order{
-  background:white;
-  border-radius:15px;
-  padding:20px;
-  box-shadow:0 3px 15px rgba(0,0,0,.05);
-}
-
-.order-header{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:15px;
-}
-
-.order-id{
-  font-weight:bold;
-  font-size:18px;
-}
-
-.badge{
-  padding:6px 10px;
-  border-radius:20px;
-  font-size:12px;
-}
-
-.pending{
-  background:#fff3cd;
-  color:#856404;
-}
-
-.active{
-  background:#d1fae5;
-  color:#065f46;
-}
-
-.rejected{
-  background:#fee2e2;
-  color:#991b1b;
-}
-
-.details{
-  display:grid;
-  grid-template-columns:
-  repeat(auto-fit,minmax(200px,1fr));
-  gap:10px;
-  margin-bottom:15px;
-}
-
-.detail{
-  background:#f9fafb;
-  padding:10px;
-  border-radius:8px;
-}
-
-.logo{
-  max-width:150px;
-  max-height:100px;
-  object-fit:contain;
-  border-radius:8px;
-  margin:10px 0;
-}
-
-.actions{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.approve{
-  background:#16a34a;
-  color:white;
-}
-
-.reject{
-  background:#dc2626;
-  color:white;
-}
-
-.refresh{
-  background:#111827;
-  color:white;
-  margin-bottom:20px;
-}
-
-.message{
-  margin-bottom:15px;
-  padding:12px;
-  border-radius:10px;
-  background:#fee2e2;
-  color:#991b1b;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div id="loginBox" class="login">
-
-  <h2>لوحة تحكم حيطان لبنان</h2>
-
-  <p>
-    أدخل رمز الدخول للمتابعة
-  </p>
-
-  <input
-    type="password"
-    id="pin"
-    placeholder="رمز الدخول">
-
-  <button onclick="login()">
-    دخول
-  </button>
-
-  <div id="loginMessage"></div>
-
-</div>
-
-
-<div id="dashboard" class="container hidden">
-
-  <h1>لوحة التحكم</h1>
-
-  <button
-    class="refresh"
-    onclick="loadDashboard()">
-    🔄 تحديث
-  </button>
-
-
-  <div class="stats">
-
-    <div class="stat">
-      <div>طلبات بانتظار المراجعة</div>
-      <div id="pending" class="stat-number">0</div>
-    </div>
-
-    <div class="stat">
-      <div>إعلانات فعالة</div>
-      <div id="activeOrders" class="stat-number">0</div>
-    </div>
-
-    <div class="stat">
-      <div>المساحات المتاحة</div>
-      <div id="available" class="stat-number">0</div>
-    </div>
-
-    <div class="stat">
-      <div>المساحات المحجوزة</div>
-      <div id="reserved" class="stat-number">0</div>
-    </div>
-
-    <div class="stat">
-      <div>المساحات الفعالة</div>
-      <div id="activeUnits" class="stat-number">0</div>
-    </div>
-
-    <div class="stat">
-      <div>إجمالي المبيعات</div>
-      <div id="revenue" class="stat-number">$0</div>
-    </div>
-
-  </div>
-
-
-  <h2>الطلبات</h2>
-
-  <div id="orders" class="orders"></div>
-
-</div>
-
-
 <script>
-
-const APP_URL =
-"https://script.google.com/macros/s/AKfycbzyM_gJsIV-icWDh_sy95KhPqsQpeLlS6eyl__O2zVs1aZyQf-Bp5ja_FrhW9icSHuY/exec";
-
+const APP_URL = "https://script.google.com/macros/s/AKfycbzyM_gJsIV-icWDh_sy95KhPqsQpeLlS6eyl__O2zVs1aZyQf-Bp5ja_FrhW9icSHuY/exec";
 let ADMIN_PIN = "";
 
-
 function login(){
-
-  const pin =
-    document.getElementById("pin").value.trim();
-
-  if(!pin){
-    return;
-  }
-
-  ADMIN_PIN = pin;
-
-  loadDashboard();
+  const pin = document.getElementById("pin").value.trim();
+  if(!pin) return;
+  ADMIN_PIN = pin; loadDashboard();
 }
-
 
 async function loadDashboard(){
-
   try{
-
-    const statsResponse =
-      await fetch(
-        APP_URL +
-        "?action=adminStats&pin=" +
-        encodeURIComponent(ADMIN_PIN)
-      );
-
-    const stats =
-      await statsResponse.json();
-
+    const statsResponse = await fetch(APP_URL + "?action=adminStats&pin=" + encodeURIComponent(ADMIN_PIN));
+    const stats = await statsResponse.json();
     if(!stats.success){
-
-      document.getElementById("loginMessage")
-        .innerText = stats.message;
-
+      document.getElementById("loginMessage").innerHTML = `<span style="color:#dc2626">${escapeHtml(stats.message || "رمز الدخول غير صحيح")}</span>`;
       return;
     }
-
-
-    document.getElementById("loginBox")
-      .classList.add("hidden");
-
-    document.getElementById("dashboard")
-      .classList.remove("hidden");
-
-
-    document.getElementById("pending")
-      .innerText = stats.pending;
-
-    document.getElementById("activeOrders")
-      .innerText = stats.activeOrders;
-
-    document.getElementById("available")
-      .innerText = stats.available;
-
-    document.getElementById("reserved")
-      .innerText = stats.reserved;
-
-    document.getElementById("activeUnits")
-      .innerText = stats.active;
-
-    document.getElementById("revenue")
-      .innerText = "$" + stats.revenue;
-
-
+    document.getElementById("loginBox").classList.add("hidden");
+    document.getElementById("dashboard").classList.remove("hidden");
+    document.getElementById("pending").innerText = stats.pending;
+    document.getElementById("activeOrders").innerText = stats.activeOrders;
+    document.getElementById("available").innerText = stats.available;
+    document.getElementById("reserved").innerText = stats.reserved;
+    document.getElementById("activeUnits").innerText = stats.active;
+    document.getElementById("revenue").innerText = "$" + stats.revenue;
     await loadOrders();
-
-  }catch(error){
-
-    alert(
-      "تعذر الاتصال بالسيرفر."
-    );
-
-    console.error(error);
-  }
+  }catch(error){ alert("تعذر الاتصال بالسيرفر."); }
 }
 
-
 async function loadOrders(){
-
-  const response =
-    await fetch(
-      APP_URL +
-      "?action=adminOrders&pin=" +
-      encodeURIComponent(ADMIN_PIN)
-    );
-
-  const data =
-    await response.json();
-
-  if(!data.success){
-
-    alert(data.message);
-    return;
-  }
-
+  const response = await fetch(APP_URL + "?action=adminOrders&pin=" + encodeURIComponent(ADMIN_PIN));
+  const data = await response.json();
+  if(!data.success){ alert(data.message); return; }
   renderOrders(data.orders);
 }
 
-
 function renderOrders(orders){
-
-  const container =
-    document.getElementById("orders");
-
+  const container = document.getElementById("orders");
   container.innerHTML = "";
-
-
   if(!orders.length){
-
-    container.innerHTML =
-      "<p>لا توجد طلبات حالياً.</p>";
-
-    return;
+    container.innerHTML = "<p style='color:#6b7280; text-align:center; padding:30px;'>لا توجد طلبات حالياً.</p>"; return;
   }
-
-
   orders.reverse().forEach(order => {
-
-    const div =
-      document.createElement("div");
-
-    div.className = "order";
-
-
-    let statusClass = "pending";
-
-    if(order.orderStatus === "Active"){
-      statusClass = "active";
-    }
-
-    if(order.orderStatus === "Rejected"){
-      statusClass = "rejected";
-    }
-
-
-    let logo = "";
-
-    if(order.logo){
-
-      logo =
-      `<img
-        class="logo"
-        src="${escapeHtml(order.logo)}"
-        alt="Logo">`;
-    }
-
-
+    const div = document.createElement("div"); div.className = "order";
+    let statusClass = order.orderStatus === "Active" ? "active" : (order.orderStatus === "Rejected" ? "rejected" : "pending");
+    let logo = order.logo ? `<img class="logo" src="${escapeHtml(order.logo)}" alt="Logo">` : "";
     let actions = "";
-
     if(order.orderStatus === "Pending"){
-
-      actions = `
-        <div class="actions">
-
-          <button
-            class="approve"
-            onclick="approveOrder('${escapeJs(order.orderId)}')">
-
-            ✅ تأكيد الدفع ونشر الإعلان
-
-          </button>
-
-          <button
-            class="reject"
-            onclick="rejectOrder('${escapeJs(order.orderId)}')">
-
-            ❌ رفض الطلب
-
-          </button>
-
-        </div>
-      `;
+      actions = `<button class="approve" onclick="approveOrder('${escapeJs(order.orderId)}')">✅ تأكيد الدفع ونشر الإعلان</button>
+                 <button class="reject" onclick="rejectOrder('${escapeJs(order.orderId)}')">❌ رفض الطلب</button>`;
     }
-
-
+    actions += `<button class="delete-btn" onclick="deleteOrderPrompt('${escapeJs(order.orderId)}')">🗑️ حذف الإعلان وإتاحة المساحة</button>`;
     div.innerHTML = `
-
       <div class="order-header">
-
-        <div class="order-id">
-          ${escapeHtml(order.orderId)}
-        </div>
-
-        <div class="badge ${statusClass}">
-          ${escapeHtml(order.orderStatus || "Pending")}
-        </div>
-
+        <div class="order-id">رقم الطلب: ${escapeHtml(order.orderId)}</div>
+        <div class="badge ${statusClass}">${escapeHtml(order.orderStatus || "Pending")}</div>
       </div>
-
-
       <div class="details">
-
-        <div class="detail">
-          <b>الاسم</b><br>
-          ${escapeHtml(order.customerName)}
-        </div>
-
-        <div class="detail">
-          <b>الهاتف</b><br>
-          ${escapeHtml(order.phone)}
-        </div>
-
-        <div class="detail">
-          <b>نوع المساحة</b><br>
-          ${escapeHtml(order.unitType)}
-        </div>
-
-        <div class="detail">
-          <b>عدد الوحدات</b><br>
-          ${escapeHtml(order.unitsCount)}
-        </div>
-
-        <div class="detail">
-          <b>المبلغ</b><br>
-          $${escapeHtml(order.totalAmount)}
-        </div>
-
-        <div class="detail">
-          <b>حالة الدفع</b><br>
-          ${escapeHtml(order.paymentStatus)}
-        </div>
-
-        <div class="detail">
-          <b>اسم الإعلان</b><br>
-          ${escapeHtml(order.adName)}
-        </div>
-
-        <div class="detail">
-          <b>الهاتف داخل الإعلان</b><br>
-          ${escapeHtml(order.phone)}
-        </div>
-
+        <div class="detail"><b>الاسم</b>${escapeHtml(order.customerName)}</div>
+        <div class="detail"><b>الهاتف</b>${escapeHtml(order.phone)}</div>
+        <div class="detail"><b>نوع المساحة</b>${escapeHtml(order.unitType)}</div>
+        <div class="detail"><b>عدد الوحدات</b>${escapeHtml(order.unitsCount)}</div>
+        <div class="detail"><b>المبلغ</b>$${escapeHtml(order.totalAmount)}</div>
+        <div class="detail"><b>حالة الدفع</b>${escapeHtml(order.paymentStatus)}</div>
+        <div class="detail"><b>اسم الإعلان</b>${escapeHtml(order.adName || "-")}</div>
+        <div class="detail"><b>تنسيق النص</b>اللون: <span style="background:${escapeHtml(order.fontColor || '#111')}; color:#fff; border:1px solid #ccc; padding:2px 8px; border-radius:4px;">${escapeHtml(order.fontColor || '#111')}</span> | الشكل: ${escapeHtml(order.fontStyle || 'normal')}</div>
       </div>
-
-
       ${logo}
-
-      <div style="margin:10px 0;">
-        <b>النص:</b>
-        ${escapeHtml(order.adText || "")}
+      <div style="margin:10px 0; font-size:14px;"><b>النص الإضافي:</b>
+        <div style="background:#f9fafb; padding:8px 12px; border-radius:8px; margin-top:4px;">${escapeHtml(order.adText || "لا يوجد")}</div>
       </div>
-
-      <div style="margin:10px 0;">
-        <b>WhatsApp:</b>
-        ${escapeHtml(order.whatsapp || "")}
+      <div style="display:flex; gap:15px; margin:10px 0; font-size:13px; color:#4b5563;">
+        <div><b>WhatsApp:</b> ${escapeHtml(order.whatsapp || "-")}</div>
+        <div><b>Instagram:</b> ${escapeHtml(order.instagram || "-")}</div>
       </div>
-
-      <div style="margin:10px 0;">
-        <b>Instagram:</b>
-        ${escapeHtml(order.instagram || "")}
-      </div>
-
-      <div style="margin:10px 0;">
-        <b>الوحدات:</b>
-        ${escapeHtml(order.unitIds || "")}
-      </div>
-
-      ${actions}
-
+      <div class="actions">${actions}</div>
     `;
-
     container.appendChild(div);
-
   });
-
 }
-
 
 async function approveOrder(orderId){
-
-  if(!confirm(
-    "هل تريد تأكيد الدفع ونشر هذا الإعلان؟"
-  )){
-    return;
-  }
-
-
+  if(!confirm("هل تريد تأكيد الدفع ونشر هذا الإعلان؟")) return;
   try{
-
-    const response =
-      await fetch(APP_URL,{
-        method:"POST",
-
-        headers:{
-          "Content-Type":
-          "text/plain;charset=utf-8"
-        },
-
-        body:JSON.stringify({
-
-          action:"confirmPayment",
-
-          orderId:orderId,
-
-          pin:ADMIN_PIN
-
-        })
-      });
-
-
-    const result =
-      await response.json();
-
-
-    if(!result.success){
-
-      alert(result.message);
-      return;
-    }
-
-
-    alert(
-      "تم تأكيد الدفع ونشر الإعلان بنجاح ✅"
-    );
-
-    await loadDashboard();
-
-  }catch(error){
-
-    console.error(error);
-
-    alert(
-      "حدث خطأ أثناء تأكيد الدفع."
-    );
-  }
-
+    const response = await fetch(APP_URL,{ method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify({action:"confirmPayment", orderId:orderId, pin:ADMIN_PIN}) });
+    const result = await response.json();
+    if(!result.success){ alert(result.message); return; }
+    alert("تم تأكيد الدفع ونشر الإعلان بنجاح ✅"); await loadDashboard();
+  }catch(error){ alert("حدث خطأ أثناء تأكيد الدفع."); }
 }
-
 
 async function rejectOrder(orderId){
-
-  if(!confirm(
-    "هل أنت متأكد من رفض هذا الطلب؟"
-  )){
-    return;
-  }
-
-
+  if(!confirm("هل أنت متأكد من رفض هذا الطلب؟")) return;
   try{
-
-    const response =
-      await fetch(APP_URL,{
-        method:"POST",
-
-        headers:{
-          "Content-Type":
-          "text/plain;charset=utf-8"
-        },
-
-        body:JSON.stringify({
-
-          action:"rejectOrder",
-
-          orderId:orderId,
-
-          pin:ADMIN_PIN
-
-        })
-      });
-
-
-    const result =
-      await response.json();
-
-
-    if(!result.success){
-
-      alert(result.message);
-      return;
-    }
-
-
-    alert(
-      "تم رفض الطلب وإعادة المساحة إلى متاحة."
-    );
-
-    await loadDashboard();
-
-  }catch(error){
-
-    console.error(error);
-
-    alert(
-      "حدث خطأ أثناء رفض الطلب."
-    );
-  }
-
+    const response = await fetch(APP_URL,{ method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify({action:"rejectOrder", orderId:orderId, pin:ADMIN_PIN}) });
+    const result = await response.json();
+    if(!result.success){ alert(result.message); return; }
+    alert("تم رفض الطلب وإعادة المساحة إلى متاحة."); await loadDashboard();
+  }catch(error){ alert("حدث خطأ أثناء رفض الطلب."); }
 }
 
-
-function escapeHtml(value){
-
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+async function deleteOrderPrompt(orderId){
+  if(!confirm("هل أنت متأكد من حذف هذا الإعلان؟ ستعود المساحات المرتبطة به متاحة للحجز.")) return;
+  try {
+    const response = await fetch(APP_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: "deleteOrder", orderId: orderId, pin: ADMIN_PIN }) });
+    const result = await response.json();
+    if(!result.success){ alert(result.message); return; }
+    alert("تم حذف الإعلان وإعادة تحرير المساحات بنجاح ✅"); await loadDashboard();
+  } catch (error) { alert("حدث خطأ أثناء حذف الإعلان."); }
 }
 
-
-function escapeJs(value){
-
-  return String(value ?? "")
-    .replace(/\\/g,"\\\\")
-    .replace(/'/g,"\\'");
+async function deleteAllAdsPrompt(){
+  if(!confirm("⚠️ تحذير: هل أنت متأكد من حذف جميع الإعلانات والطلبات وإعادة جميع المساحات الحالية متاحة؟ لا يمكن التراجع عن هذا الإجراء.")) return;
+  try {
+    const response = await fetch(APP_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: "deleteAllAds", pin: ADMIN_PIN }) });
+    const result = await response.json();
+    if(!result.success){ alert(result.message); return; }
+    alert("تم حذف جميع الإعلانات وإتاحة كافة المساحات بنجاح ✅"); await loadDashboard();
+  } catch (error) { alert("حدث خطأ أثناء حذف جميع الإعلانات."); }
 }
 
+// دالة الرفع تم تعديلها لتصغير الصورة قبل الرفع
+async function handleWallBgUpload(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = new Image();
+    img.onload = async function() {
+      const maxDim = 1200; // تصغير الجودة لضمان سرعة الرفع وعدم انهيار السيرفر
+      let w = img.width, h = img.height;
+      if (w > maxDim || h > maxDim) {
+        if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; } 
+        else { w = Math.round((w * maxDim) / h); h = maxDim; }
+      }
+      const canvas = document.createElement("canvas");
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, w, h);
+      const base64 = canvas.toDataURL("image/jpeg", 0.7);
+
+      document.getElementById("bgUploadStatus").innerText = "جاري رفع الخلفية إلى السيرفر...";
+      try {
+        const response = await fetch(APP_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: "updateWallBackground", imageUrl: base64, pin: ADMIN_PIN }) });
+        const result = await response.json();
+        if(result.success) document.getElementById("bgUploadStatus").innerText = "تم تحديث خلفية الجدار بنجاح! ✅";
+        else document.getElementById("bgUploadStatus").innerText = result.message || "فشل رفع الخلفية";
+      } catch(err) { document.getElementById("bgUploadStatus").innerText = "خطأ في الاتصال"; }
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function escapeHtml(value){ return String(value ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;"); }
+function escapeJs(value){ return String(value ?? "").replace(/\\/g,"\\\\").replace(/'/g,"\\'"); }
 </script>
-
-</body>
-</html>
