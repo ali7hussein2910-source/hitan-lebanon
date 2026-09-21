@@ -190,7 +190,7 @@ html,body,#app{
       <div style="background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 12px; padding: 12px; margin-bottom: 15px; font-size: 13px; color: #3730a3; line-height: 1.6;">
         <strong>💳 معلومات الدفع:</strong><br>
         يرجى تحويل المبلغ عبر <b>Whish Money</b> على الرقم التالي:<br>
-        <span style="font-size: 16px; font-weight: bold; color: #1e1b4b;">71291071</span><br>
+        <span style="font-size: 16px; font-weight: bold; color: #1e1b4b;" id="whishDisplayNumber">71291071</span><br>
         سيتم تفعيل الإعلان فور تأكيد استلام الدفع.
       </div>
 
@@ -368,7 +368,7 @@ function showAdvertiserInfoByUnit(unitId) {
   const ad = window.HITAN_WALL_DATA.ads.find(a => a.status === "Active" && a.unitIds && a.unitIds.includes(unitId));
   if (!ad) return;
   document.getElementById("adModalName").textContent = ad.name || "إعلان تجاري";
-  document.getElementById("adModalCustomer").textContent = ad.customerName || "-";
+  document.getElementById("adModalCustomer").textContent = ad.customerName || ad.phone || "-";
   document.getElementById("adModalPhone").textContent = ad.phone || "-";
   const logoImg = document.getElementById("adModalLogo");
   if (ad.logoUrl) { logoImg.src = ad.logoUrl; logoImg.classList.remove("hidden"); } 
@@ -400,6 +400,10 @@ async function loadWallData(){
     (data.ads || []).forEach(ad=>{ window.HITAN_ADS[String(ad.adId)] = ad; });
     const bgUrl = data.wallBackground || data.wallBackgroundUrl;
     if (bgUrl) { loadWallBackgroundImage(bgUrl); }
+    if (data.whishNumber) {
+      const whishElem = document.getElementById("whishDisplayNumber");
+      if(whishElem) whishElem.textContent = data.whishNumber;
+    }
     draw();
     return data;
   }catch(error){
@@ -506,7 +510,7 @@ function drawWallDetails(){
         if(!unit) continue;
         const x = c * cellSize, y = r * cellSize;
         if(unit.status === "Reserved"){
-          ctx.fillStyle = "rgba(245, 158, 11, 0.08)"; // لون خفيف جدا
+          ctx.fillStyle = "rgba(245, 158, 11, 0.15)";
           ctx.fillRect(x, y, cellSize, cellSize);
         }
       }
@@ -659,7 +663,6 @@ window.addEventListener("mouseup", (e)=>{
   if(!hasMoved) handleWallClick(e.clientX, e.clientY);
 });
 
-// أحداث اللمس للموبايل (دعم السحب بالاصبع والتكبير بالاصبعين)
 viewport.addEventListener("touchstart", (e)=>{
   if(e.touches.length === 1) {
     isDragging = true; hasMoved = false;
@@ -712,7 +715,6 @@ function handleWallClick(clientX, clientY){
   if(selectedCells.has(key)){
     selectedCells.delete(key);
   } else {
-    // التحقق من اتصال المساحات على واجهة المستخدم
     if(selectedCells.size > 0) {
       let isConnected = false;
       for (const sKey of selectedCells) {
