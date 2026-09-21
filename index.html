@@ -104,13 +104,12 @@ html,body,#app{
   display: none !important;
 }
 
-/* ---------------- ZOOM ---------------- */
+/* ---------------- ZOOM (معدل لعدم تغطية الجدار) ---------------- */
 
 #zoomControls{
   position:absolute;
   left:14px;
-  top:50%;
-  transform:translateY(-50%);
+  top:20%;
   z-index:30;
 
   display:flex;
@@ -119,20 +118,20 @@ html,body,#app{
 }
 
 .zoomBtn{
-  width:44px;
-  height:44px;
+  width:40px;
+  height:40px;
 
   border:0;
-  border-radius:14px;
+  border-radius:12px;
 
-  background:rgba(0,0,0,.55);
+  background:rgba(0,0,0,.6);
   color:white;
 
-  font-size:25px;
+  font-size:22px;
   font-weight:bold;
 
   backdrop-filter:blur(8px);
-  box-shadow:0 5px 18px rgba(0,0,0,.25);
+  box-shadow:0 4px 15px rgba(0,0,0,.25);
 
   cursor:pointer;
 }
@@ -145,28 +144,28 @@ html,body,#app{
 
 #selectionInfo{
   position:absolute;
-  top:72px;
+  top:90px;
   left:14px;
   z-index:25;
 
-  min-width:150px;
-  padding:10px 13px;
+  min-width:130px;
+  padding:8px 11px;
 
-  border-radius:14px;
+  border-radius:12px;
 
-  background:rgba(0,0,0,.55);
+  background:rgba(0,0,0,.6);
   color:white;
 
   backdrop-filter:blur(8px);
 
-  font-size:12px;
-  line-height:1.6;
+  font-size:11px;
+  line-height:1.5;
 
   pointer-events:none;
 }
 
 #selectionInfo strong{
-  font-size:16px;
+  font-size:15px;
 }
 
 /* ---------------- BOTTOM PANEL ---------------- */
@@ -181,7 +180,7 @@ html,body,#app{
 
   z-index:40;
 
-  background:rgba(20,20,20,.82);
+  background:rgba(20,20,20,.85);
   color:white;
 
   backdrop-filter:blur(14px);
@@ -374,7 +373,8 @@ html,body,#app{
 }
 
 .field input,
-.field textarea{
+.field textarea,
+.field select{
   width:100%;
 
   padding:11px 12px;
@@ -389,7 +389,8 @@ html,body,#app{
 }
 
 .field input:focus,
-.field textarea:focus{
+.field textarea:focus,
+.field select:focus{
   border-color:#111;
 }
 
@@ -522,18 +523,20 @@ html,body,#app{
   }
 
   #selectionInfo{
-    top:58px;
+    top:80px;
     left:10px;
-    font-size:11px;
+    font-size:10px;
   }
 
   #zoomControls{
     left:10px;
+    top:18%;
   }
 
   .zoomBtn{
-    width:40px;
-    height:40px;
+    width:36px;
+    height:36px;
+    font-size:18px;
   }
 
   #bottomPanel{
@@ -684,7 +687,7 @@ html,body,#app{
       </div>
 
       <div class="modalSubtitle">
-        كل الحقول اختيارية ما عدا الاسم ورقم الهاتف.
+        الاسم ورقم الهاتف إجبارية. الشعار والنص وتنسيقاته اختيارية.
       </div>
 
       <!-- WHISH MONEY PAYMENT NOTICE -->
@@ -738,7 +741,7 @@ html,body,#app{
       <div class="field">
 
         <label>
-          الاسم
+          الاسم <span style="color:red;">*</span>
         </label>
 
         <input
@@ -751,7 +754,7 @@ html,body,#app{
       <div class="field">
 
         <label>
-          رقم الهاتف
+          رقم الهاتف <span style="color:red;">*</span>
         </label>
 
         <input
@@ -833,6 +836,35 @@ html,body,#app{
           placeholder="اكتب الرسالة التي تريد ظهورها"
         ></textarea>
 
+      </div>
+
+      <!-- تخصيص شكل ونوع ولون الخط للنص الإضافي -->
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div class="field">
+          <label>نوع الخط (Font Family)</label>
+          <select id="adFontFamily">
+            <option value="Arial, sans-serif">Arial</option>
+            <option value="Tahoma, sans-serif">Tahoma</option>
+            <option value="Times New Roman, serif">Times New Roman</option>
+            <option value="Courier New, monospace">Courier New</option>
+            <option value="Georgia, serif">Georgia</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>شكل الخط (Font Style/Weight)</label>
+          <select id="adFontStyle">
+            <option value="normal">عادي (Normal)</option>
+            <option value="bold">عريض (Bold)</option>
+            <option value="italic">مائل (Italic)</option>
+            <option value="bold-italic">عريض ومائل</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>لون الخط (Text Color)</label>
+        <input type="color" id="adFontColor" value="#ffffff" style="height: 40px; padding: 4px; cursor: pointer;">
       </div>
 
       <div class="field">
@@ -971,6 +1003,15 @@ html,body,#app{
         🔗 نسخ الرابط
       </button>
 
+      <!-- زر الرجوع على اشعار مشاركة المساحة للخروج منها -->
+      <button
+        class="secondaryBtn"
+        style="width:100%; margin-top:8px; background:#e5e7eb; color:#111;"
+        onclick="closeSuccessAndReturn()"
+      >
+        ↩️ الرجوع للجدار الرئيسي
+      </button>
+
     </div>
 
   </div>
@@ -1103,6 +1144,13 @@ function closeAdvertiserModal() {
   document.getElementById("advertiserModal").classList.remove("show");
 }
 
+function closeSuccessAndReturn() {
+  document.getElementById("successModal").classList.remove("show");
+  selectedCells.clear();
+  updateUI();
+  draw();
+}
+
 
 /* =========================================================
    REAL WALL DATA
@@ -1111,6 +1159,7 @@ function closeAdvertiserModal() {
 window.HITAN_WALL_DATA = null;
 window.HITAN_UNITS = {};
 window.HITAN_ADS = {};
+let customWallBackgroundImage = null;
 
 async function loadWallData(){
 
@@ -1157,6 +1206,15 @@ async function loadWallData(){
       ] = ad;
 
     });
+
+    if (data.settings && data.settings.wallBackground) {
+      const bgImg = new Image();
+      bgImg.onload = function() {
+        customWallBackgroundImage = bgImg;
+        draw();
+      };
+      bgImg.src = data.settings.wallBackground;
+    }
 
     return data;
 
@@ -1502,13 +1560,17 @@ function draw(){
     zoom
   );
 
-  ctx.drawImage(
-    textureCanvas,
-    0,
-    0,
-    worldSize,
-    worldSize
-  );
+  if (customWallBackgroundImage) {
+    ctx.drawImage(customWallBackgroundImage, 0, 0, worldSize, worldSize);
+  } else {
+    ctx.drawImage(
+      textureCanvas,
+      0,
+      0,
+      worldSize,
+      worldSize
+    );
+  }
 
   drawWallDetails();
 
@@ -1752,7 +1814,6 @@ function drawActiveAds(){
     const width = (maxCol - minCol + 1) * cellSize;
     const height = (maxRow - minRow + 1) * cellSize;
 
-    // إطار الإعلان
     ctx.strokeStyle = "rgba(255,255,255,.70)";
     ctx.lineWidth = Math.max(1, 2 / zoom);
     ctx.strokeRect(x, y, width, height);
@@ -1762,12 +1823,33 @@ function drawActiveAds(){
     ctx.rect(x, y, width, height);
     ctx.clip();
 
-    // رسم الشعار ليملأ المساحة المختارة بالكامل وبدون أي تظليل
     if(ad.logoUrl){
       const img = getAdImage(ad.logoUrl);
       if(img && img.width && img.height){
         ctx.drawImage(img, x, y, width, height);
       }
+    }
+
+    // عرض النص الإضافي مع تنسيقات الخط واللون ونوعه إذا وُجد
+    if(ad.text){
+      ctx.save();
+      const fStyle = ad.fontStyle || "normal";
+      const fFamily = ad.fontFamily || "Arial, sans-serif";
+      const fColor = ad.fontColor || "#ffffff";
+      
+      let fontStr = "";
+      if (fStyle.includes("bold")) fontStr += "bold ";
+      if (fStyle.includes("italic")) fontStr += "italic ";
+      
+      const fontSize = Math.max(10, Math.min(24, width / 8));
+      fontStr += `${fontSize}px ${fFamily}`;
+      
+      ctx.font = fontStr;
+      ctx.fillStyle = fColor;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(ad.text, x + width / 2, y + height / 2, width - 10);
+      ctx.restore();
     }
 
     ctx.restore();
@@ -1777,7 +1859,7 @@ function drawActiveAds(){
 
 
 /* =========================================================
-   GRID (تم إخفاء الأرقام تماماً بناءً على الطلب)
+   GRID
 ========================================================= */
 
 function drawGrid(){
@@ -2131,9 +2213,6 @@ function selectCell(
 
   }
 
-  /*
-    عرض معلومات الإعلان عند النقر على مساحة مفعلة (Active)
-  */
   if(
     unit.status ===
     "Active"
@@ -2643,6 +2722,17 @@ document
 
   });
 
+document
+  .getElementById("clearSelection")
+  .addEventListener(
+    "click",
+    ()=>{
+      selectedCells.clear();
+      updateUI();
+      draw();
+    }
+  );
+
 
 /* =========================================================
    UI
@@ -2892,7 +2982,7 @@ document
       if(!name){
 
         alert(
-          "يرجى إدخال الاسم."
+          "يرجى إدخال الاسم (إجباري)."
         );
 
         return;
@@ -2902,7 +2992,7 @@ document
       if(!phone){
 
         alert(
-          "يرجى إدخال رقم الهاتف."
+          "يرجى إدخال رقم الهاتف (إجباري)."
         );
 
         return;
@@ -2958,6 +3048,10 @@ document
             )
             .value
             .trim(),
+
+        fontFamily: document.getElementById("adFontFamily").value,
+        fontStyle: document.getElementById("adFontStyle").value,
+        fontColor: document.getElementById("adFontColor").value,
 
         whatsapp:
           document
