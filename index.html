@@ -104,12 +104,12 @@ html,body,#app{
   display: none !important;
 }
 
-/* ---------------- ZOOM (معدل لعدم تغطية الجدار) ---------------- */
+/* ---------------- ZOOM (معدل لعدم تغطية الجدار بشكل مزعج) ---------------- */
 
 #zoomControls{
   position:absolute;
-  left:14px;
-  top:20%;
+  right:14px;
+  bottom:110px;
   z-index:30;
 
   display:flex;
@@ -124,14 +124,14 @@ html,body,#app{
   border:0;
   border-radius:12px;
 
-  background:rgba(0,0,0,.6);
+  background:rgba(0,0,0,.55);
   color:white;
 
   font-size:22px;
   font-weight:bold;
 
   backdrop-filter:blur(8px);
-  box-shadow:0 4px 15px rgba(0,0,0,.25);
+  box-shadow:0 5px 18px rgba(0,0,0,.25);
 
   cursor:pointer;
 }
@@ -144,22 +144,22 @@ html,body,#app{
 
 #selectionInfo{
   position:absolute;
-  top:90px;
-  left:14px;
+  top:72px;
+  right:14px;
   z-index:25;
 
-  min-width:130px;
-  padding:8px 11px;
+  min-width:140px;
+  padding:8px 12px;
 
-  border-radius:12px;
+  border-radius:14px;
 
-  background:rgba(0,0,0,.6);
+  background:rgba(0,0,0,.55);
   color:white;
 
   backdrop-filter:blur(8px);
 
-  font-size:11px;
-  line-height:1.5;
+  font-size:12px;
+  line-height:1.6;
 
   pointer-events:none;
 }
@@ -173,10 +173,10 @@ html,body,#app{
 #bottomPanel{
   position:absolute;
   left:50%;
-  bottom:14px;
+  bottom:10px;
   transform:translateX(-50%);
 
-  width:min(620px,calc(100% - 28px));
+  width:min(580px,calc(100% - 20px));
 
   z-index:40;
 
@@ -186,9 +186,9 @@ html,body,#app{
   backdrop-filter:blur(14px);
 
   border:1px solid rgba(255,255,255,.12);
-  border-radius:22px;
+  border-radius:20px;
 
-  padding:14px;
+  padding:12px;
 
   box-shadow:0 12px 40px rgba(0,0,0,.35);
 }
@@ -201,12 +201,12 @@ html,body,#app{
 }
 
 .panelTitle{
-  font-size:17px;
+  font-size:16px;
   font-weight:800;
 }
 
 .panelHint{
-  margin-top:3px;
+  margin-top:2px;
   font-size:11px;
   opacity:.7;
 }
@@ -214,16 +214,16 @@ html,body,#app{
 .typeButtons{
   display:flex;
   gap:8px;
-  margin-top:12px;
+  margin-top:10px;
 }
 
 .typeBtn{
   flex:1;
 
-  padding:10px;
+  padding:8px;
 
   border:1px solid rgba(255,255,255,.15);
-  border-radius:12px;
+  border-radius:10px;
 
   background:rgba(255,255,255,.07);
   color:white;
@@ -242,27 +242,27 @@ html,body,#app{
   justify-content:space-between;
   align-items:center;
 
-  margin-top:12px;
-  padding-top:10px;
+  margin-top:10px;
+  padding-top:8px;
 
   border-top:1px solid rgba(255,255,255,.12);
 }
 
 .price{
-  font-size:20px;
+  font-size:18px;
   font-weight:900;
 }
 
 .primaryBtn{
   border:0;
-  border-radius:13px;
+  border-radius:11px;
 
-  padding:11px 18px;
+  padding:10px 16px;
 
   background:#fff;
   color:#111;
 
-  font-size:14px;
+  font-size:13px;
   font-weight:800;
 
   cursor:pointer;
@@ -395,7 +395,7 @@ html,body,#app{
 }
 
 .field textarea{
-  min-height:80px;
+  min-height:70px;
   resize:vertical;
 }
 
@@ -501,6 +501,23 @@ html,body,#app{
   cursor:pointer;
 }
 
+.backToWallBtn{
+  width:100%;
+  margin-top:8px;
+
+  padding:12px;
+
+  border:1px solid #111;
+  border-radius:13px;
+
+  background:#111;
+  color:#fff;
+
+  font-weight:bold;
+
+  cursor:pointer;
+}
+
 /* ---------------- MOBILE ---------------- */
 
 @media(max-width:600px){
@@ -523,41 +540,40 @@ html,body,#app{
   }
 
   #selectionInfo{
-    top:80px;
-    left:10px;
-    font-size:10px;
+    top:58px;
+    right:10px;
+    font-size:11px;
   }
 
   #zoomControls{
-    left:10px;
-    top:18%;
+    right:10px;
+    bottom:100px;
   }
 
   .zoomBtn{
-    width:36px;
-    height:36px;
-    font-size:18px;
+    width:38px;
+    height:38px;
   }
 
   #bottomPanel{
-    bottom:8px;
-    width:calc(100% - 16px);
-    border-radius:20px;
-    padding:12px;
+    bottom:6px;
+    width:calc(100% - 12px);
+    border-radius:18px;
+    padding:10px;
   }
 
   .panelTitle{
-    font-size:15px;
+    font-size:14px;
   }
 
   .typeBtn{
-    padding:9px 5px;
-    font-size:12px;
+    padding:8px 4px;
+    font-size:11px;
   }
 
   .primaryBtn{
-    padding:10px 13px;
-    font-size:12px;
+    padding:9px 12px;
+    font-size:11px;
   }
 
 }
@@ -581,7 +597,7 @@ html,body,#app{
     </div>
 
     <div class="subtitle">
-      كل اسم إلو مطرح
+      إعلان بلف لبنان
     </div>
 
   </div>
@@ -687,7 +703,7 @@ html,body,#app{
       </div>
 
       <div class="modalSubtitle">
-        الاسم ورقم الهاتف إجبارية. الشعار والنص وتنسيقاته اختيارية.
+        الاسم ورقم الهاتف إجباريان، والشعار أو النص اختيارية.
       </div>
 
       <!-- WHISH MONEY PAYMENT NOTICE -->
@@ -741,7 +757,7 @@ html,body,#app{
       <div class="field">
 
         <label>
-          الاسم <span style="color:red;">*</span>
+          الاسم <span style="color:red">*</span>
         </label>
 
         <input
@@ -754,7 +770,7 @@ html,body,#app{
       <div class="field">
 
         <label>
-          رقم الهاتف <span style="color:red;">*</span>
+          رقم الهاتف <span style="color:red">*</span>
         </label>
 
         <input
@@ -838,33 +854,37 @@ html,body,#app{
 
       </div>
 
-      <!-- تخصيص شكل ونوع ولون الخط للنص الإضافي -->
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-        <div class="field">
-          <label>نوع الخط (Font Family)</label>
-          <select id="adFontFamily">
-            <option value="Arial, sans-serif">Arial</option>
-            <option value="Tahoma, sans-serif">Tahoma</option>
-            <option value="Times New Roman, serif">Times New Roman</option>
-            <option value="Courier New, monospace">Courier New</option>
-            <option value="Georgia, serif">Georgia</option>
-          </select>
+      <!-- تخصيص شكل الخط و نوع الخط و لونه للنص -->
+      <div style="background:#fcfcfc; border:1px solid #eee; border-radius:12px; padding:12px; margin-bottom:12px;">
+        <label style="font-size:13px; font-weight:bold; margin-bottom:8px; display:block;">تنسيق الخط للنص:</label>
+        
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:8px;">
+          <div class="field" style="margin-bottom:0;">
+            <label style="font-size:11px;">نوع الخط</label>
+            <select id="fontFamily">
+              <option value="Arial, Tahoma, sans-serif">افتراضي (Arial)</option>
+              <option value="Cairo, sans-serif">كايرو (Cairo)</option>
+              <option value="Tajawal, sans-serif">تجوال (Tajawal)</option>
+              <option value="Amiri, serif">أميري (Amiri)</option>
+              <option value="Changa, sans-serif">شانغا (Changa)</option>
+            </select>
+          </div>
+
+          <div class="field" style="margin-bottom:0;">
+            <label style="font-size:11px;">شكل الخط</label>
+            <select id="fontStyleOption">
+              <option value="normal">عادي</option>
+              <option value="bold">عريض (Bold)</option>
+              <option value="italic">مائل (Italic)</option>
+              <option value="bold italic">عريض ومائل</option>
+            </select>
+          </div>
         </div>
 
-        <div class="field">
-          <label>شكل الخط (Font Style/Weight)</label>
-          <select id="adFontStyle">
-            <option value="normal">عادي (Normal)</option>
-            <option value="bold">عريض (Bold)</option>
-            <option value="italic">مائل (Italic)</option>
-            <option value="bold-italic">عريض ومائل</option>
-          </select>
+        <div class="field" style="margin-bottom:0;">
+          <label style="font-size:11px;">لون الخط</label>
+          <input type="color" id="fontColor" value="#ffffff" style="height:38px; padding:2px; cursor:pointer;">
         </div>
-      </div>
-
-      <div class="field">
-        <label>لون الخط (Text Color)</label>
-        <input type="color" id="adFontColor" value="#ffffff" style="height: 40px; padding: 4px; cursor: pointer;">
       </div>
 
       <div class="field">
@@ -1003,13 +1023,12 @@ html,body,#app{
         🔗 نسخ الرابط
       </button>
 
-      <!-- زر الرجوع على اشعار مشاركة المساحة للخروج منها -->
+      <!-- زر الرجوع على إشعار مشاركة المساحة للخروج منها -->
       <button
-        class="secondaryBtn"
-        style="width:100%; margin-top:8px; background:#e5e7eb; color:#111;"
-        onclick="closeSuccessAndReturn()"
+        class="backToWallBtn"
+        id="backToWallBtn"
       >
-        ↩️ الرجوع للجدار الرئيسي
+        ↩️ الرجوع إلى الحائط
       </button>
 
     </div>
@@ -1144,13 +1163,6 @@ function closeAdvertiserModal() {
   document.getElementById("advertiserModal").classList.remove("show");
 }
 
-function closeSuccessAndReturn() {
-  document.getElementById("successModal").classList.remove("show");
-  selectedCells.clear();
-  updateUI();
-  draw();
-}
-
 
 /* =========================================================
    REAL WALL DATA
@@ -1159,7 +1171,6 @@ function closeSuccessAndReturn() {
 window.HITAN_WALL_DATA = null;
 window.HITAN_UNITS = {};
 window.HITAN_ADS = {};
-let customWallBackgroundImage = null;
 
 async function loadWallData(){
 
@@ -1207,13 +1218,9 @@ async function loadWallData(){
 
     });
 
-    if (data.settings && data.settings.wallBackground) {
-      const bgImg = new Image();
-      bgImg.onload = function() {
-        customWallBackgroundImage = bgImg;
-        draw();
-      };
-      bgImg.src = data.settings.wallBackground;
+    // تحميل خلفية الجدار المرفوعة من الأدمن إن وجدت
+    if (data.wallBackgroundUrl) {
+      loadWallBackgroundImage(data.wallBackgroundUrl);
     }
 
     return data;
@@ -1403,10 +1410,22 @@ function clampCamera(){
 
 
 /* =========================================================
-   WALL TEXTURE
+   WALL TEXTURE & BACKGROUND IMAGE FROM ADMIN
 ========================================================= */
 
 let textureCanvas = null;
+let wallBgImg = null;
+
+function loadWallBackgroundImage(url) {
+  if (!url) return;
+  const img = new Image();
+  img.crossOrigin = "anonymous";
+  img.onload = function() {
+    wallBgImg = img;
+    draw();
+  };
+  img.src = url;
+}
 
 function createWallTexture(){
 
@@ -1560,8 +1579,8 @@ function draw(){
     zoom
   );
 
-  if (customWallBackgroundImage) {
-    ctx.drawImage(customWallBackgroundImage, 0, 0, worldSize, worldSize);
+  if (wallBgImg) {
+    ctx.drawImage(wallBgImg, 0, 0, worldSize, worldSize);
   } else {
     ctx.drawImage(
       textureCanvas,
@@ -1830,24 +1849,24 @@ function drawActiveAds(){
       }
     }
 
-    // عرض النص الإضافي مع تنسيقات الخط واللون ونوعه إذا وُجد
+    // رسم النص الإضافي مع تنسيق الخط ونوعه ولونه إذا وجد
     if(ad.text){
       ctx.save();
-      const fStyle = ad.fontStyle || "normal";
-      const fFamily = ad.fontFamily || "Arial, sans-serif";
-      const fColor = ad.fontColor || "#ffffff";
-      
-      let fontStr = "";
-      if (fStyle.includes("bold")) fontStr += "bold ";
-      if (fStyle.includes("italic")) fontStr += "italic ";
-      
-      const fontSize = Math.max(10, Math.min(24, width / 8));
-      fontStr += `${fontSize}px ${fFamily}`;
-      
-      ctx.font = fontStr;
-      ctx.fillStyle = fColor;
+      const fontStyle = ad.fontStyle || "normal";
+      const fontFamily = ad.fontFamily || "Arial, sans-serif";
+      const fontSize = Math.max(12, Math.min(width / 6, 24));
+      ctx.font = `${fontStyle} ${fontSize}px ${fontFamily}`;
+      ctx.fillStyle = ad.fontColor || "#ffffff";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
+      
+      // رسم خلفية شفافة للنص إن وُجد لوغو لضمان وضوح القراءة
+      if (ad.logoUrl) {
+        ctx.fillStyle = "rgba(0,0,0,0.5)";
+        ctx.fillRect(x, y + height - 30, width, 30);
+        ctx.fillStyle = ad.fontColor || "#ffffff";
+      }
+
       ctx.fillText(ad.text, x + width / 2, y + height / 2, width - 10);
       ctx.restore();
     }
@@ -2722,17 +2741,6 @@ document
 
   });
 
-document
-  .getElementById("clearSelection")
-  .addEventListener(
-    "click",
-    ()=>{
-      selectedCells.clear();
-      updateUI();
-      draw();
-    }
-  );
-
 
 /* =========================================================
    UI
@@ -3049,9 +3057,14 @@ document
             .value
             .trim(),
 
-        fontFamily: document.getElementById("adFontFamily").value,
-        fontStyle: document.getElementById("adFontStyle").value,
-        fontColor: document.getElementById("adFontColor").value,
+        fontFamily:
+          document.getElementById("fontFamily").value,
+
+        fontStyle:
+          document.getElementById("fontStyleOption").value,
+
+        fontColor:
+          document.getElementById("fontColor").value,
 
         whatsapp:
           document
@@ -3165,7 +3178,7 @@ document
 
 
 /* =========================================================
-   SHARE
+   SHARE & BACK TO WALL
 ========================================================= */
 
 let shareUrl =
@@ -3204,7 +3217,7 @@ document
       const message =
 `حطّيت مشروعي على حيطان لبنان! 🧱🇱🇧
 
-كل اسم إلو مطرح.
+إعلان بلف لبنان.
 
 إلك مطرح كمان؟
 ${shareUrl}`;
@@ -3288,6 +3301,26 @@ document
 
       }
 
+    }
+  );
+
+// زر الرجوع للخروج من اشعار مشاركة المساحة
+document
+  .getElementById(
+    "backToWallBtn"
+  )
+  .addEventListener(
+    "click",
+    ()=>{
+      document
+        .getElementById(
+          "successModal"
+        )
+        .classList
+        .remove("show");
+      selectedCells.clear();
+      updateUI();
+      draw();
     }
   );
 
