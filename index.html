@@ -1,80 +1,166 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>حيطان لبنان</title>
+
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body,#app{margin:0; width:100%; height:100%; overflow:hidden; background:#222; font-family:Arial,Tahoma,sans-serif;}
-#app{position:fixed; inset:0;}
-#wallViewport{position:absolute; inset:0; overflow:hidden; background:#555; touch-action:none;}
-#wallCanvas{position:absolute; inset:0; width:100%; height:100%; display:block;}
-/* TOP BRAND */
-#brand{position:absolute; top:14px; right:14px; z-index:20; padding:10px 14px; border-radius:14px; color:white; background:rgba(0,0,0,.48); backdrop-filter:blur(8px); box-shadow:0 5px 20px rgba(0,0,0,.25); pointer-events:none;}
-#brand .title{font-size:20px; font-weight:800;}
-#brand .subtitle{margin-top:2px; font-size:11px; opacity:.8;}
-/* HINT */
-#hint{position:absolute; top:18px; left:50%; transform:translateX(-50%); z-index:20; padding:9px 15px; border-radius:30px; color:#fff; background:rgba(0,0,0,.48); backdrop-filter:blur(8px); font-size:13px; pointer-events:none; transition:opacity .4s;}
-#hint.hidden{opacity:0;} .hidden{display:none !important;}
-/* ZOOM */
-#zoomControls{position:absolute; right:14px; bottom:110px; z-index:30; display:flex; flex-direction:column; gap:8px;}
-.zoomBtn{width:40px; height:40px; border:0; border-radius:12px; background:rgba(0,0,0,.55); color:white; font-size:22px; font-weight:bold; backdrop-filter:blur(8px); box-shadow:0 5px 18px rgba(0,0,0,.25); cursor:pointer;}
-.zoomBtn:active{transform:scale(.94);}
-/* SELECTION INFO */
-#selectionInfo{position:absolute; top:72px; right:14px; z-index:25; min-width:140px; padding:8px 12px; border-radius:14px; background:rgba(0,0,0,.55); color:white; backdrop-filter:blur(8px); font-size:12px; line-height:1.6; pointer-events:none;}
-#selectionInfo strong{font-size:15px;}
-/* BOTTOM PANEL */
-#bottomPanel{position:absolute; left:50%; bottom:10px; transform:translateX(-50%); width:min(580px,calc(100% - 20px)); z-index:40; background:rgba(20,20,20,.85); color:white; backdrop-filter:blur(14px); border:1px solid rgba(255,255,255,.12); border-radius:20px; padding:12px; box-shadow:0 12px 40px rgba(0,0,0,.35);}
-.panelTop{display:flex; align-items:center; justify-content:space-between; gap:10px;}
-.panelTitle{font-size:16px; font-weight:800;}
-.panelHint{margin-top:2px; font-size:11px; opacity:.7;}
-.typeButtons{display:flex; gap:8px; margin-top:10px;}
-.typeBtn{flex:1; padding:8px; border:1px solid rgba(255,255,255,.15); border-radius:10px; background:rgba(255,255,255,.07); color:white; cursor:pointer;}
-.typeBtn.active{background:#fff; color:#111; font-weight:bold;}
-.priceRow{display:flex; justify-content:space-between; align-items:center; margin-top:10px; padding-top:8px; border-top:1px solid rgba(255,255,255,.12);}
-.price{font-size:18px; font-weight:900;}
-.primaryBtn{border:0; border-radius:11px; padding:10px 16px; background:#fff; color:#111; font-size:13px; font-weight:800; cursor:pointer;}
-.primaryBtn:disabled{opacity:.35; cursor:not-allowed;}
-/* MODALS */
-.modal{position:absolute; inset:0; z-index:100; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.62); backdrop-filter:blur(7px); padding:18px;}
-.modal.show{display:flex;}
-.modalBox{width:min(520px,100%); max-height:90vh; overflow:auto; background:#fff; color:#111; border-radius:24px; padding:22px; box-shadow:0 20px 70px rgba(0,0,0,.4);}
-.modalTitle{font-size:22px; font-weight:900; margin-bottom:5px;}
-.modalSubtitle{font-size:13px; color:#666; margin-bottom:18px;}
-.closeBtn{float:left; border:0; background:#eee; width:34px; height:34px; border-radius:50%; font-size:20px; cursor:pointer;}
-.summary{background:#f5f5f5; border-radius:15px; padding:13px; margin-bottom:15px;}
-.summaryRow{display:flex; justify-content:space-between; margin:6px 0;}
-.summaryRow.total{border-top:1px solid #ddd; padding-top:9px; margin-top:9px; font-weight:900; font-size:18px;}
-.field{margin-bottom:12px;} .field label{display:block; margin-bottom:5px; font-size:12px; font-weight:bold;}
-.field input,.field textarea,.field select{width:100%; padding:11px 12px; border:1px solid #ddd; border-radius:12px; font-family:inherit; font-size:14px; outline:none;}
-.field textarea{min-height:70px; resize:vertical;} .optional{font-weight:normal; color:#999;}
-.modalActions{display:flex; gap:8px; margin-top:16px;}
-.secondaryBtn{flex:1; padding:12px; border:0; border-radius:13px; background:#eee; font-weight:bold; cursor:pointer;}
-.confirmBtn{flex:2; padding:12px; border:0; border-radius:13px; background:#111; color:#fff; font-weight:bold; cursor:pointer;}
-.successIcon{width:70px; height:70px; margin:5px auto 15px; display:flex; align-items:center; justify-content:center; border-radius:50%; background:#111; color:#fff; font-size:34px;}
-.shareText{text-align:center; color:#555; font-size:13px; line-height:1.7;}
-.shareBtn,.copyBtn,.backToWallBtn{width:100%; margin-top:8px; padding:12px; border-radius:13px; font-weight:bold; cursor:pointer;}
-.shareBtn{background:#111; color:#fff; margin-top:14px; border:0;}
-.copyBtn{background:#fff; border:1px solid #ddd;}
-.backToWallBtn{background:#111; color:#fff; border:1px solid #111;}
-@media(max-width:600px){#brand{top:10px; right:10px; padding:8px 11px;} #brand .title{font-size:17px;} #hint{top:11px; font-size:11px; max-width:65%; text-align:center;} #selectionInfo{top:58px; right:10px; font-size:11px;} #zoomControls{right:10px; bottom:100px;} .zoomBtn{width:38px; height:38px;} #bottomPanel{bottom:6px; width:calc(100% - 12px); border-radius:18px; padding:10px;} .panelTitle{font-size:14px;} .typeBtn{padding:8px 4px; font-size:11px;} .primaryBtn{padding:9px 12px; font-size:11px;}}
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+html,body,#app{
+  margin:0; width:100%; height:100%; overflow:hidden; background:#222; font-family:Arial,Tahoma,sans-serif;
+}
+#app{ position:fixed; inset:0; }
+#wallViewport{
+  position:absolute; inset:0; overflow:hidden; background:#555; touch-action:none;
+}
+#wallCanvas{
+  position:absolute; inset:0; width:100%; height:100%; display:block;
+}
+
+/* ---------------- TOP BRAND ---------------- */
+#brand{
+  position:absolute; top:14px; right:14px; z-index:20; padding:10px 14px; border-radius:14px;
+  color:white; background:rgba(0,0,0,.48); backdrop-filter:blur(8px); box-shadow:0 5px 20px rgba(0,0,0,.25); pointer-events:none;
+}
+#brand .title{ font-size:20px; font-weight:800; }
+#brand .subtitle{ margin-top:2px; font-size:11px; opacity:.8; }
+
+/* ---------------- HINT ---------------- */
+#hint{
+  position:absolute; top:18px; left:50%; transform:translateX(-50%); z-index:20;
+  padding:9px 15px; border-radius:30px; color:#fff; background:rgba(0,0,0,.48);
+  backdrop-filter:blur(8px); font-size:13px; pointer-events:none; transition:opacity .4s;
+}
+#hint.hidden{ opacity:0; }
+.hidden { display: none !important; }
+
+/* ---------------- ZOOM ---------------- */
+#zoomControls{
+  position:absolute; right:14px; bottom:110px; z-index:30; display:flex; flex-direction:column; gap:8px;
+}
+.zoomBtn{
+  width:40px; height:40px; border:0; border-radius:12px; background:rgba(0,0,0,.55);
+  color:white; font-size:22px; font-weight:bold; backdrop-filter:blur(8px); box-shadow:0 5px 18px rgba(0,0,0,.25); cursor:pointer;
+}
+.zoomBtn:active{ transform:scale(.94); }
+
+/* ---------------- SELECTION INFO ---------------- */
+#selectionInfo{
+  position:absolute; top:72px; right:14px; z-index:25; min-width:140px; padding:8px 12px;
+  border-radius:14px; background:rgba(0,0,0,.55); color:white; backdrop-filter:blur(8px); font-size:12px; line-height:1.6; pointer-events:none;
+}
+#selectionInfo strong{ font-size:15px; }
+
+/* ---------------- BOTTOM PANEL ---------------- */
+#bottomPanel{
+  position:absolute; left:50%; bottom:10px; transform:translateX(-50%); width:min(580px,calc(100% - 20px));
+  z-index:40; background:rgba(20,20,20,.85); color:white; backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.12); border-radius:20px; padding:12px; box-shadow:0 12px 40px rgba(0,0,0,.35);
+}
+.panelTop{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.panelTitle{ font-size:16px; font-weight:800; }
+.panelHint{ margin-top:2px; font-size:11px; opacity:.7; }
+.typeButtons{ display:flex; gap:8px; margin-top:10px; }
+.typeBtn{
+  flex:1; padding:8px; border:1px solid rgba(255,255,255,.15); border-radius:10px;
+  background:rgba(255,255,255,.07); color:white; cursor:pointer;
+}
+.typeBtn.active{ background:#fff; color:#111; font-weight:bold; }
+.priceRow{
+  display:flex; justify-content:space-between; align-items:center; margin-top:10px;
+  padding-top:8px; border-top:1px solid rgba(255,255,255,.12);
+}
+.price{ font-size:18px; font-weight:900; }
+.primaryBtn{
+  border:0; border-radius:11px; padding:10px 16px; background:#fff; color:#111; font-size:13px; font-weight:800; cursor:pointer;
+}
+.primaryBtn:disabled{ opacity:.35; cursor:not-allowed; }
+
+/* ---------------- MODALS ---------------- */
+.modal{
+  position:absolute; inset:0; z-index:100; display:none; align-items:center; justify-content:center;
+  background:rgba(0,0,0,.62); backdrop-filter:blur(7px); padding:18px;
+}
+.modal.show{ display:flex; }
+.modalBox{
+  width:min(520px,100%); max-height:90vh; overflow:auto; background:#fff; color:#111;
+  border-radius:24px; padding:22px; box-shadow:0 20px 70px rgba(0,0,0,.4);
+}
+.modalTitle{ font-size:22px; font-weight:900; margin-bottom:5px; }
+.modalSubtitle{ font-size:13px; color:#666; margin-bottom:18px; }
+.closeBtn{ float:left; border:0; background:#eee; width:34px; height:34px; border-radius:50%; font-size:20px; cursor:pointer; }
+.summary{ background:#f5f5f5; border-radius:15px; padding:13px; margin-bottom:15px; }
+.summaryRow{ display:flex; justify-content:space-between; margin:6px 0; }
+.summaryRow.total{ border-top:1px solid #ddd; padding-top:9px; margin-top:9px; font-weight:900; font-size:18px; }
+.field{ margin-bottom:12px; }
+.field label{ display:block; margin-bottom:5px; font-size:12px; font-weight:bold; }
+.field input, .field textarea, .field select{
+  width:100%; padding:11px 12px; border:1px solid #ddd; border-radius:12px; font-family:inherit; font-size:14px; outline:none;
+}
+.field input:focus, .field textarea:focus, .field select:focus{ border-color:#111; }
+.field textarea{ min-height:70px; resize:vertical; }
+.optional{ font-weight:normal; color:#999; }
+.modalActions{ display:flex; gap:8px; margin-top:16px; }
+.secondaryBtn{ flex:1; padding:12px; border:0; border-radius:13px; background:#eee; font-weight:bold; cursor:pointer; }
+.confirmBtn{ flex:2; padding:12px; border:0; border-radius:13px; background:#111; color:#fff; font-weight:bold; cursor:pointer; }
+
+/* ---------------- SUCCESS ---------------- */
+.successIcon{
+  width:70px; height:70px; margin:5px auto 15px; display:flex; align-items:center;
+  justify-content:center; border-radius:50%; background:#111; color:#fff; font-size:34px;
+}
+.shareText{ text-align:center; color:#555; font-size:13px; line-height:1.7; }
+.shareBtn{ width:100%; margin-top:14px; padding:13px; border:0; border-radius:13px; background:#111; color:#fff; font-weight:bold; cursor:pointer; }
+.copyBtn{ width:100%; margin-top:8px; padding:12px; border:1px solid #ddd; border-radius:13px; background:#fff; font-weight:bold; cursor:pointer; }
+.backToWallBtn{ width:100%; margin-top:8px; padding:12px; border:1px solid #111; border-radius:13px; background:#111; color:#fff; font-weight:bold; cursor:pointer; }
+
+/* ---------------- MOBILE ---------------- */
+@media(max-width:600px){
+  #brand{ top:10px; right:10px; padding:8px 11px; }
+  #brand .title{ font-size:17px; }
+  #hint{ top:11px; font-size:11px; max-width:65%; text-align:center; }
+  #selectionInfo{ top:58px; right:10px; font-size:11px; }
+  #zoomControls{ right:10px; bottom:100px; }
+  .zoomBtn{ width:38px; height:38px; }
+  #bottomPanel{ bottom:6px; width:calc(100% - 12px); border-radius:18px; padding:10px; }
+  .panelTitle{ font-size:14px; }
+  .typeBtn{ padding:8px 4px; font-size:11px; }
+  .primaryBtn{ padding:9px 12px; font-size:11px; }
+}
 </style>
 </head>
+
 <body>
+
 <div id="app">
-  <div id="wallViewport"><canvas id="wallCanvas"></canvas></div>
-  <div id="brand">
-    <div class="title" id="displayProjectName">حيطان لبنان</div>
-    <div class="subtitle" id="displaySlogan">إعلان بلف لبنان</div>
+
+  <div id="wallViewport">
+    <canvas id="wallCanvas"></canvas>
   </div>
+
+  <div id="brand">
+    <div class="title">حيطان لبنان</div>
+    <div class="subtitle">إعلان بلف لبنان</div>
+  </div>
+
   <div id="hint">كبّر الحائط لتشوف الوحدات وتختار مطرحك</div>
+
   <div id="zoomControls">
     <button class="zoomBtn" id="zoomIn">+</button>
     <button class="zoomBtn" id="zoomOut">−</button>
     <button class="zoomBtn" id="zoomReset">⌂</button>
   </div>
-  <div id="selectionInfo">المساحة المختارة<br><strong id="selectedCount">0</strong> وحدة</div>
+
+  <div id="selectionInfo">
+    المساحة المختارة<br>
+    <strong id="selectedCount">0</strong> وحدة
+  </div>
+
   <div id="bottomPanel">
     <div class="panelTop">
       <div>
@@ -93,24 +179,35 @@ html,body,#app{margin:0; width:100%; height:100%; overflow:hidden; background:#2
     </div>
   </div>
 
+  <!-- BOOKING MODAL -->
   <div class="modal" id="bookingModal">
     <div class="modalBox">
       <button class="closeBtn" id="closeBooking">×</button>
       <div class="modalTitle">أكمل بيانات الحجز</div>
       <div class="modalSubtitle">الاسم ورقم الهاتف إجباريان، والشعار أو النص اختيارية.</div>
+
+      <!-- WHISH MONEY PAYMENT NOTICE -->
       <div style="background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 12px; padding: 12px; margin-bottom: 15px; font-size: 13px; color: #3730a3; line-height: 1.6;">
         <strong>💳 معلومات الدفع:</strong><br>
         يرجى تحويل المبلغ عبر <b>Whish Money</b> على الرقم التالي:<br>
         <span style="font-size: 16px; font-weight: bold; color: #1e1b4b;">71291071</span><br>
         سيتم تفعيل الإعلان فور تأكيد استلام الدفع.
       </div>
+
       <div class="summary">
         <div class="summaryRow"><span>نوع المساحة</span><strong id="summaryType">Standard</strong></div>
         <div class="summaryRow"><span>عدد الوحدات</span><strong id="summaryUnits">0</strong></div>
         <div class="summaryRow total"><span>المبلغ</span><strong>$<span id="summaryPrice">0</span></strong></div>
       </div>
-      <div class="field"><label>الاسم <span style="color:red">*</span></label><input id="customerName" placeholder="اسمك أو اسم المشروع"></div>
-      <div class="field"><label>رقم الهاتف <span style="color:red">*</span></label><input id="customerPhone" type="tel" placeholder="رقم الهاتف"></div>
+
+      <div class="field">
+        <label>الاسم <span style="color:red">*</span></label>
+        <input id="customerName" placeholder="اسمك أو اسم المشروع">
+      </div>
+      <div class="field">
+        <label>رقم الهاتف <span style="color:red">*</span></label>
+        <input id="customerPhone" type="tel" placeholder="رقم الهاتف">
+      </div>
       <div class="field">
         <label>الشعار (اللوغو) <span class="optional">(اختياري)</span></label>
         <input type="file" id="logoFile" accept="image/*" style="display:none;" onchange="handleLogoSelect(event)">
@@ -120,18 +217,55 @@ html,body,#app{margin:0; width:100%; height:100%; overflow:hidden; background:#2
         </div>
         <button type="button" id="removeLogoBtn" class="secondaryBtn hidden" style="margin-top: 8px; padding: 6px 12px; font-size: 12px; width: auto;" onclick="removeLogo()">🗑️ إزالة الشعار</button>
       </div>
-      <div class="field"><label>اسم الإعلان <span class="optional">(اختياري)</span></label><input id="adName" placeholder="اسم يظهر على الحائط"></div>
-      <div class="field"><label>نص إضافي <span class="optional">(اختياري)</span></label><textarea id="adText" placeholder="اكتب الرسالة التي تريد ظهورها"></textarea></div>
+
+      <div class="field">
+        <label>اسم الإعلان <span class="optional">(اختياري)</span></label>
+        <input id="adName" placeholder="اسم يظهر على الحائط">
+      </div>
+      <div class="field">
+        <label>نص إضافي <span class="optional">(اختياري)</span></label>
+        <textarea id="adText" placeholder="اكتب الرسالة التي تريد ظهورها"></textarea>
+      </div>
+
+      <!-- تخصيص شكل الخط و نوع الخط و لونه للنص -->
       <div style="background:#fcfcfc; border:1px solid #eee; border-radius:12px; padding:12px; margin-bottom:12px;">
         <label style="font-size:13px; font-weight:bold; margin-bottom:8px; display:block;">تنسيق الخط للنص:</label>
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:8px;">
-          <div class="field" style="margin-bottom:0;"><label style="font-size:11px;">نوع الخط</label><select id="fontFamily"><option value="Arial, Tahoma, sans-serif">افتراضي (Arial)</option><option value="Cairo, sans-serif">كايرو (Cairo)</option><option value="Tajawal, sans-serif">تجوال (Tajawal)</option><option value="Amiri, serif">أميري (Amiri)</option><option value="Changa, sans-serif">شانغا (Changa)</option></select></div>
-          <div class="field" style="margin-bottom:0;"><label style="font-size:11px;">شكل الخط</label><select id="fontStyleOption"><option value="normal">عادي</option><option value="bold">عريض (Bold)</option><option value="italic">مائل (Italic)</option><option value="bold italic">عريض ومائل</option></select></div>
+          <div class="field" style="margin-bottom:0;">
+            <label style="font-size:11px;">نوع الخط</label>
+            <select id="fontFamily">
+              <option value="Arial, Tahoma, sans-serif">افتراضي (Arial)</option>
+              <option value="Cairo, sans-serif">كايرو (Cairo)</option>
+              <option value="Tajawal, sans-serif">تجوال (Tajawal)</option>
+              <option value="Amiri, serif">أميري (Amiri)</option>
+              <option value="Changa, sans-serif">شانغا (Changa)</option>
+            </select>
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label style="font-size:11px;">شكل الخط</label>
+            <select id="fontStyleOption">
+              <option value="normal">عادي</option>
+              <option value="bold">عريض (Bold)</option>
+              <option value="italic">مائل (Italic)</option>
+              <option value="bold italic">عريض ومائل</option>
+            </select>
+          </div>
         </div>
-        <div class="field" style="margin-bottom:0;"><label style="font-size:11px;">لون الخط</label><input type="color" id="fontColor" value="#111111" style="height:38px; padding:2px; cursor:pointer;"></div>
+        <div class="field" style="margin-bottom:0;">
+          <label style="font-size:11px;">لون الخط</label>
+          <input type="color" id="fontColor" value="#111111" style="height:38px; padding:2px; cursor:pointer;">
+        </div>
       </div>
-      <div class="field"><label>WhatsApp <span class="optional">(اختياري)</span></label><input id="whatsapp" type="tel" placeholder="رقم واتساب"></div>
-      <div class="field"><label>Instagram <span class="optional">(اختياري)</span></label><input id="instagram" placeholder="@username"></div>
+
+      <div class="field">
+        <label>WhatsApp <span class="optional">(اختياري)</span></label>
+        <input id="whatsapp" type="tel" placeholder="رقم واتساب">
+      </div>
+      <div class="field">
+        <label>Instagram <span class="optional">(اختياري)</span></label>
+        <input id="instagram" placeholder="@username">
+      </div>
+
       <div class="modalActions">
         <button class="secondaryBtn" id="cancelBooking">رجوع</button>
         <button class="confirmBtn" id="submitBooking">متابعة الحجز</button>
@@ -139,12 +273,15 @@ html,body,#app{margin:0; width:100%; height:100%; overflow:hidden; background:#2
     </div>
   </div>
 
+  <!-- ADVERTISER INFO MODAL -->
   <div class="modal" id="advertiserModal">
     <div class="modalBox">
       <button class="closeBtn" onclick="closeAdvertiserModal()">×</button>
       <div class="modalTitle" id="adModalName">اسم الإعلان</div>
       <div class="modalSubtitle" id="adModalCustomer">صاحب الإعلان</div>
-      <div style="text-align:center; margin:15px 0;"><img id="adModalLogo" src="" alt="Logo" style="max-width:180px; max-height:120px; object-fit:contain; border-radius:10px;" class="hidden"></div>
+      <div style="text-align:center; margin:15px 0;">
+        <img id="adModalLogo" src="" alt="Logo" style="max-width:180px; max-height:120px; object-fit:contain; border-radius:10px;" class="hidden">
+      </div>
       <div class="summary">
         <div class="summaryRow"><span>رقم الهاتف</span><strong id="adModalPhone">-</strong></div>
         <div class="summaryRow" id="adModalWhatsappRow"><span>واتساب</span><strong id="adModalWhatsapp">-</strong></div>
@@ -157,25 +294,35 @@ html,body,#app{margin:0; width:100%; height:100%; overflow:hidden; background:#2
     </div>
   </div>
 
+  <!-- SUCCESS MODAL -->
   <div class="modal" id="successModal">
     <div class="modalBox">
       <div class="successIcon">✓</div>
       <div class="modalTitle" style="text-align:center">تم إرسال طلبك</div>
-      <div class="shareText">بعد تأكيد الدفع ومراجعة الطلب، سيظهر إعلانك على الحائط.<br><br>شارك مطرحك مع أصحابك وزبائنك:<br><strong>"حطّيت مشروعي على حيطان لبنان!"</strong></div>
+      <div class="shareText">
+        بعد تأكيد الدفع ومراجعة الطلب، سيظهر إعلانك على الحائط.<br><br>
+        شارك مطرحك مع أصحابك وزبائنك:<br>
+        <strong>"حطّيت مشروعي على حيطان لبنان!"</strong>
+      </div>
       <button class="shareBtn" id="shareBtn">📤 شارك مطرحك</button>
       <button class="copyBtn" id="copyBtn">🔗 نسخ الرابط</button>
       <button class="backToWallBtn" id="backToWallBtn">↩️ الرجوع إلى الحائط</button>
     </div>
   </div>
+
 </div>
 
 <script>
 const APP_URL = "https://script.google.com/macros/s/AKfycbzyM_gJsIV-icWDh_sy95KhPqsQpeLlS6eyl__O2zVs1aZyQf-Bp5ja_FrhW9icSHuY/exec";
-const ROWS = 100, COLS = 100, CENTER_START = 40, CENTER_END = 59, STANDARD_PRICE = 1, CENTER_PRICE = 5;
+const ROWS = 100;
+const COLS = 100;
+const CENTER_START = 40;
+const CENTER_END = 59;
+const STANDARD_PRICE = 1;
+const CENTER_PRICE = 5;
 
 let uploadedLogoBase64 = "";
 
-// تم إصلاح مشكلة تحميل اللوغو هنا بوضع خلفية بيضاء للصورة لتفادي تلف الـ PNG
 function handleLogoSelect(event) {
   const file = event.target.files[0];
   if (!file) return;
@@ -187,17 +334,17 @@ function handleLogoSelect(event) {
       const maxDim = 400;
       let w = img.width, h = img.height;
       if (w > maxDim || h > maxDim) {
-        if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; } else { w = Math.round((w * maxDim) / h); h = maxDim; }
+        if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
+        else { w = Math.round((w * maxDim) / h); h = maxDim; }
       }
       const canvas = document.createElement("canvas");
       canvas.width = w; canvas.height = h;
       const ctx = canvas.getContext("2d");
-      ctx.fillStyle = "#ffffff"; // حل مشكلة الخلفية الشفافة
-      ctx.fillRect(0, 0, w, h);
       ctx.drawImage(img, 0, 0, w, h);
-      uploadedLogoBase64 = canvas.toDataURL("image/jpeg", 0.75);
+      uploadedLogoBase64 = canvas.toDataURL("image/jpeg", 0.82);
       const preview = document.getElementById("logoPreview");
-      preview.src = uploadedLogoBase64; preview.classList.remove("hidden");
+      preview.src = uploadedLogoBase64;
+      preview.classList.remove("hidden");
       document.getElementById("logoPlaceholder").style.display = "none";
       document.getElementById("removeLogoBtn").classList.remove("hidden");
     };
@@ -207,9 +354,13 @@ function handleLogoSelect(event) {
 }
 
 function removeLogo() {
-  uploadedLogoBase64 = ""; document.getElementById("logoFile").value = "";
-  const preview = document.getElementById("logoPreview"); preview.src = ""; preview.classList.add("hidden");
-  document.getElementById("logoPlaceholder").style.display = "block"; document.getElementById("removeLogoBtn").classList.add("hidden");
+  uploadedLogoBase64 = "";
+  document.getElementById("logoFile").value = "";
+  const preview = document.getElementById("logoPreview");
+  preview.src = "";
+  preview.classList.add("hidden");
+  document.getElementById("logoPlaceholder").style.display = "block";
+  document.getElementById("removeLogoBtn").classList.add("hidden");
 }
 
 function showAdvertiserInfoByUnit(unitId) {
@@ -220,237 +371,462 @@ function showAdvertiserInfoByUnit(unitId) {
   document.getElementById("adModalCustomer").textContent = ad.customerName || "-";
   document.getElementById("adModalPhone").textContent = ad.phone || "-";
   const logoImg = document.getElementById("adModalLogo");
-  if (ad.logoUrl) { logoImg.src = ad.logoUrl; logoImg.classList.remove("hidden"); } else { logoImg.classList.add("hidden"); }
+  if (ad.logoUrl) { logoImg.src = ad.logoUrl; logoImg.classList.remove("hidden"); } 
+  else { logoImg.classList.add("hidden"); }
   document.getElementById("adModalText").textContent = ad.text || "لا يوجد نص إضافي.";
   const waRow = document.getElementById("adModalWhatsappRow");
-  if (ad.whatsapp) { waRow.style.display = "flex"; document.getElementById("adModalWhatsapp").textContent = ad.whatsapp; } else { waRow.style.display = "none"; }
+  if (ad.whatsapp) { waRow.style.display = "flex"; document.getElementById("adModalWhatsapp").textContent = ad.whatsapp; } 
+  else { waRow.style.display = "none"; }
   const igRow = document.getElementById("adModalInstagramRow");
-  if (ad.instagram) { igRow.style.display = "flex"; document.getElementById("adModalInstagram").textContent = ad.instagram; } else { igRow.style.display = "none"; }
+  if (ad.instagram) { igRow.style.display = "flex"; document.getElementById("adModalInstagram").textContent = ad.instagram; } 
+  else { igRow.style.display = "none"; }
   document.getElementById("advertiserModal").classList.add("show");
 }
 
 function closeAdvertiserModal() { document.getElementById("advertiserModal").classList.remove("show"); }
 
-window.HITAN_WALL_DATA = null; window.HITAN_UNITS = {}; window.HITAN_ADS = {};
+window.HITAN_WALL_DATA = null;
+window.HITAN_UNITS = {};
+window.HITAN_ADS = {};
 
 async function loadWallData(){
   try{
     const response = await fetch(APP_URL + "?action=wall", { cache:"no-store" });
     const data = await response.json();
-    if(!data.success){ throw new Error(data.message || "Failed to load"); }
-    
-    // تحديث النصوص والاسماء من الإعدادات
-    if(data.projectName) document.getElementById("displayProjectName").textContent = data.projectName;
-    if(data.slogan) document.getElementById("displaySlogan").textContent = data.slogan;
-
-    window.HITAN_WALL_DATA = data; window.HITAN_UNITS = {}; window.HITAN_ADS = {};
+    if(!data.success){ throw new Error(data.message || "Failed to load wall data"); }
+    window.HITAN_WALL_DATA = data;
+    window.HITAN_UNITS = {}; window.HITAN_ADS = {};
     (data.units || []).forEach(unit=>{ window.HITAN_UNITS[String(unit.id)] = unit; });
     (data.ads || []).forEach(ad=>{ window.HITAN_ADS[String(ad.adId)] = ad; });
-    
-    if (data.wallBackground) loadWallBackgroundImage(data.wallBackground);
-    if (data.overlayImage) loadOverlayImage(data.overlayImage);
-    
-    draw(); return data;
+    const bgUrl = data.wallBackground || data.wallBackgroundUrl;
+    if (bgUrl) { loadWallBackgroundImage(bgUrl); }
+    draw();
+    return data;
   }catch(error){
     console.error("Error loading wall data:", error);
-    showTemporaryHint("تعذّر تحميل حالة الحائط."); return null;
+    showTemporaryHint("تعذّر تحميل حالة الحائط.");
+    return null;
   }
 }
 
-const canvas = document.getElementById("wallCanvas"); const ctx = canvas.getContext("2d");
-let W = window.innerWidth, H = window.innerHeight, dpr = Math.min(window.devicePixelRatio || 1, 2);
+const canvas = document.getElementById("wallCanvas");
+const ctx = canvas.getContext("2d");
+let W = window.innerWidth;
+let H = window.innerHeight;
+let dpr = Math.min(window.devicePixelRatio || 1, 2);
 
 function resizeCanvas(){
-  W = window.innerWidth; H = window.innerHeight; dpr = Math.min(window.devicePixelRatio || 1, 2);
-  canvas.width = W * dpr; canvas.height = H * dpr; canvas.style.width = W + "px"; canvas.style.height = H + "px";
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0); calculateWorld(); clampCamera(); draw();
+  W = window.innerWidth; H = window.innerHeight;
+  dpr = Math.min(window.devicePixelRatio || 1, 2);
+  canvas.width = W * dpr; canvas.height = H * dpr;
+  canvas.style.width = W + "px"; canvas.style.height = H + "px";
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  calculateWorld(); clampCamera(); draw();
 }
 window.addEventListener("resize", resizeCanvas);
 
-let worldSize = 1000, cellSize = worldSize / COLS, zoom = 1, cameraX = 0, cameraY = 0;
+let worldSize = 1000;
+let cellSize = worldSize / COLS;
+let zoom = 1;
+let cameraX = 0; let cameraY = 0;
 
 function calculateWorld(){
-  worldSize = Math.max(1, Math.min(Math.max(W, H), 1600)); cellSize = worldSize / COLS;
-  if(zoom === 1){ cameraX = (W-worldSize)/2; cameraY = (H-worldSize)/2; }
+  // The wall is always a square 100×100 grid. Keep one stable world coordinate
+  // system so rotating the device or resizing the browser never makes the wall disappear.
+  worldSize = Math.max(1, Math.min(Math.max(W, H), 1600));
+  cellSize = worldSize / COLS;
+  if(zoom === 1){
+    cameraX = (W-worldSize)/2;
+    cameraY = (H-worldSize)/2;
+  }
 }
 
 function clampCamera(){
-  const scaledW = worldSize * zoom, scaledH = worldSize * zoom;
-  if(scaledW <= W) cameraX = (W-scaledW)/2; else cameraX = Math.min(0, Math.max(W-scaledW, cameraX));
-  if(scaledH <= H) cameraY = (H-scaledH)/2; else cameraY = Math.min(0, Math.max(H-scaledH, cameraY));
+  const scaledW = worldSize * zoom;
+  const scaledH = worldSize * zoom;
+  if(scaledW <= W) cameraX = (W-scaledW)/2;
+  else cameraX = Math.min(0, Math.max(W-scaledW, cameraX));
+  if(scaledH <= H) cameraY = (H-scaledH)/2;
+  else cameraY = Math.min(0, Math.max(H-scaledH, cameraY));
 }
 
-let textureCanvas = null, wallBgImg = null, overlayImg = null;
+let textureCanvas = null;
+let wallBgImg = null;
 
-function loadWallBackgroundImage(url) { if (!url) return; const img = new Image(); img.onload = function() { wallBgImg = img; draw(); }; img.src = url; }
-function loadOverlayImage(url) { if (!url) return; const img = new Image(); img.onload = function() { overlayImg = img; draw(); }; img.src = url; }
+function loadWallBackgroundImage(url) {
+  if (!url) return;
+  const img = new Image();
+  img.onload = function() { wallBgImg = img; draw(); };
+  img.src = url;
+}
 
 function createWallTexture(){
-  textureCanvas = document.createElement("canvas"); textureCanvas.width = 1000; textureCanvas.height = 1000;
-  const t = textureCanvas.getContext("2d"); t.fillStyle = "#8a8176"; t.fillRect(0, 0, 1000, 1000);
-  for(let i=0;i<18000;i++){ t.fillStyle = `rgba(${70+Math.floor(Math.random()*100)},${65+Math.floor(Math.random()*100)},${60+Math.floor(Math.random()*100)},${Math.random()*.12})`; const size = Math.random()*4; t.fillRect(Math.random()*1000, Math.random()*1000, size, size); }
+  textureCanvas = document.createElement("canvas");
+  textureCanvas.width = 1000; textureCanvas.height = 1000;
+  const t = textureCanvas.getContext("2d");
+  t.fillStyle = "#8a8176"; t.fillRect(0, 0, 1000, 1000);
+  for(let i=0;i<18000;i++){
+    const x = Math.random()*1000, y = Math.random()*1000;
+    const shade = 70 + Math.floor(Math.random()*100);
+    t.fillStyle = `rgba(${shade},${shade-5},${shade-10},${Math.random()*.12})`;
+    const size = Math.random()*4;
+    t.fillRect(x, y, size, size);
+  }
+  for(let i=0;i<35;i++){
+    const y = Math.random()*1000;
+    t.fillStyle = `rgba(30,30,30,${Math.random()*.07})`;
+    t.fillRect(0, y, 1000, Math.random()*10+2);
+  }
 }
 createWallTexture();
 
 function draw(){
-  ctx.clearRect(0, 0, W, H); ctx.save(); ctx.translate(cameraX, cameraY); ctx.scale(zoom, zoom);
+  ctx.clearRect(0, 0, W, H);
+  ctx.save();
+  ctx.translate(cameraX, cameraY);
+  ctx.scale(zoom, zoom);
   
-  if (wallBgImg) { ctx.drawImage(wallBgImg, 0, 0, worldSize, worldSize); } else { ctx.drawImage(textureCanvas, 0, 0, worldSize, worldSize); }
-  if (overlayImg) { ctx.drawImage(overlayImg, 0, 0, worldSize, worldSize); }
-  
-  // رسم النص الخاص بالجدار في حال وجوده في الإعدادات
-  if (window.HITAN_WALL_DATA && window.HITAN_WALL_DATA.wallText) {
-    ctx.save();
-    ctx.font = "bold 60px Arial, sans-serif";
-    ctx.fillStyle = window.HITAN_WALL_DATA.wallTextColor || "#ffffff";
-    ctx.textAlign = "center"; ctx.textBaseline = "middle";
-    ctx.fillText(window.HITAN_WALL_DATA.wallText, worldSize/2, worldSize/2);
-    ctx.restore();
-  }
+  if (wallBgImg) { ctx.drawImage(wallBgImg, 0, 0, worldSize, worldSize); } 
+  else { ctx.drawImage(textureCanvas, 0, 0, worldSize, worldSize); }
 
-  drawWallDetails(); drawGrid(); drawActiveAds(); drawSelection();
+  drawWallDetails();
+  drawGrid();
+  drawActiveAds();
+  drawSelection();
+
   ctx.restore();
 }
 
 function getUnitByCell(row,col){
-  const number = row * COLS + col + 1; const id = "A" + String(number).padStart(4,"0");
-  if(!window.HITAN_UNITS || !window.HITAN_UNITS[id]){ return null; } return window.HITAN_UNITS[id];
+  const number = row * COLS + col + 1;
+  const id = "A" + String(number).padStart(4,"0");
+  if(!window.HITAN_UNITS || !window.HITAN_UNITS[id]){ return null; }
+  return window.HITAN_UNITS[id];
 }
 
 function drawWallDetails(){
   if(window.HITAN_UNITS && Object.keys(window.HITAN_UNITS).length){
     for(let r=0;r<ROWS;r++){
       for(let c=0;c<COLS;c++){
-        const unit = getUnitByCell(r, c); if(!unit) continue;
+        const unit = getUnitByCell(r, c);
+        if(!unit) continue;
         const x = c * cellSize, y = r * cellSize;
-        if(unit.status === "Reserved"){ ctx.fillStyle = "rgba(245, 158, 11, 0.08)"; ctx.fillRect(x, y, cellSize, cellSize); }
+        if(unit.status === "Reserved"){
+          ctx.fillStyle = "rgba(245, 158, 11, 0.08)"; // لون خفيف جدا
+          ctx.fillRect(x, y, cellSize, cellSize);
+        }
       }
     }
   }
   if(zoom > 1.5){
-    const x = CENTER_START * cellSize, y = CENTER_START * cellSize, size = (CENTER_END-CENTER_START+1) * cellSize;
+    const x = CENTER_START * cellSize, y = CENTER_START * cellSize;
+    const size = (CENTER_END-CENTER_START+1) * cellSize;
     ctx.fillStyle = "rgba(255,190,40,.08)"; ctx.fillRect(x, y, size, size);
-    ctx.strokeStyle = "rgba(255,210,80,.55)"; ctx.lineWidth = Math.max(1, 2/zoom); ctx.strokeRect(x, y, size, size);
+    ctx.strokeStyle = "rgba(255,210,80,.55)"; ctx.lineWidth = Math.max(1, 2/zoom);
+    ctx.strokeRect(x, y, size, size);
   }
 }
 
 const adImageCache = {};
 function getAdImage(url){
-  if(!url) return null; if(adImageCache[url] === "loading") return null; if(adImageCache[url] && adImageCache[url].complete) return adImageCache[url];
-  const img = new Image(); adImageCache[url] = "loading"; img.onload = ()=>{ adImageCache[url] = img; draw(); }; img.onerror = ()=>{ delete adImageCache[url]; }; img.src = url; return null;
+  if(!url) return null;
+  if(adImageCache[url] === "loading") return null;
+  if(adImageCache[url] && adImageCache[url].complete) return adImageCache[url];
+  const img = new Image(); adImageCache[url] = "loading";
+  img.onload = ()=>{ adImageCache[url] = img; draw(); };
+  img.onerror = ()=>{ delete adImageCache[url]; };
+  img.src = url;
+  return null;
 }
 
 function drawActiveAds(){
   if(!window.HITAN_WALL_DATA || !window.HITAN_WALL_DATA.ads) return;
   const ads = window.HITAN_WALL_DATA.ads.filter(ad => ad.status === "Active");
+
   ads.forEach(ad=>{
     if(!ad.unitIds || !ad.unitIds.length) return;
-    const cells = []; let minRow = Infinity, maxRow = -Infinity, minCol = Infinity, maxCol = -Infinity;
+
+    const cells = [];
+    let minRow = Infinity, maxRow = -Infinity, minCol = Infinity, maxCol = -Infinity;
     ad.unitIds.forEach(id=>{
-      const unit = window.HITAN_UNITS[id]; if(!unit) return;
-      const row = Number(unit.row) - 1, col = Number(unit.column !== undefined ? unit.column : unit.col) - 1;
+      const unit = window.HITAN_UNITS[id];
+      if(!unit) return;
+      const row = Number(unit.row) - 1;
+      const col = Number(unit.column !== undefined ? unit.column : unit.col) - 1;
       if(row < 0 || col < 0) return;
       cells.push([row,col]);
-      minRow = Math.min(minRow,row); maxRow = Math.max(maxRow,row); minCol = Math.min(minCol,col); maxCol = Math.max(maxCol,col);
+      minRow = Math.min(minRow,row); maxRow = Math.max(maxRow,row);
+      minCol = Math.min(minCol,col); maxCol = Math.max(maxCol,col);
     });
     if(!cells.length) return;
-    const x = minCol * cellSize, y = minRow * cellSize, width = (maxCol-minCol+1) * cellSize, height = (maxRow-minRow+1) * cellSize;
 
-    ctx.save(); ctx.beginPath(); cells.forEach(([r,c])=>{ ctx.rect(c*cellSize, r*cellSize, cellSize, cellSize); }); ctx.clip();
-    ctx.fillStyle = "#ffffff"; ctx.fillRect(x,y,width,height);
-    if(ad.logoUrl){ const img = getAdImage(ad.logoUrl); if(img && img.width && img.height){ ctx.drawImage(img,x,y,width,height); } }
+    const x = minCol * cellSize, y = minRow * cellSize;
+    const width = (maxCol-minCol+1) * cellSize;
+    const height = (maxRow-minRow+1) * cellSize;
+
+    // IMPORTANT: draw only the exact purchased cells. This prevents an L-shaped
+    // connected ad from incorrectly filling the empty cell inside its bounding box.
+    ctx.save();
+    ctx.beginPath();
+    cells.forEach(([r,c])=>{
+      ctx.rect(c*cellSize, r*cellSize, cellSize, cellSize);
+    });
+    ctx.clip();
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(x,y,width,height);
+
+    if(ad.logoUrl){
+      const img = getAdImage(ad.logoUrl);
+      if(img && img.width && img.height){
+        ctx.drawImage(img,x,y,width,height);
+      }
+    }
+
     if(ad.text){
-      ctx.save(); const fontStyle = ad.fontStyle || "normal", fontFamily = ad.fontFamily || "Arial, sans-serif", fontSize = Math.max(12, Math.min(width / 6, 24));
-      ctx.font = `${fontStyle} ${fontSize}px ${fontFamily}`; ctx.fillStyle = ad.fontColor || "#111111"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
-      const bandH = Math.max(24, fontSize + 8); ctx.fillStyle = "rgba(255,255,255,.78)"; ctx.fillRect(x,y+height-bandH,width,bandH);
-      ctx.fillStyle = ad.fontColor || "#111111"; ctx.fillText(ad.text,x+width/2,y+height-bandH/2,Math.max(10,width-10)); ctx.restore();
+      ctx.save();
+      const fontStyle = ad.fontStyle || "normal";
+      const fontFamily = ad.fontFamily || "Arial, sans-serif";
+      const fontSize = Math.max(12, Math.min(width / 6, 24));
+      ctx.font = `${fontStyle} ${fontSize}px ${fontFamily}`;
+      ctx.fillStyle = ad.fontColor || "#111111";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      const bandH = Math.max(24, fontSize + 8);
+      ctx.fillStyle = "rgba(255,255,255,.78)";
+      ctx.fillRect(x,y+height-bandH,width,bandH);
+      ctx.fillStyle = ad.fontColor || "#111111";
+      ctx.fillText(ad.text,x+width/2,y+height-bandH/2,Math.max(10,width-10));
+      ctx.restore();
     }
     ctx.restore();
-    ctx.save(); ctx.strokeStyle = "rgba(0,0,0,.18)"; ctx.lineWidth = Math.max(1,2/zoom); cells.forEach(([r,c])=>{ ctx.strokeRect(c*cellSize,r*cellSize,cellSize,cellSize); }); ctx.restore();
+
+    // Outline the exact selected shape, not its bounding rectangle.
+    ctx.save();
+    ctx.strokeStyle = "rgba(0,0,0,.18)";
+    ctx.lineWidth = Math.max(1,2/zoom);
+    cells.forEach(([r,c])=>{
+      ctx.strokeRect(c*cellSize,r*cellSize,cellSize,cellSize);
+    });
+    ctx.restore();
   });
 }
 
 function drawGrid(){
-  if(zoom < 2.2) return; const step = cellSize; ctx.strokeStyle = `rgba(20, 20, 20, ${Math.min(.42, (zoom-2)/10)})`; ctx.lineWidth = Math.max(.5, 1/zoom);
-  for(let i=0; i<=COLS; i++){ const x = i*step; ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, worldSize); ctx.stroke(); }
-  for(let i=0; i<=ROWS; i++){ const y = i*step; ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(worldSize, y); ctx.stroke(); }
+  if(zoom < 2.2) return;
+  const step = cellSize;
+  ctx.strokeStyle = `rgba(20, 20, 20, ${Math.min(.42, (zoom-2)/10)})`;
+  ctx.lineWidth = Math.max(.5, 1/zoom);
+  for(let i=0; i<=COLS; i++){
+    const x = i*step; ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, worldSize); ctx.stroke();
+  }
+  for(let i=0; i<=ROWS; i++){
+    const y = i*step; ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(worldSize, y); ctx.stroke();
+  }
 }
 
-let selectedCells = new Set(), selectedType = "Standard";
-function cellKey(r,c){ return r+"_"+c; } function isCenter(r,c){ return(r>=CENTER_START && r<=CENTER_END && c>=CENTER_START && c<=CENTER_END); }
+let selectedCells = new Set();
+let selectedType = "Standard";
+function cellKey(r,c){ return r+"_"+c; }
+function isCenter(r,c){ return(r>=CENTER_START && r<=CENTER_END && c>=CENTER_START && c<=CENTER_END); }
+
 function drawSelection(){
   if(!selectedCells.size) return;
-  selectedCells.forEach(key=>{ const [r,c] = key.split("_").map(Number); const x = c * cellSize, y = r * cellSize; ctx.fillStyle = "rgba(37, 99, 235, 0.45)"; ctx.fillRect(x, y, cellSize, cellSize); ctx.strokeStyle = "#2563eb"; ctx.lineWidth = Math.max(1, 2/zoom); ctx.strokeRect(x, y, cellSize, cellSize); });
+  selectedCells.forEach(key=>{
+    const [r,c] = key.split("_").map(Number);
+    const x = c * cellSize, y = r * cellSize;
+    ctx.fillStyle = "rgba(37, 99, 235, 0.45)"; ctx.fillRect(x, y, cellSize, cellSize);
+    ctx.strokeStyle = "#2563eb"; ctx.lineWidth = Math.max(1, 2/zoom);
+    ctx.strokeRect(x, y, cellSize, cellSize);
+  });
 }
 
 function updateSelectionSummary(){
-  const count = selectedCells.size; document.getElementById("selectedCount").textContent = count;
-  const pricePerUnit = selectedType === "Center" ? CENTER_PRICE : STANDARD_PRICE; document.getElementById("totalPrice").textContent = count * pricePerUnit;
-  const confirmBtn = document.getElementById("confirmArea"); if(count > 0){ confirmBtn.removeAttribute("disabled"); } else{ confirmBtn.setAttribute("disabled", "true"); }
+  const count = selectedCells.size;
+  document.getElementById("selectedCount").textContent = count;
+  const pricePerUnit = selectedType === "Center" ? CENTER_PRICE : STANDARD_PRICE;
+  document.getElementById("totalPrice").textContent = count * pricePerUnit;
+  const confirmBtn = document.getElementById("confirmArea");
+  if(count > 0){ confirmBtn.removeAttribute("disabled"); } else{ confirmBtn.setAttribute("disabled", "true"); }
 }
+
 function clearSelection(){ selectedCells.clear(); updateSelectionSummary(); draw(); }
 document.getElementById("clearSelection").onclick = clearSelection;
 
 document.querySelectorAll(".typeBtn").forEach(btn=>{
-  btn.onclick = function(){ document.querySelectorAll(".typeBtn").forEach(b=>b.classList.remove("active")); this.classList.add("active"); selectedType = this.dataset.type; clearSelection(); };
+  btn.onclick = function(){
+    document.querySelectorAll(".typeBtn").forEach(b=>b.classList.remove("active"));
+    this.classList.add("active"); selectedType = this.dataset.type; clearSelection();
+  };
 });
 
-let isDragging = false, startX = 0, startY = 0, initialCamX = 0, initialCamY = 0, hasMoved = false, initialPinchDist = null, initialPinchZoom = null;
+/* =========================================================
+   TOUCH & MOUSE EVENTS FOR PAN, ZOOM & SELECT
+========================================================= */
+let isDragging = false, startX = 0, startY = 0, initialCamX = 0, initialCamY = 0, hasMoved = false;
+let initialPinchDist = null, initialPinchZoom = null;
 const viewport = document.getElementById("wallViewport");
-viewport.addEventListener("mousedown", (e)=>{ isDragging = true; hasMoved = false; startX = e.clientX; startY = e.clientY; initialCamX = cameraX; initialCamY = cameraY; });
-window.addEventListener("mousemove", (e)=>{ if(!isDragging) return; const dx = e.clientX - startX, dy = e.clientY - startY; if(Math.hypot(dx, dy) > 5) hasMoved = true; cameraX = initialCamX + dx; cameraY = initialCamY + dy; clampCamera(); draw(); });
-window.addEventListener("mouseup", (e)=>{ if(!isDragging) return; isDragging = false; if(!hasMoved) handleWallClick(e.clientX, e.clientY); });
 
+viewport.addEventListener("mousedown", (e)=>{
+  isDragging = true; hasMoved = false; startX = e.clientX; startY = e.clientY;
+  initialCamX = cameraX; initialCamY = cameraY;
+});
+window.addEventListener("mousemove", (e)=>{
+  if(!isDragging) return;
+  const dx = e.clientX - startX, dy = e.clientY - startY;
+  if(Math.hypot(dx, dy) > 5) hasMoved = true;
+  cameraX = initialCamX + dx; cameraY = initialCamY + dy;
+  clampCamera(); draw();
+});
+window.addEventListener("mouseup", (e)=>{
+  if(!isDragging) return;
+  isDragging = false;
+  if(!hasMoved) handleWallClick(e.clientX, e.clientY);
+});
+
+// أحداث اللمس للموبايل (دعم السحب بالاصبع والتكبير بالاصبعين)
 viewport.addEventListener("touchstart", (e)=>{
-  if(e.touches.length === 1) { isDragging = true; hasMoved = false; startX = e.touches[0].clientX; startY = e.touches[0].clientY; initialCamX = cameraX; initialCamY = cameraY; }
-  else if (e.touches.length === 2) { isDragging = false; initialPinchDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY); initialPinchZoom = zoom; }
+  if(e.touches.length === 1) {
+    isDragging = true; hasMoved = false;
+    startX = e.touches[0].clientX; startY = e.touches[0].clientY;
+    initialCamX = cameraX; initialCamY = cameraY;
+  } else if (e.touches.length === 2) {
+    isDragging = false;
+    initialPinchDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+    initialPinchZoom = zoom;
+  }
 }, {passive: false});
 
 viewport.addEventListener("touchmove", (e)=>{
   e.preventDefault();
-  if(e.touches.length === 1 && isDragging) { const dx = e.touches[0].clientX - startX, dy = e.touches[0].clientY - startY; if(Math.hypot(dx, dy) > 5) hasMoved = true; cameraX = initialCamX + dx; cameraY = initialCamY + dy; clampCamera(); draw(); }
-  else if (e.touches.length === 2 && initialPinchDist) { const dist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY); const scale = dist / initialPinchDist; const rect = canvas.getBoundingClientRect(); const centerX = (e.touches[0].clientX + e.touches[1].clientX) / 2; const centerY = (e.touches[0].clientY + e.touches[1].clientY) / 2; const wx = (centerX - rect.left - cameraX) / zoom; const wy = (centerY - rect.top - cameraY) / zoom; zoom = Math.max(1, Math.min(initialPinchZoom * scale, 8)); cameraX = centerX - rect.left - wx * zoom; cameraY = centerY - rect.top - wy * zoom; clampCamera(); draw(); }
+  if(e.touches.length === 1 && isDragging) {
+    const dx = e.touches[0].clientX - startX, dy = e.touches[0].clientY - startY;
+    if(Math.hypot(dx, dy) > 5) hasMoved = true;
+    cameraX = initialCamX + dx; cameraY = initialCamY + dy;
+    clampCamera(); draw();
+  } else if (e.touches.length === 2 && initialPinchDist) {
+    const dist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+    const scale = dist / initialPinchDist;
+    const rect = canvas.getBoundingClientRect();
+    const centerX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+    const centerY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+    const wx = (centerX - rect.left - cameraX) / zoom;
+    const wy = (centerY - rect.top - cameraY) / zoom;
+    zoom = Math.max(1, Math.min(initialPinchZoom * scale, 8));
+    cameraX = centerX - rect.left - wx * zoom;
+    cameraY = centerY - rect.top - wy * zoom;
+    clampCamera(); draw();
+  }
 }, {passive: false});
 
-viewport.addEventListener("touchend", (e)=>{ if(e.touches.length === 0) { if(isDragging && !hasMoved && e.changedTouches.length > 0) { handleWallClick(e.changedTouches[0].clientX, e.changedTouches[0].clientY); } isDragging = false; initialPinchDist = null; } });
+viewport.addEventListener("touchend", (e)=>{
+  if(e.touches.length === 0) {
+    if(isDragging && !hasMoved && e.changedTouches.length > 0) {
+      handleWallClick(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+    }
+    isDragging = false; initialPinchDist = null;
+  }
+});
 
 function selectionIsConnected(set){
-  if(set.size <= 1) return true; const first = set.values().next().value; const visited = new Set([first]); const queue = [first];
-  while(queue.length){ const key = queue.shift(); const [r,c] = key.split("_").map(Number); const neighbors = [`${r-1}_${c}`,`${r+1}_${c}`,`${r}_${c-1}`,`${r}_${c+1}`]; neighbors.forEach(n=>{ if(set.has(n) && !visited.has(n)){ visited.add(n); queue.push(n); } }); }
+  if(set.size <= 1) return true;
+  const first = set.values().next().value;
+  const visited = new Set([first]);
+  const queue = [first];
+  while(queue.length){
+    const key = queue.shift();
+    const [r,c] = key.split("_").map(Number);
+    const neighbors = [`${r-1}_${c}`,`${r+1}_${c}`,`${r}_${c-1}`,`${r}_${c+1}`];
+    neighbors.forEach(n=>{
+      if(set.has(n) && !visited.has(n)){ visited.add(n); queue.push(n); }
+    });
+  }
   return visited.size === set.size;
 }
 
 function handleWallClick(clientX, clientY){
-  const rect = canvas.getBoundingClientRect(), clickX = (clientX - rect.left - cameraX) / zoom, clickY = (clientY - rect.top - cameraY) / zoom;
+  const rect = canvas.getBoundingClientRect();
+  const clickX = (clientX - rect.left - cameraX) / zoom;
+  const clickY = (clientY - rect.top - cameraY) / zoom;
   const col = Math.floor(clickX / cellSize), row = Math.floor(clickY / cellSize);
   if(row < 0 || row >= ROWS || col < 0 || col >= COLS) return;
-  const unit = getUnitByCell(row, col); if(!unit) return;
-  if(unit.status === "Active"){ showAdvertiserInfoByUnit(unit.id); return; } if(unit.status === "Reserved"){ showTemporaryHint("هذه المساحة محجوزة بانتظار تأكيد الدفع."); return; }
+  const unit = getUnitByCell(row, col);
+  if(!unit) return;
+  if(unit.status === "Active"){ showAdvertiserInfoByUnit(unit.id); return; }
+  if(unit.status === "Reserved"){ showTemporaryHint("هذه المساحة محجوزة بانتظار تأكيد الدفع."); return; }
+
   const targetType = isCenter(row, col) ? "Center" : "Standard";
-  if(targetType !== selectedType){ showTemporaryHint(`هذه المساحة من نوع ${targetType}. يرجى تغيير نوع المساحة أولاً.`); return; }
-  const key = cellKey(row, col), next = new Set(selectedCells);
-  if(next.has(key)) next.delete(key); else next.add(key);
-  if(!selectionIsConnected(next)){ showTemporaryHint("المساحات المختارة يجب أن تبقى متصلة ببعضها."); return; }
-  selectedCells = next; updateSelectionSummary(); draw();
+  if(targetType !== selectedType){
+    showTemporaryHint(`هذه المساحة من نوع ${targetType}. يرجى تغيير نوع المساحة أولاً.`);
+    return;
+  }
+
+  const key = cellKey(row, col);
+  const next = new Set(selectedCells);
+  if(next.has(key)) next.delete(key);
+  else next.add(key);
+
+  if(!selectionIsConnected(next)){
+    showTemporaryHint("المساحات المختارة يجب أن تبقى متصلة ببعضها.");
+    return;
+  }
+
+  selectedCells = next;
+  updateSelectionSummary();
+  draw();
 }
 
-function showTemporaryHint(text){ const hint = document.getElementById("hint"); hint.textContent = text; hint.classList.remove("hidden"); setTimeout(()=>{ hint.textContent = "كبّر الحائط لتشوف الوحدات وتختار مطرحك"; }, 3500); }
-function zoomAt(clientX, clientY, factor){ const rect = canvas.getBoundingClientRect(), wx = (clientX - rect.left - cameraX) / zoom, wy = (clientY - rect.top - cameraY) / zoom, nextZoom = Math.max(1, Math.min(8, zoom * factor)); if(nextZoom === zoom) return; zoom = nextZoom; cameraX = clientX - rect.left - wx * zoom; cameraY = clientY - rect.top - wy * zoom; clampCamera(); draw(); }
-document.getElementById("zoomIn").onclick = ()=>zoomAt(W/2,H/2,1.4); document.getElementById("zoomOut").onclick = ()=>zoomAt(W/2,H/2,1/1.4); document.getElementById("zoomReset").onclick = ()=>{ zoom=1; calculateWorld(); clampCamera(); draw(); };
-viewport.addEventListener("wheel", (e)=>{ e.preventDefault(); zoomAt(e.clientX,e.clientY,e.deltaY < 0 ? 1.12 : 1/1.12); },{passive:false});
+function showTemporaryHint(text){
+  const hint = document.getElementById("hint");
+  hint.textContent = text; hint.classList.remove("hidden");
+  setTimeout(()=>{ hint.textContent = "كبّر الحائط لتشوف الوحدات وتختار مطرحك"; }, 3500);
+}
+
+function zoomAt(clientX, clientY, factor){
+  const rect = canvas.getBoundingClientRect();
+  const wx = (clientX - rect.left - cameraX) / zoom;
+  const wy = (clientY - rect.top - cameraY) / zoom;
+  const nextZoom = Math.max(1, Math.min(8, zoom * factor));
+  if(nextZoom === zoom) return;
+  zoom = nextZoom;
+  cameraX = clientX - rect.left - wx * zoom;
+  cameraY = clientY - rect.top - wy * zoom;
+  clampCamera();
+  draw();
+}
+
+document.getElementById("zoomIn").onclick = ()=>zoomAt(W/2,H/2,1.4);
+document.getElementById("zoomOut").onclick = ()=>zoomAt(W/2,H/2,1/1.4);
+document.getElementById("zoomReset").onclick = ()=>{ zoom=1; calculateWorld(); clampCamera(); draw(); };
+
+viewport.addEventListener("wheel", (e)=>{
+  e.preventDefault();
+  zoomAt(e.clientX,e.clientY,e.deltaY < 0 ? 1.12 : 1/1.12);
+},{passive:false});
 
 document.getElementById("confirmArea").onclick = ()=>{
-  if(!selectedCells.size) return; const count = selectedCells.size, pricePerUnit = selectedType === "Center" ? CENTER_PRICE : STANDARD_PRICE;
-  document.getElementById("summaryType").textContent = selectedType; document.getElementById("summaryUnits").textContent = count; document.getElementById("summaryPrice").textContent = count * pricePerUnit;
+  if(!selectedCells.size) return;
+  const count = selectedCells.size;
+  const pricePerUnit = selectedType === "Center" ? CENTER_PRICE : STANDARD_PRICE;
+  document.getElementById("summaryType").textContent = selectedType;
+  document.getElementById("summaryUnits").textContent = count;
+  document.getElementById("summaryPrice").textContent = count * pricePerUnit;
   document.getElementById("bookingModal").classList.add("show");
 };
 
-document.getElementById("closeBooking").onclick = document.getElementById("cancelBooking").onclick = ()=>{ document.getElementById("bookingModal").classList.remove("show"); };
+document.getElementById("closeBooking").onclick = document.getElementById("cancelBooking").onclick = ()=>{
+  document.getElementById("bookingModal").classList.remove("show");
+};
 
 document.getElementById("submitBooking").onclick = async ()=>{
-  const name = document.getElementById("customerName").value.trim(), phone = document.getElementById("customerPhone").value.trim();
+  const name = document.getElementById("customerName").value.trim();
+  const phone = document.getElementById("customerPhone").value.trim();
   if(!name || !phone){ alert("يرجى إدخال الاسم ورقم الهاتف للمتابعة."); return; }
-  const unitIds = Array.from(selectedCells).map(key=>{ const [r,c] = key.split("_").map(Number); const unit = getUnitByCell(r,c); return unit ? unit.id : null; }).filter(Boolean);
+  
+  const unitIds = Array.from(selectedCells).map(key=>{
+    const [r,c] = key.split("_").map(Number);
+    const unit = getUnitByCell(r,c); return unit ? unit.id : null;
+  }).filter(Boolean);
+
   const payload = {
     action: "createOrder", customerName: name, phone: phone, unitType: selectedType, unitIds: unitIds,
     logoUrl: uploadedLogoBase64, adName: document.getElementById("adName").value.trim(),
@@ -458,17 +834,27 @@ document.getElementById("submitBooking").onclick = async ()=>{
     fontStyle: document.getElementById("fontStyleOption").value, fontColor: document.getElementById("fontColor").value,
     whatsapp: document.getElementById("whatsapp").value.trim(), instagram: document.getElementById("instagram").value.trim()
   };
-  const submitBtn = document.getElementById("submitBooking"); submitBtn.disabled = true; submitBtn.textContent = "جاري إرسال الطلب...";
+
+  const submitBtn = document.getElementById("submitBooking");
+  submitBtn.disabled = true; submitBtn.textContent = "جاري إرسال الطلب...";
   try {
     const response = await fetch(APP_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
     const result = await response.json();
-    if(result.success){ document.getElementById("bookingModal").classList.remove("show"); document.getElementById("successModal").classList.add("show"); clearSelection(); await loadWallData(); } else { alert(result.message || "حدث خطأ أثناء تقديم الطلب."); }
-  } catch(err) { alert("تعذر الاتصال بالسيرفر."); } finally { submitBtn.disabled = false; submitBtn.textContent = "متابعة الحجز"; }
+    if(result.success){
+      document.getElementById("bookingModal").classList.remove("show");
+      document.getElementById("successModal").classList.add("show");
+      clearSelection(); await loadWallData();
+    } else { alert(result.message || "حدث خطأ أثناء تقديم الطلب."); }
+  } catch(err) { alert("تعذر الاتصال بالسيرفر."); } 
+  finally { submitBtn.disabled = false; submitBtn.textContent = "متابعة الحجز"; }
 };
 
 document.getElementById("backToWallBtn").onclick = ()=>{ document.getElementById("successModal").classList.remove("show"); };
 document.getElementById("copyBtn").onclick = ()=>{ navigator.clipboard.writeText(window.location.href); alert("تم نسخ رابط الحائط بنجاح!"); };
-document.getElementById("shareBtn").onclick = ()=>{ if(navigator.share){ navigator.share({ title: "حيطان لبنان", text: "حطّيت مشروعي على حيطان لبنان!", url: window.location.href }).catch(()=>{}); } else { navigator.clipboard.writeText(window.location.href); alert("تم نسخ الرابط للمشاركة!"); } };
+document.getElementById("shareBtn").onclick = ()=>{
+  if(navigator.share){ navigator.share({ title: "حيطان لبنان", text: "حطّيت مشروعي على حيطان لبنان!", url: window.location.href }).catch(()=>{}); }
+  else { navigator.clipboard.writeText(window.location.href); alert("تم نسخ الرابط للمشاركة!"); }
+};
 
 window.onload = async ()=>{ resizeCanvas(); await loadWallData(); };
 </script>
