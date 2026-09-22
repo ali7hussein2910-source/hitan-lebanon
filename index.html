@@ -324,32 +324,43 @@ const CENTER_PRICE = 5;
 let uploadedLogoBase64 = "";
 
 function handleLogoSelect(event) {
-  const file = event.target.files[0];
+  const file = event.target.files && event.target.files[0];
   if (!file) return;
   if (!file.type.startsWith("image/")) { alert("يرجى اختيار ملف صورة صالح."); return; }
+  if (file.size > 8 * 1024 * 1024) { alert("حجم اللوغو كبير جداً. اختر صورة أقل من 8MB."); return; }
+
   const reader = new FileReader();
   reader.onload = function(e) {
     const img = new Image();
     img.onload = function() {
-      const maxDim = 400;
-      let w = img.width, h = img.height;
+      const maxDim = 700;
+      let w = img.naturalWidth || img.width, h = img.naturalHeight || img.height;
       if (w > maxDim || h > maxDim) {
-        if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
-        else { w = Math.round((w * maxDim) / h); h = maxDim; }
+        if (w > h) { h = Math.round(h * maxDim / w); w = maxDim; }
+        else { w = Math.round(w * maxDim / h); h = maxDim; }
       }
       const canvas = document.createElement("canvas");
       canvas.width = w; canvas.height = h;
-      const ctx = canvas.getContext("2d");
+      const ctx = canvas.getContext("2d", {alpha:true});
+      ctx.clearRect(0,0,w,h);
       ctx.drawImage(img, 0, 0, w, h);
-      uploadedLogoBase64 = canvas.toDataURL("image/jpeg", 0.82);
+      let result = canvas.toDataURL("image/webp", 0.82);
+      if (!result || result.length < 100) result = canvas.toDataURL("image/png");
+      if (result.length > 5 * 1024 * 1024) {
+        alert("تعذر ضغط اللوغو إلى حجم مناسب. اختر صورة أصغر.");
+        return;
+      }
+      uploadedLogoBase64 = result;
       const preview = document.getElementById("logoPreview");
       preview.src = uploadedLogoBase64;
       preview.classList.remove("hidden");
       document.getElementById("logoPlaceholder").style.display = "none";
       document.getElementById("removeLogoBtn").classList.remove("hidden");
     };
+    img.onerror = function(){ alert("تعذر قراءة صورة اللوغو."); };
     img.src = e.target.result;
   };
+  reader.onerror = function(){ alert("تعذر قراءة الملف."); };
   reader.readAsDataURL(file);
 }
 
@@ -479,6 +490,57 @@ function createWallTexture(){
   }
 }
 createWallTexture();
+
+const wallOverlayImageCache = {};
+function getWallOverlayImage(url){
+  if(!url) return null;
+  if(wallOverlayImageCache[url] === "loading") return null;
+  if(wallOverlayImageCache[url] && wallOverlayImageCache[url].complete) return wallOverlayImageCache[url];
+  const img = new Image();
+  wallOverlayImageCache[url] = "loading";
+  img.onload = ()=>{ wallOverlayImageCache[url] = img; draw(); };
+  img.onerror = ()=>{ delete wallOverlayImageCache[url]; };
+  img.src = url;
+  return null;
+}
+
+function drawWallOverlays(){
+  const overlays = (window.HITAN_WALL_DATA && Array.isArray(window.HITAN_WALL_DATA.wallOverlays)) ? window.HITAN_WALL_DATA.wallOverlays : [];
+  overlays.forEach(o=>{
+    const x = (Number(o.x)||0) / 100 * worldSize;
+    const y = (Number(o.y)||0) / 100 * worldSize;
+    const width = Math.max(1, (Number(o.w)||10) / 100 * worldSize);
+    const height = Math.max(1, (Number(o.h)||10) / 100 * worldSize);
+    ctx.save();
+    ctx.globalAlpha = Math.max(0, Math.min(1, Number(o.opacity) || 1));
+    if(o.type === "sticker" && o.imageUrl){
+      const img = getWallOverlayImage(o.imageUrl);
+      if(img) ctx.drawImage(img, x, y, width, height);
+    } else if(o.type === "text" && o.text){
+      const fs = Math.max(8, Math.min(300, Number(o.fontSize)||32)) * (worldSize/1000);
+      ctx.font = `${o.fontStyle || "normal"} ${fs}px ${o.fontFamily || "Arial, Tahoma, sans-serif"}`;
+      ctx.fillStyle = o.fontColor || "#111111";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      if(o.background && o.background !== "transparent"){
+        ctx.fillStyle = o.background;
+        ctx.fillRect(x,y,width,height);
+        ctx.fillStyle = o.fontColor || "#111111";
+      }
+      const words = String(o.text).split(/\s+/);
+      const lines=[]; let line="";
+      words.forEach(word=>{
+        const test=line ? line+" "+word : word;
+        if(ctx.measureText(test).width > width-16 && line){ lines.push(line); line=word; } else line=test;
+      });
+      if(line) lines.push(line);
+      const lineH = fs * 1.2;
+      const startY = y + height/2 - (lines.length-1)*lineH/2;
+      lines.slice(0,8).forEach((ln,i)=>ctx.fillText(ln,x+width/2,startY+i*lineH));
+    }
+    ctx.restore();
+  });
+}
 
 function draw(){
   ctx.clearRect(0, 0, W, H);
