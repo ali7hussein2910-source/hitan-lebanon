@@ -1,72 +1,158 @@
-<!doctype html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>حيطان لبنان — لوحة التحكم</title>
-<style>
-:root{--bg:#f5f7fb;--card:#fff;--text:#111827;--muted:#6b7280;--line:#e5e7eb;--dark:#111827;--green:#16a34a;--yellow:#d97706;--red:#dc2626;--blue:#2563eb}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Tahoma,sans-serif}.hidden{display:none!important}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}.shell{min-height:100vh}.top{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}.topin{max-width:1250px;margin:auto;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:15px}.brand h1{margin:0;font-size:22px}.brand p{margin:4px 0 0;color:var(--muted);font-size:12px}.logout{background:#f3f4f6;padding:9px 13px;border-radius:10px;font-weight:700}main{max-width:1250px;margin:auto;padding:24px 20px 50px}.login{min-height:100vh;display:grid;place-items:center;padding:20px}.loginbox{width:min(420px,100%);background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px;box-shadow:0 18px 60px rgba(15,23,42,.08)}.loginbox h2{margin:0 0 8px}.loginbox p{color:var(--muted);font-size:13px}.input{width:100%;padding:13px;border:1px solid var(--line);border-radius:12px;outline:0}.input:focus{border-color:var(--blue)}.primary{background:var(--dark);color:white;padding:12px 16px;border-radius:12px;font-weight:800}.full{width:100%;margin-top:12px}.msg{min-height:22px;margin-top:10px;font-size:13px;color:var(--red)}
-.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px}.stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}.stat small{color:var(--muted);font-size:12px}.stat strong{display:block;font-size:25px;margin-top:7px}.toolbar{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap}.tabs{display:flex;gap:7px;flex-wrap:wrap}.tab{padding:9px 13px;background:#f3f4f6;border-radius:10px;font-weight:700;color:#374151}.tab.active{background:var(--dark);color:white}.danger{background:#fee2e2;color:#991b1b;padding:10px 13px;border-radius:10px;font-weight:800}.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.upload{position:relative;overflow:hidden;background:#eef2ff;color:#3730a3;padding:10px 13px;border-radius:10px;font-weight:800}.upload input{position:absolute;inset:0;opacity:0;cursor:pointer}.status{font-size:12px;color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.order,.settingsCard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:17px;box-shadow:0 6px 20px rgba(15,23,42,.04)}.orderhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.id{font-size:12px;color:var(--muted);font-family:monospace}.badge{padding:5px 9px;border-radius:999px;font-size:11px;font-weight:800}.b-active{background:#dcfce7;color:#166534}.b-pending{background:#fef3c7;color:#92400e}.b-rejected,.b-deleted,.b-expired{background:#fee2e2;color:#991b1b}.details{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.detail{background:#f8fafc;border-radius:10px;padding:9px;font-size:13px}.detail b{display:block;font-size:10px;color:var(--muted);margin-bottom:3px}.adtext{background:#f8fafc;border-radius:10px;padding:10px;margin-top:10px;font-size:13px;white-space:pre-wrap}.logo{max-width:130px;max-height:80px;object-fit:contain;margin:12px 0;border-radius:10px;border:1px solid var(--line)}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.approve,.reject,.delete,.saveBtn{padding:10px 12px;border-radius:10px;font-weight:800}.approve,.saveBtn{background:#dcfce7;color:#166534}.reject{background:#fef3c7;color:#92400e}.delete{background:#fee2e2;color:#991b1b}.empty{text-align:center;background:var(--card);border:1px dashed #cbd5e1;border-radius:18px;padding:45px;color:var(--muted)}
-.section{display:none}.section.active{display:block}.settingsGrid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}.settingsCard h2{margin:0 0 6px;font-size:18px}.settingsCard p{color:var(--muted);font-size:12px}.field{margin:10px 0}.field label{display:block;font-size:12px;font-weight:800;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;padding:10px 11px;border:1px solid var(--line);border-radius:10px;background:#fff}.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.preview{width:100%;aspect-ratio:1/1;max-height:430px;object-fit:cover;border-radius:14px;border:1px solid var(--line);background:#eee}.overlayItem{border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:10px;background:#fafafa}.overlayTop{display:flex;justify-content:space-between;gap:10px;align-items:center}.overlayMeta{font-size:12px;color:var(--muted)}.mini{padding:7px 10px;border-radius:9px;background:#f3f4f6;font-weight:700}.mini.danger{padding:7px 10px}.stickerThumb{width:70px;height:50px;object-fit:contain;border:1px solid var(--line);border-radius:8px;background:white}.hr{border:0;border-top:1px solid var(--line);margin:18px 0}
-@media(max-width:900px){.stats{grid-template-columns:repeat(3,1fr)}.grid,.settingsGrid{grid-template-columns:1fr}}@media(max-width:600px){main{padding:15px 12px 35px}.topin{padding:13px 12px}.stats{grid-template-columns:repeat(2,1fr)}.stat strong{font-size:21px}.details,.row2{grid-template-columns:1fr}.toolbar{align-items:stretch}.tools{width:100%}.upload,.danger{flex:1;text-align:center}}
-</style>
-</head>
-<body>
-<div id="loginView" class="login"><div class="loginbox"><h2>حيطان لبنان</h2><p>لوحة التحكم الإدارية — أدخل رمز الإدارة للمتابعة.</p><input id="pin" class="input" type="password" inputmode="numeric" placeholder="رمز الإدارة"><button class="primary full" onclick="login()">دخول إلى لوحة التحكم</button><div id="loginMessage" class="msg"></div></div></div>
-<div id="dashboard" class="shell hidden">
-<header class="top"><div class="topin"><div class="brand"><h1>حيطان لبنان</h1><p>إدارة الإعلانات والمساحات والحائط</p></div><div class="tools"><span id="apiStatus" class="status">API: —</span><span id="driveStatus" class="status">Drive: —</span><button class="logout" onclick="logout()">تسجيل الخروج</button></div></div></header>
-<main>
-<div class="tabs" style="margin-bottom:15px"><button class="tab active" id="ordersTab">📋 الطلبات والإعلانات</button><button class="tab" id="settingsTab">⚙️ إعدادات الحائط</button></div>
-<section id="ordersSection" class="section active">
-<section class="stats"><div class="stat"><small>طلبات بانتظار الدفع</small><strong id="pending">0</strong></div><div class="stat"><small>إعلانات منشورة</small><strong id="activeOrders">0</strong></div><div class="stat"><small>مساحات متاحة</small><strong id="available">0</strong></div><div class="stat"><small>مساحات محجوزة</small><strong id="reserved">0</strong></div><div class="stat"><small>إيرادات الإعلانات</small><strong id="revenue">$0</strong></div></section>
-<section class="toolbar"><div class="tabs"><button class="tab active" data-filter="all">الكل</button><button class="tab" data-filter="Pending">بانتظار الدفع</button><button class="tab" data-filter="Active">منشور</button><button class="tab" data-filter="Rejected">مرفوض</button><button class="tab" data-filter="Deleted">محذوف</button></div><div class="tools"><label class="upload">🖼️ تغيير صورة الجدار<input id="wallBgFile" type="file" accept="image/*"></label><span id="bgUploadStatus" class="status">الصورة تُضغط تلقائياً قبل الرفع</span><button class="danger" onclick="deleteAllAdsPrompt()">🗑️ تفريغ كل المساحات</button></div></section>
-<section id="orders" class="grid"></section>
-</section>
-<section id="settingsSection" class="section">
-<div class="settingsGrid">
-<div class="settingsCard"><h2>🖼️ خلفية الجدار</h2><p>تغيير صورة الحائط من دون المساس بالإعلانات أو الوحدات.</p><button class="mini" onclick="runDriveTest()">🔎 فحص Google Drive</button> <span id="driveTestStatus" class="status"></span><img id="wallPreview" class="preview" src="" alt="Wall background"><label class="upload" style="display:block;text-align:center;margin-top:10px">اختيار صورة جديدة<input id="settingsWallBgFile" type="file" accept="image/*"></label><div id="settingsBgStatus" class="status" style="display:block;margin-top:8px"></div></div>
-<div class="settingsCard"><h2>✍️ إضافة جملة إلى الحائط</h2><p>يمكنك إضافة نص ثابت وتحديد مكانه وحجمه وشكله ولونه.</p><div class="field"><label>الجملة</label><textarea id="overlayText" rows="3" placeholder="مثلاً: كل اسم إلو مطرح"></textarea></div><div class="row2"><div class="field"><label>نوع الخط</label><select id="overlayFont"><option value="Arial, Tahoma, sans-serif">Arial</option><option value="Cairo, sans-serif">Cairo</option><option value="Tajawal, sans-serif">Tajawal</option><option value="Amiri, serif">Amiri</option><option value="Changa, sans-serif">Changa</option></select></div><div class="field"><label>شكل الخط</label><select id="overlayStyle"><option value="normal">عادي</option><option value="bold">عريض</option><option value="italic">مائل</option><option value="bold italic">عريض ومائل</option></select></div></div><div class="row2"><div class="field"><label>حجم الخط</label><input id="overlaySize" type="number" min="8" max="300" value="32"></div><div class="field"><label>لون الخط</label><input id="overlayColor" type="color" value="#111111" style="height:40px;padding:2px"></div></div><div class="row2"><div class="field"><label>X (%) من اليسار</label><input id="overlayX" type="number" min="0" max="100" value="40"></div><div class="field"><label>Y (%) من الأعلى</label><input id="overlayY" type="number" min="0" max="100" value="40"></div></div><div class="row2"><div class="field"><label>العرض (%)</label><input id="overlayW" type="number" min="1" max="100" value="20"></div><div class="field"><label>الارتفاع (%)</label><input id="overlayH" type="number" min="1" max="100" value="10"></div></div><button class="saveBtn" onclick="addTextOverlay()">➕ إضافة الجملة</button></div>
-<div class="settingsCard"><h2>🏷️ إضافة ملصق / صورة</h2><p>ارفع صورة PNG/WebP شفافة أو أي صورة، وستظهر كعنصر مستقل على الجدار.</p><label class="upload" style="display:block;text-align:center">اختيار الملصق<input id="stickerFile" type="file" accept="image/*"></label><div id="stickerStatus" class="status" style="display:block;margin-top:8px"></div><div class="row2"><div class="field"><label>X (%)</label><input id="stickerX" type="number" min="0" max="100" value="40"></div><div class="field"><label>Y (%)</label><input id="stickerY" type="number" min="0" max="100" value="40"></div></div><div class="row2"><div class="field"><label>العرض (%)</label><input id="stickerW" type="number" min="1" max="100" value="20"></div><div class="field"><label>الارتفاع (%)</label><input id="stickerH" type="number" min="1" max="100" value="20"></div></div></div>
-<div class="settingsCard"><h2>📌 العناصر الحالية</h2><p>يمكنك تعديل خصائص كل عنصر أو حذفه. الحفظ لا يلمس الطلبات ولا الوحدات.</p><div id="overlayList"></div></div>
-</div>
-</section>
-</main></div>
 <script>
-const APP_URL="https://script.google.com/macros/s/AKfycbzyM_gJsIV-icWDh_sy95KhPqsQpeLlS6eyl__O2zVs1aZyQf-Bp5ja_FrhW9icSHuY/exec";
-let ADMIN_PIN="",ALL_ORDERS=[],FILTER="all",SETTINGS={wallBackground:"",wallOverlays:[]};
-function escapeHtml(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
-function escapeJs(v){return String(v??"").replace(/\\/g,"\\\\").replace(/'/g,"\\'")}
-function login(){const pin=document.getElementById("pin").value.trim();if(!pin)return;ADMIN_PIN=pin;loadDashboard()}
-function logout(){ADMIN_PIN="";document.getElementById("dashboard").classList.add("hidden");document.getElementById("loginView").classList.remove("hidden");document.getElementById("pin").value="";document.getElementById("apiStatus").textContent="API: —";document.getElementById("driveStatus").textContent="Drive: —"}
-async function loadDashboard(){try{const r=await fetch(APP_URL+"?action=adminStats&pin="+encodeURIComponent(ADMIN_PIN),{cache:"no-store"}),s=await r.json();if(!s.success){document.getElementById("loginMessage").textContent=s.message||"رمز الدخول غير صحيح";return}document.getElementById("loginMessage").textContent="";document.getElementById("loginView").classList.add("hidden");document.getElementById("dashboard").classList.remove("hidden");updateStats(s);await checkApiHealth();await Promise.all([loadOrders(),loadSettings()]);}catch(e){document.getElementById("loginMessage").textContent="تعذر الاتصال بالسيرفر: "+(e.message||e)}}
-async function checkApiHealth(){try{const r=await fetch(APP_URL+"?action=health",{cache:"no-store"}),d=await r.json();if(d.success){document.getElementById("apiStatus").textContent="API: "+d.apiVersion}else{document.getElementById("apiStatus").textContent="API: نسخة قديمة"}}catch(e){document.getElementById("apiStatus").textContent="API: غير متصل"}}
-function updateStats(s){["pending","activeOrders","available","reserved"].forEach(k=>document.getElementById(k).textContent=s[k]??0);document.getElementById("revenue").textContent="$"+(Number(s.revenue)||0)}
-async function loadOrders(){try{const r=await fetch(APP_URL+"?action=adminOrders&pin="+encodeURIComponent(ADMIN_PIN),{cache:"no-store"}),d=await r.json();if(!d.success){alert(d.message||"تعذر تحميل الطلبات");return}ALL_ORDERS=d.orders||[];renderOrders()}catch(e){alert("تعذر تحميل الطلبات: "+(e.message||e))}}
-async function loadSettings(){try{const r=await fetch(APP_URL+"?action=adminSettings&pin="+encodeURIComponent(ADMIN_PIN),{cache:"no-store"}),d=await r.json();if(!d.success){alert("تعذر تحميل إعدادات الحائط: "+(d.message||"خطأ"));return}SETTINGS=d;document.getElementById("wallPreview").src=d.wallBackground||"";renderOverlays();}catch(e){alert("تعذر تحميل إعدادات الحائط: "+(e.message||e))}}
-async function runDriveTest(){const el=document.getElementById("driveTestStatus");el.textContent="جاري الفحص…";try{const r=await fetch(APP_URL+"?action=driveTest&pin="+encodeURIComponent(ADMIN_PIN),{cache:"no-store"}),d=await r.json();if(d.success){el.textContent="✅ "+d.message;document.getElementById("driveStatus").textContent="Drive: جاهز";}else{el.textContent="❌ "+(d.message||"فشل الفحص");document.getElementById("driveStatus").textContent="Drive: مشكلة";}}catch(e){el.textContent="❌ فشل الاتصال: "+(e.message||e);document.getElementById("driveStatus").textContent="Drive: غير متصل"}}
-function badge(status){const c=status==="Active"?"b-active":status==="Pending"?"b-pending":status==="Rejected"?"b-rejected":status==="Deleted"?"b-deleted":"b-expired";return `<span class="badge ${c}">${escapeHtml(status||"Pending")}</span>`}
-function renderOrders(){const box=document.getElementById("orders");const list=FILTER==="all"?ALL_ORDERS:ALL_ORDERS.filter(o=>o.orderStatus===FILTER);if(!list.length){box.innerHTML='<div class="empty">لا توجد طلبات ضمن هذا القسم.</div>';return}box.innerHTML=list.slice().reverse().map(o=>{let actions="";if(o.orderStatus==="Pending")actions+=`<button class="approve" onclick="approveOrder('${escapeJs(o.orderId)}')">✅ تأكيد الدفع والنشر</button><button class="reject" onclick="rejectOrder('${escapeJs(o.orderId)}')">❌ رفض</button>`;if(o.orderStatus!=="Deleted")actions+=`<button class="delete" onclick="deleteOrderPrompt('${escapeJs(o.orderId)}')">🗑️ حذف وتحرير المساحة</button>`;return `<article class="order"><div class="orderhead"><span class="id">${escapeHtml(o.orderId)}</span>${badge(o.orderStatus)}</div><div class="details"><div class="detail"><b>الاسم</b>${escapeHtml(o.customerName)}</div><div class="detail"><b>الهاتف</b>${escapeHtml(o.phone)}</div><div class="detail"><b>المساحة</b>${escapeHtml(o.unitType)} — ${escapeHtml(o.unitsCount)} وحدة</div><div class="detail"><b>المبلغ</b>$${escapeHtml(o.totalAmount)}</div><div class="detail"><b>الدفع</b>${escapeHtml(o.paymentStatus||"-")}</div><div class="detail"><b>مدة الإعلان</b>${escapeHtml(o.startDate||"-")} → ${escapeHtml(o.expiryDate||"-")}</div></div>${o.logo?`<img class="logo" src="${escapeHtml(o.logo)}" alt="Logo">`:""}<div class="adtext"><b>الإعلان:</b> ${escapeHtml(o.adName||"بدون اسم")}<br>${escapeHtml(o.adText||"لا يوجد نص إضافي")}</div><div class="actions">${actions}</div></article>`}).join("")}
-async function post(payload){const r=await fetch(APP_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload),cache:"no-store"});const text=await r.text();let data;try{data=JSON.parse(text)}catch(e){throw new Error("استجابة غير صالحة من Google Apps Script (HTTP "+r.status+")")};return data}
-async function approveOrder(id){if(!confirm("تأكيد الدفع ونشر الإعلان؟"))return;const r=await post({action:"confirmPayment",orderId:id,pin:ADMIN_PIN});if(!r.success){alert(r.message);return}await loadDashboard()}
-async function rejectOrder(id){if(!confirm("رفض الطلب وإتاحة المساحة؟"))return;const r=await post({action:"rejectOrder",orderId:id,pin:ADMIN_PIN});if(!r.success){alert(r.message);return}await loadDashboard()}
-async function deleteOrderPrompt(id){if(!confirm("سيتم إلغاء الإعلان وإعادة مساحاته إلى Available. هل تريد المتابعة؟"))return;const r=await post({action:"deleteOrder",orderId:id,pin:ADMIN_PIN});if(!r.success){alert(r.message);return}await loadDashboard()}
-async function deleteAllAdsPrompt(){if(!confirm("⚠️ سيتم تعطيل كل الإعلانات والطلبات وتحرير جميع المساحات. هذا الإجراء لا يمكن التراجع عنه. متابعة؟"))return;const r=await post({action:"deleteAllAds",pin:ADMIN_PIN});if(!r.success){alert(r.message);return}await loadDashboard()}
-function compressImage(file,maxDim=1200,quality=.58){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=e=>{const img=new Image();img.onload=()=>{let w=img.naturalWidth||img.width,h=img.naturalHeight||img.height;if(w>maxDim||h>maxDim){if(w>h){h=Math.round(h*maxDim/w);w=maxDim}else{w=Math.round(w*maxDim/h);h=maxDim}}const c=document.createElement("canvas");c.width=w;c.height=h;c.getContext("2d").drawImage(img,0,0,w,h);let out=c.toDataURL("image/jpeg",quality);if(out.length>4*1024*1024)out=c.toDataURL("image/jpeg",.48);resolve(out)};img.onerror=reject;img.src=e.target.result};reader.onerror=reject;reader.readAsDataURL(file)})}
-function compressTransparent(file,maxDim=800){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=e=>{const img=new Image();img.onload=()=>{let w=img.naturalWidth||img.width,h=img.naturalHeight||img.height;if(w>maxDim||h>maxDim){if(w>h){h=Math.round(h*maxDim/w);w=maxDim}else{w=Math.round(w*maxDim/h);h=maxDim}}const c=document.createElement("canvas");c.width=w;c.height=h;c.getContext("2d",{alpha:true}).drawImage(img,0,0,w,h);let out=c.toDataURL("image/webp",.82);if(!out||out.length<100)out=c.toDataURL("image/png");resolve(out)};img.onerror=reject;img.src=e.target.result};reader.onerror=reject;reader.readAsDataURL(file)})}
-async function uploadBackground(file,statusEl){if(!file)return;try{statusEl.textContent="جاري ضغط ورفع الصورة…";const base64=await compressImage(file);if(base64.length>3.5*1024*1024)throw new Error("الصورة ما زالت كبيرة. اختر صورة أصغر.");const r=await post({action:"updateWallBackground",imageUrl:base64,pin:ADMIN_PIN});statusEl.textContent=r.success?"تم تحديث صورة الجدار بنجاح ✅":(r.message||"فشل الرفع");if(r.success){SETTINGS.wallBackground=r.wallBackground;document.getElementById("wallPreview").src=r.wallBackground;}}catch(err){statusEl.textContent=err.message||"خطأ في رفع الصورة"}}
-document.getElementById("wallBgFile").addEventListener("change",e=>uploadBackground(e.target.files[0],document.getElementById("bgUploadStatus")));
-document.getElementById("settingsWallBgFile").addEventListener("change",e=>uploadBackground(e.target.files[0],document.getElementById("settingsBgStatus")));
-document.querySelectorAll("[data-filter]").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll("[data-filter]").forEach(x=>x.classList.remove("active"));b.classList.add("active");FILTER=b.dataset.filter;renderOrders()}));
-document.getElementById("ordersTab").onclick=()=>switchSection("orders");document.getElementById("settingsTab").onclick=()=>switchSection("settings");
-function switchSection(which){document.getElementById("ordersSection").classList.toggle("active",which==="orders");document.getElementById("settingsSection").classList.toggle("active",which==="settings");document.getElementById("ordersTab").classList.toggle("active",which==="orders");document.getElementById("settingsTab").classList.toggle("active",which==="settings")}
-function readOverlayForm(){return {id:"OVR-"+Date.now(),type:"text",text:document.getElementById("overlayText").value.trim(),x:Number(document.getElementById("overlayX").value),y:Number(document.getElementById("overlayY").value),w:Number(document.getElementById("overlayW").value),h:Number(document.getElementById("overlayH").value),fontFamily:document.getElementById("overlayFont").value,fontStyle:document.getElementById("overlayStyle").value,fontSize:Number(document.getElementById("overlaySize").value),fontColor:document.getElementById("overlayColor").value,opacity:1,background:"transparent"}}
-async function saveOverlays(){const r=await post({action:"saveWallOverlays",overlays:SETTINGS.wallOverlays,pin:ADMIN_PIN});if(!r.success){alert(r.message);return false}SETTINGS.wallOverlays=r.wallOverlays||SETTINGS.wallOverlays;renderOverlays();return true}
-async function addTextOverlay(){const o=readOverlayForm();if(!o.text){alert("اكتب الجملة أولاً.");return}SETTINGS.wallOverlays.push(o);if(await saveOverlays())document.getElementById("overlayText").value=""}
-document.getElementById("stickerFile").addEventListener("change",async e=>{const f=e.target.files[0];if(!f)return;const st=document.getElementById("stickerStatus");try{st.textContent="جاري ضغط ورفع الملصق…";const img=await compressTransparent(f);if(img.length>3.5*1024*1024)throw new Error("الملصق كبير جداً.");const r=await post({action:"addWallSticker",imageUrl:img,pin:ADMIN_PIN});if(!r.success)throw new Error(r.message||"فشل رفع الملصق");SETTINGS.wallOverlays=r.wallOverlays||[];const o=SETTINGS.wallOverlays[SETTINGS.wallOverlays.length-1];if(o){o.x=Number(document.getElementById("stickerX").value);o.y=Number(document.getElementById("stickerY").value);o.w=Number(document.getElementById("stickerW").value);o.h=Number(document.getElementById("stickerH").value);await saveOverlays()}st.textContent="تمت إضافة الملصق ✅";e.target.value=""}catch(err){st.textContent=err.message||"فشل رفع الملصق"}});
-function renderOverlays(){const box=document.getElementById("overlayList");const arr=SETTINGS.wallOverlays||[];if(!arr.length){box.innerHTML='<div class="empty">لا توجد عناصر ثابتة حالياً.</div>';return}box.innerHTML=arr.map((o,i)=>{const title=o.type==="sticker"?"🏷️ ملصق":"✍️ "+(o.text||"جملة");return `<div class="overlayItem"><div class="overlayTop"><div><b>${escapeHtml(title)}</b><div class="overlayMeta">X ${o.x}% · Y ${o.y}% · W ${o.w}% · H ${o.h}%</div></div>${o.type==="sticker"&&o.imageUrl?`<img class="stickerThumb" src="${escapeHtml(o.imageUrl)}">`:''}</div><div class="row2"><div class="field"><label>X %</label><input id="ox${i}" type="number" value="${Number(o.x)||0}"></div><div class="field"><label>Y %</label><input id="oy${i}" type="number" value="${Number(o.y)||0}"></div></div><div class="row2"><div class="field"><label>العرض %</label><input id="ow${i}" type="number" value="${Number(o.w)||10}"></div><div class="field"><label>الارتفاع %</label><input id="oh${i}" type="number" value="${Number(o.h)||10}"></div></div>${o.type==="text"?`<div class="row2"><div class="field"><label>حجم الخط</label><input id="of${i}" type="number" value="${Number(o.fontSize)||32}"></div><div class="field"><label>اللون</label><input id="oc${i}" type="color" value="${/^#[0-9a-fA-F]{6}$/.test(o.fontColor||'')?o.fontColor:'#111111'}" style="height:40px;padding:2px"></div></div><div class="row2"><div class="field"><label>نوع الخط</label><select id="off${i}"><option ${o.fontFamily==="Arial, Tahoma, sans-serif"?'selected':''} value="Arial, Tahoma, sans-serif">Arial</option><option ${o.fontFamily==="Cairo, sans-serif"?'selected':''} value="Cairo, sans-serif">Cairo</option><option ${o.fontFamily==="Tajawal, sans-serif"?'selected':''} value="Tajawal, sans-serif">Tajawal</option><option ${o.fontFamily==="Amiri, serif"?'selected':''} value="Amiri, serif">Amiri</option><option ${o.fontFamily==="Changa, sans-serif"?'selected':''} value="Changa, sans-serif">Changa</option></select></div><div class="field"><label>شكل الخط</label><select id="ofs${i}"><option value="normal" ${o.fontStyle==="normal"?'selected':''}>عادي</option><option value="bold" ${o.fontStyle==="bold"?'selected':''}>عريض</option><option value="italic" ${o.fontStyle==="italic"?'selected':''}>مائل</option><option value="bold italic" ${o.fontStyle==="bold italic"?'selected':''}>عريض ومائل</option></select></div></div>`:''}<div class="actions"><button class="saveBtn" onclick="updateOverlay(${i})">💾 حفظ التعديل</button><button class="delete" onclick="deleteOverlay(${i})">🗑️ حذف</button></div></div>`}).join("")}
-async function updateOverlay(i){const o=SETTINGS.wallOverlays[i];if(!o)return;o.x=Number(document.getElementById("ox"+i).value);o.y=Number(document.getElementById("oy"+i).value);o.w=Number(document.getElementById("ow"+i).value);o.h=Number(document.getElementById("oh"+i).value);if(o.type==="text"){o.fontSize=Number(document.getElementById("of"+i).value);o.fontColor=document.getElementById("oc"+i).value;o.fontFamily=document.getElementById("off"+i).value;o.fontStyle=document.getElementById("ofs"+i).value}await saveOverlays()}
-async function deleteOverlay(i){const o=SETTINGS.wallOverlays[i];if(!o||!confirm("حذف هذا العنصر من الحائط؟"))return;SETTINGS.wallOverlays.splice(i,1);await saveOverlays()}
-document.getElementById("pin").addEventListener("keydown",e=>{if(e.key==="Enter")login()});
-</script></body></html>
+const APP_URL = "https://script.google.com/macros/s/AKfycbzyM_gJsIV-icWDh_sy95KhPqsQpeLlS6eyl__O2zVs1aZyQf-Bp5ja_FrhW9icSHuY/exec";
+let ADMIN_PIN = "";
+
+function login(){
+  const pin = document.getElementById("pin").value.trim();
+  if(!pin) return;
+  ADMIN_PIN = pin; loadDashboard();
+}
+
+async function loadDashboard(){
+  try{
+    const statsResponse = await fetch(APP_URL + "?action=adminStats&pin=" + encodeURIComponent(ADMIN_PIN));
+    const stats = await statsResponse.json();
+    if(!stats.success){
+      document.getElementById("loginMessage").innerHTML = `<span style="color:#dc2626">${escapeHtml(stats.message || "رمز الدخول غير صحيح")}</span>`;
+      return;
+    }
+    document.getElementById("loginBox").classList.add("hidden");
+    document.getElementById("dashboard").classList.remove("hidden");
+    document.getElementById("pending").innerText = stats.pending;
+    document.getElementById("activeOrders").innerText = stats.activeOrders;
+    document.getElementById("available").innerText = stats.available;
+    document.getElementById("reserved").innerText = stats.reserved;
+    document.getElementById("activeUnits").innerText = stats.active;
+    document.getElementById("revenue").innerText = "$" + stats.revenue;
+    await loadOrders();
+  }catch(error){ alert("تعذر الاتصال بالسيرفر."); }
+}
+
+async function loadOrders(){
+  const response = await fetch(APP_URL + "?action=adminOrders&pin=" + encodeURIComponent(ADMIN_PIN));
+  const data = await response.json();
+  if(!data.success){ alert(data.message); return; }
+  renderOrders(data.orders);
+}
+
+function renderOrders(orders){
+  const container = document.getElementById("orders");
+  container.innerHTML = "";
+  if(!orders.length){
+    container.innerHTML = "<p style='color:#6b7280; text-align:center; padding:30px;'>لا توجد طلبات حالياً.</p>"; return;
+  }
+  orders.reverse().forEach(order => {
+    const div = document.createElement("div"); div.className = "order";
+    let statusClass = order.orderStatus === "Active" ? "active" : (order.orderStatus === "Rejected" ? "rejected" : "pending");
+    let logo = order.logo ? `<img class="logo" src="${escapeHtml(order.logo)}" alt="Logo">` : "";
+    let actions = "";
+    if(order.orderStatus === "Pending"){
+      actions = `<button class="approve" onclick="approveOrder('${escapeJs(order.orderId)}')">✅ تأكيد الدفع ونشر الإعلان</button>
+                 <button class="reject" onclick="rejectOrder('${escapeJs(order.orderId)}')">❌ رفض الطلب</button>`;
+    }
+    actions += `<button class="delete-btn" onclick="deleteOrderPrompt('${escapeJs(order.orderId)}')">🗑️ حذف الإعلان وإتاحة المساحة</button>`;
+    div.innerHTML = `
+      <div class="order-header">
+        <div class="order-id">رقم الطلب: ${escapeHtml(order.orderId)}</div>
+        <div class="badge ${statusClass}">${escapeHtml(order.orderStatus || "Pending")}</div>
+      </div>
+      <div class="details">
+        <div class="detail"><b>الاسم</b>${escapeHtml(order.customerName)}</div>
+        <div class="detail"><b>الهاتف</b>${escapeHtml(order.phone)}</div>
+        <div class="detail"><b>نوع المساحة</b>${escapeHtml(order.unitType)}</div>
+        <div class="detail"><b>عدد الوحدات</b>${escapeHtml(order.unitsCount)}</div>
+        <div class="detail"><b>المبلغ</b>$${escapeHtml(order.totalAmount)}</div>
+        <div class="detail"><b>حالة الدفع</b>${escapeHtml(order.paymentStatus)}</div>
+        <div class="detail"><b>اسم الإعلان</b>${escapeHtml(order.adName || "-")}</div>
+        <div class="detail"><b>تنسيق النص</b>اللون: <span style="background:${escapeHtml(order.fontColor || '#111')}; color:#fff; border:1px solid #ccc; padding:2px 8px; border-radius:4px;">${escapeHtml(order.fontColor || '#111')}</span> | الشكل: ${escapeHtml(order.fontStyle || 'normal')}</div>
+      </div>
+      ${logo}
+      <div style="margin:10px 0; font-size:14px;"><b>النص الإضافي:</b>
+        <div style="background:#f9fafb; padding:8px 12px; border-radius:8px; margin-top:4px;">${escapeHtml(order.adText || "لا يوجد")}</div>
+      </div>
+      <div style="display:flex; gap:15px; margin:10px 0; font-size:13px; color:#4b5563;">
+        <div><b>WhatsApp:</b> ${escapeHtml(order.whatsapp || "-")}</div>
+        <div><b>Instagram:</b> ${escapeHtml(order.instagram || "-")}</div>
+      </div>
+      <div class="actions">${actions}</div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+async function approveOrder(orderId){
+  if(!confirm("هل تريد تأكيد الدفع ونشر هذا الإعلان؟")) return;
+  try{
+    const response = await fetch(APP_URL,{ method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify({action:"confirmPayment", orderId:orderId, pin:ADMIN_PIN}) });
+    const result = await response.json();
+    if(!result.success){ alert(result.message); return; }
+    alert("تم تأكيد الدفع ونشر الإعلان بنجاح ✅"); await loadDashboard();
+  }catch(error){ alert("حدث خطأ أثناء تأكيد الدفع."); }
+}
+
+async function rejectOrder(orderId){
+  if(!confirm("هل أنت متأكد من رفض هذا الطلب؟")) return;
+  try{
+    const response = await fetch(APP_URL,{ method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify({action:"rejectOrder", orderId:orderId, pin:ADMIN_PIN}) });
+    const result = await response.json();
+    if(!result.success){ alert(result.message); return; }
+    alert("تم رفض الطلب وإعادة المساحة إلى متاحة."); await loadDashboard();
+  }catch(error){ alert("حدث خطأ أثناء رفض الطلب."); }
+}
+
+async function deleteOrderPrompt(orderId){
+  if(!confirm("هل أنت متأكد من حذف هذا الإعلان؟ ستعود المساحات المرتبطة به متاحة للحجز.")) return;
+  try {
+    const response = await fetch(APP_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: "deleteOrder", orderId: orderId, pin: ADMIN_PIN }) });
+    const result = await response.json();
+    if(!result.success){ alert(result.message); return; }
+    alert("تم حذف الإعلان وإعادة تحرير المساحات بنجاح ✅"); await loadDashboard();
+  } catch (error) { alert("حدث خطأ أثناء حذف الإعلان."); }
+}
+
+async function deleteAllAdsPrompt(){
+  if(!confirm("⚠️ تحذير: هل أنت متأكد من حذف جميع الإعلانات والطلبات وإعادة جميع المساحات الحالية متاحة؟ لا يمكن التراجع عن هذا الإجراء.")) return;
+  try {
+    const response = await fetch(APP_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: "deleteAllAds", pin: ADMIN_PIN }) });
+    const result = await response.json();
+    if(!result.success){ alert(result.message); return; }
+    alert("تم حذف جميع الإعلانات وإتاحة كافة المساحات بنجاح ✅"); await loadDashboard();
+  } catch (error) { alert("حدث خطأ أثناء حذف جميع الإعلانات."); }
+}
+
+// دالة الرفع تم تعديلها لتصغير الصورة قبل الرفع
+async function handleWallBgUpload(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = new Image();
+    img.onload = async function() {
+      const maxDim = 1200; // تصغير الجودة لضمان سرعة الرفع وعدم انهيار السيرفر
+      let w = img.width, h = img.height;
+      if (w > maxDim || h > maxDim) {
+        if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; } 
+        else { w = Math.round((w * maxDim) / h); h = maxDim; }
+      }
+      const canvas = document.createElement("canvas");
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, w, h);
+      const base64 = canvas.toDataURL("image/jpeg", 0.7);
+
+      document.getElementById("bgUploadStatus").innerText = "جاري رفع الخلفية إلى السيرفر...";
+      try {
+        const response = await fetch(APP_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: "updateWallBackground", imageUrl: base64, pin: ADMIN_PIN }) });
+        const result = await response.json();
+        if(result.success) document.getElementById("bgUploadStatus").innerText = "تم تحديث خلفية الجدار بنجاح! ✅";
+        else document.getElementById("bgUploadStatus").innerText = result.message || "فشل رفع الخلفية";
+      } catch(err) { document.getElementById("bgUploadStatus").innerText = "خطأ في الاتصال"; }
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function escapeHtml(value){ return String(value ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;"); }
+function escapeJs(value){ return String(value ?? "").replace(/\\/g,"\\\\").replace(/'/g,"\\'"); }
+</script>
