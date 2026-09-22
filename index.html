@@ -324,44 +324,32 @@ const CENTER_PRICE = 5;
 let uploadedLogoBase64 = "";
 
 function handleLogoSelect(event) {
-  const file = event.target.files && event.target.files[0];
+  const file = event.target.files[0];
   if (!file) return;
   if (!file.type.startsWith("image/")) { alert("يرجى اختيار ملف صورة صالح."); return; }
-  if (file.size > 8 * 1024 * 1024) { alert("حجم اللوغو كبير جداً. اختر صورة أقل من 8MB."); event.target.value=""; return; }
-
   const reader = new FileReader();
   reader.onload = function(e) {
     const img = new Image();
     img.onload = function() {
-      const maxDim = 650;
-      let w = img.naturalWidth || img.width, h = img.naturalHeight || img.height;
+      const maxDim = 400;
+      let w = img.width, h = img.height;
       if (w > maxDim || h > maxDim) {
-        if (w > h) { h = Math.round(h * maxDim / w); w = maxDim; }
-        else { w = Math.round(w * maxDim / h); h = maxDim; }
+        if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
+        else { w = Math.round((w * maxDim) / h); h = maxDim; }
       }
       const canvas = document.createElement("canvas");
       canvas.width = w; canvas.height = h;
-      const ctx = canvas.getContext("2d", {alpha:true});
-      ctx.clearRect(0,0,w,h);
+      const ctx = canvas.getContext("2d");
       ctx.drawImage(img, 0, 0, w, h);
-      let result = canvas.toDataURL("image/webp", 0.82);
-      if (!result || result.length < 100) result = canvas.toDataURL("image/png");
-      if (result.length > 3.5 * 1024 * 1024) {
-        alert("تعذر ضغط اللوغو إلى حجم مناسب. اختر صورة أصغر (يفضّل أقل من 8MB قبل الضغط).");
-        event.target.value="";
-        return;
-      }
-      uploadedLogoBase64 = result;
+      uploadedLogoBase64 = canvas.toDataURL("image/png");
       const preview = document.getElementById("logoPreview");
       preview.src = uploadedLogoBase64;
       preview.classList.remove("hidden");
       document.getElementById("logoPlaceholder").style.display = "none";
       document.getElementById("removeLogoBtn").classList.remove("hidden");
     };
-    img.onerror = function(){ alert("تعذر قراءة صورة اللوغو."); };
     img.src = e.target.result;
   };
-  reader.onerror = function(){ alert("تعذر قراءة الملف."); };
   reader.readAsDataURL(file);
 }
 
@@ -443,23 +431,17 @@ let zoom = 1;
 let cameraX = 0; let cameraY = 0;
 
 function calculateWorld(){
-  // The wall is always a square 100×100 grid. Keep one stable world coordinate
-  // system so rotating the device or resizing the browser never makes the wall disappear.
-  worldSize = Math.max(1, Math.min(Math.max(W, H), 1600));
+  worldSize = Math.max(W,H);
   cellSize = worldSize / COLS;
-  if(zoom === 1){
-    cameraX = (W-worldSize)/2;
-    cameraY = (H-worldSize)/2;
-  }
+  if(zoom === 1){ cameraX = (W-worldSize)/2; cameraY = (H-worldSize)/2; }
 }
 
 function clampCamera(){
-  const scaledW = worldSize * zoom;
-  const scaledH = worldSize * zoom;
-  if(scaledW <= W) cameraX = (W-scaledW)/2;
-  else cameraX = Math.min(0, Math.max(W-scaledW, cameraX));
-  if(scaledH <= H) cameraY = (H-scaledH)/2;
-  else cameraY = Math.min(0, Math.max(H-scaledH, cameraY));
+  const scaled = worldSize * zoom;
+  if(scaled <= W){ cameraX = (W-scaled)/2; }
+  else{ cameraX = Math.max(W-scaled, Math.min(0, cameraX)); }
+  if(scaled <= H){ cameraY = (H-scaled)/2; }
+  else{ cameraY = Math.max(H-scaled, Math.min(0, cameraY)); }
 }
 
 let textureCanvas = null;
@@ -467,7 +449,7 @@ let wallBgImg = null;
 
 function loadWallBackgroundImage(url) {
   if (!url) return;
-  const img = new Image();
+  const img = new Image(); img.crossOrigin = "anonymous";
   img.onload = function() { wallBgImg = img; draw(); };
   img.src = url;
 }
@@ -492,57 +474,6 @@ function createWallTexture(){
 }
 createWallTexture();
 
-const wallOverlayImageCache = {};
-function getWallOverlayImage(url){
-  if(!url) return null;
-  if(wallOverlayImageCache[url] === "loading") return null;
-  if(wallOverlayImageCache[url] && wallOverlayImageCache[url].complete) return wallOverlayImageCache[url];
-  const img = new Image();
-  wallOverlayImageCache[url] = "loading";
-  img.onload = ()=>{ wallOverlayImageCache[url] = img; draw(); };
-  img.onerror = ()=>{ delete wallOverlayImageCache[url]; };
-  img.src = url;
-  return null;
-}
-
-function drawWallOverlays(){
-  const overlays = (window.HITAN_WALL_DATA && Array.isArray(window.HITAN_WALL_DATA.wallOverlays)) ? window.HITAN_WALL_DATA.wallOverlays : [];
-  overlays.forEach(o=>{
-    const x = (Number(o.x)||0) / 100 * worldSize;
-    const y = (Number(o.y)||0) / 100 * worldSize;
-    const width = Math.max(1, (Number(o.w)||10) / 100 * worldSize);
-    const height = Math.max(1, (Number(o.h)||10) / 100 * worldSize);
-    ctx.save();
-    ctx.globalAlpha = Math.max(0, Math.min(1, Number(o.opacity) || 1));
-    if(o.type === "sticker" && o.imageUrl){
-      const img = getWallOverlayImage(o.imageUrl);
-      if(img) ctx.drawImage(img, x, y, width, height);
-    } else if(o.type === "text" && o.text){
-      const fs = Math.max(8, Math.min(300, Number(o.fontSize)||32)) * (worldSize/1000);
-      ctx.font = `${o.fontStyle || "normal"} ${fs}px ${o.fontFamily || "Arial, Tahoma, sans-serif"}`;
-      ctx.fillStyle = o.fontColor || "#111111";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      if(o.background && o.background !== "transparent"){
-        ctx.fillStyle = o.background;
-        ctx.fillRect(x,y,width,height);
-        ctx.fillStyle = o.fontColor || "#111111";
-      }
-      const words = String(o.text).split(/\s+/);
-      const lines=[]; let line="";
-      words.forEach(word=>{
-        const test=line ? line+" "+word : word;
-        if(ctx.measureText(test).width > width-16 && line){ lines.push(line); line=word; } else line=test;
-      });
-      if(line) lines.push(line);
-      const lineH = fs * 1.2;
-      const startY = y + height/2 - (lines.length-1)*lineH/2;
-      lines.slice(0,8).forEach((ln,i)=>ctx.fillText(ln,x+width/2,startY+i*lineH));
-    }
-    ctx.restore();
-  });
-}
-
 function draw(){
   ctx.clearRect(0, 0, W, H);
   ctx.save();
@@ -554,7 +485,6 @@ function draw(){
 
   drawWallDetails();
   drawGrid();
-  drawWallOverlays();
   drawActiveAds();
   drawSelection();
 
@@ -606,44 +536,33 @@ function getAdImage(url){
 function drawActiveAds(){
   if(!window.HITAN_WALL_DATA || !window.HITAN_WALL_DATA.ads) return;
   const ads = window.HITAN_WALL_DATA.ads.filter(ad => ad.status === "Active");
-
   ads.forEach(ad=>{
     if(!ad.unitIds || !ad.unitIds.length) return;
-
-    const cells = [];
     let minRow = Infinity, maxRow = -Infinity, minCol = Infinity, maxCol = -Infinity;
     ad.unitIds.forEach(id=>{
       const unit = window.HITAN_UNITS[id];
       if(!unit) return;
       const row = Number(unit.row) - 1;
       const col = Number(unit.column !== undefined ? unit.column : unit.col) - 1;
-      if(row < 0 || col < 0) return;
-      cells.push([row,col]);
-      minRow = Math.min(minRow,row); maxRow = Math.max(maxRow,row);
-      minCol = Math.min(minCol,col); maxCol = Math.max(maxCol,col);
+      minRow = Math.min(minRow, row); maxRow = Math.max(maxRow, row);
+      minCol = Math.min(minCol, col); maxCol = Math.max(maxCol, col);
     });
-    if(!cells.length) return;
-
+    if(!isFinite(minRow) || !isFinite(minCol)) return;
+    
     const x = minCol * cellSize, y = minRow * cellSize;
-    const width = (maxCol-minCol+1) * cellSize;
-    const height = (maxRow-minRow+1) * cellSize;
+    const width = (maxCol - minCol + 1) * cellSize, height = (maxRow - minRow + 1) * cellSize;
 
-    // IMPORTANT: draw only the exact purchased cells. This prevents an L-shaped
-    // connected ad from incorrectly filling the empty cell inside its bounding box.
-    ctx.save();
-    ctx.beginPath();
-    cells.forEach(([r,c])=>{
-      ctx.rect(c*cellSize, r*cellSize, cellSize, cellSize);
-    });
-    ctx.clip();
     ctx.fillStyle = "#ffffff";
-    ctx.fillRect(x,y,width,height);
+    ctx.fillRect(x, y, width, height);
+
+    ctx.strokeStyle = "rgba(0,0,0,.15)"; ctx.lineWidth = Math.max(1, 2 / zoom);
+    ctx.strokeRect(x, y, width, height);
+    ctx.save();
+    ctx.beginPath(); ctx.rect(x, y, width, height); ctx.clip();
 
     if(ad.logoUrl){
       const img = getAdImage(ad.logoUrl);
-      if(img && img.width && img.height){
-        ctx.drawImage(img,x,y,width,height);
-      }
+      if(img && img.width && img.height){ ctx.drawImage(img, x, y, width, height); }
     }
 
     if(ad.text){
@@ -653,24 +572,17 @@ function drawActiveAds(){
       const fontSize = Math.max(12, Math.min(width / 6, 24));
       ctx.font = `${fontStyle} ${fontSize}px ${fontFamily}`;
       ctx.fillStyle = ad.fontColor || "#111111";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      const bandH = Math.max(24, fontSize + 8);
-      ctx.fillStyle = "rgba(255,255,255,.78)";
-      ctx.fillRect(x,y+height-bandH,width,bandH);
-      ctx.fillStyle = ad.fontColor || "#111111";
-      ctx.fillText(ad.text,x+width/2,y+height-bandH/2,Math.max(10,width-10));
+      ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      if (ad.logoUrl) {
+        ctx.fillStyle = "rgba(255,255,255,0.75)";
+        ctx.fillRect(x, y + height - Math.max(24, fontSize + 8), width, Math.max(24, fontSize + 8));
+        ctx.fillStyle = ad.fontColor || "#111111";
+        ctx.fillText(ad.text, x + width / 2, y + height - (Math.max(24, fontSize + 8) / 2), width - 10);
+      } else {
+        ctx.fillText(ad.text, x + width / 2, y + height / 2, width - 10);
+      }
       ctx.restore();
     }
-    ctx.restore();
-
-    // Outline the exact selected shape, not its bounding rectangle.
-    ctx.save();
-    ctx.strokeStyle = "rgba(0,0,0,.18)";
-    ctx.lineWidth = Math.max(1,2/zoom);
-    cells.forEach(([r,c])=>{
-      ctx.strokeRect(c*cellSize,r*cellSize,cellSize,cellSize);
-    });
     ctx.restore();
   });
 }
@@ -770,14 +682,7 @@ viewport.addEventListener("touchmove", (e)=>{
   } else if (e.touches.length === 2 && initialPinchDist) {
     const dist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
     const scale = dist / initialPinchDist;
-    const rect = canvas.getBoundingClientRect();
-    const centerX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
-    const centerY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
-    const wx = (centerX - rect.left - cameraX) / zoom;
-    const wy = (centerY - rect.top - cameraY) / zoom;
     zoom = Math.max(1, Math.min(initialPinchZoom * scale, 8));
-    cameraX = centerX - rect.left - wx * zoom;
-    cameraY = centerY - rect.top - wy * zoom;
     clampCamera(); draw();
   }
 }, {passive: false});
@@ -791,52 +696,36 @@ viewport.addEventListener("touchend", (e)=>{
   }
 });
 
-function selectionIsConnected(set){
-  if(set.size <= 1) return true;
-  const first = set.values().next().value;
-  const visited = new Set([first]);
-  const queue = [first];
-  while(queue.length){
-    const key = queue.shift();
-    const [r,c] = key.split("_").map(Number);
-    const neighbors = [`${r-1}_${c}`,`${r+1}_${c}`,`${r}_${c-1}`,`${r}_${c+1}`];
-    neighbors.forEach(n=>{
-      if(set.has(n) && !visited.has(n)){ visited.add(n); queue.push(n); }
-    });
-  }
-  return visited.size === set.size;
-}
-
 function handleWallClick(clientX, clientY){
   const rect = canvas.getBoundingClientRect();
-  const clickX = (clientX - rect.left - cameraX) / zoom;
-  const clickY = (clientY - rect.top - cameraY) / zoom;
+  const clickX = (clientX - rect.left - cameraX) / zoom, clickY = (clientY - rect.top - cameraY) / zoom;
   const col = Math.floor(clickX / cellSize), row = Math.floor(clickY / cellSize);
   if(row < 0 || row >= ROWS || col < 0 || col >= COLS) return;
   const unit = getUnitByCell(row, col);
   if(!unit) return;
   if(unit.status === "Active"){ showAdvertiserInfoByUnit(unit.id); return; }
   if(unit.status === "Reserved"){ showTemporaryHint("هذه المساحة محجوزة بانتظار تأكيد الدفع."); return; }
-
   const targetType = isCenter(row, col) ? "Center" : "Standard";
-  if(targetType !== selectedType){
-    showTemporaryHint(`هذه المساحة من نوع ${targetType}. يرجى تغيير نوع المساحة أولاً.`);
-    return;
-  }
-
+  if(targetType !== selectedType){ showTemporaryHint(`هذه المساحة من نوع ${targetType}. يرجى تغيير نوع المساحة أولاً.`); return; }
+  
   const key = cellKey(row, col);
-  const next = new Set(selectedCells);
-  if(next.has(key)) next.delete(key);
-  else next.add(key);
-
-  if(!selectionIsConnected(next)){
-    showTemporaryHint("المساحات المختارة يجب أن تبقى متصلة ببعضها.");
-    return;
+  if(selectedCells.has(key)){
+    selectedCells.delete(key);
+  } else {
+    // التحقق من اتصال المساحات على واجهة المستخدم
+    if(selectedCells.size > 0) {
+      let isConnected = false;
+      for (const sKey of selectedCells) {
+        const [sr, sc] = sKey.split("_").map(Number);
+        if ((Math.abs(sr - row) === 1 && sc === col) || (Math.abs(sc - col) === 1 && sr === row)) {
+          isConnected = true; break;
+        }
+      }
+      if(!isConnected) { showTemporaryHint("المساحات يجب أن تكون متصلة ببعضها."); return; }
+    }
+    selectedCells.add(key);
   }
-
-  selectedCells = next;
-  updateSelectionSummary();
-  draw();
+  updateSelectionSummary(); draw();
 }
 
 function showTemporaryHint(text){
@@ -845,27 +734,9 @@ function showTemporaryHint(text){
   setTimeout(()=>{ hint.textContent = "كبّر الحائط لتشوف الوحدات وتختار مطرحك"; }, 3500);
 }
 
-function zoomAt(clientX, clientY, factor){
-  const rect = canvas.getBoundingClientRect();
-  const wx = (clientX - rect.left - cameraX) / zoom;
-  const wy = (clientY - rect.top - cameraY) / zoom;
-  const nextZoom = Math.max(1, Math.min(8, zoom * factor));
-  if(nextZoom === zoom) return;
-  zoom = nextZoom;
-  cameraX = clientX - rect.left - wx * zoom;
-  cameraY = clientY - rect.top - wy * zoom;
-  clampCamera();
-  draw();
-}
-
-document.getElementById("zoomIn").onclick = ()=>zoomAt(W/2,H/2,1.4);
-document.getElementById("zoomOut").onclick = ()=>zoomAt(W/2,H/2,1/1.4);
-document.getElementById("zoomReset").onclick = ()=>{ zoom=1; calculateWorld(); clampCamera(); draw(); };
-
-viewport.addEventListener("wheel", (e)=>{
-  e.preventDefault();
-  zoomAt(e.clientX,e.clientY,e.deltaY < 0 ? 1.12 : 1/1.12);
-},{passive:false});
+document.getElementById("zoomIn").onclick = ()=>{ zoom = Math.min(zoom * 1.4, 8); clampCamera(); draw(); };
+document.getElementById("zoomOut").onclick = ()=>{ zoom = Math.max(zoom / 1.4, 1); clampCamera(); draw(); };
+document.getElementById("zoomReset").onclick = ()=>{ zoom = 1; calculateWorld(); clampCamera(); draw(); };
 
 document.getElementById("confirmArea").onclick = ()=>{
   if(!selectedCells.size) return;
